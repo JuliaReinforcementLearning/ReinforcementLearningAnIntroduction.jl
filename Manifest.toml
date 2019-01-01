@@ -199,8 +199,8 @@ version = "0.20.0"
 
 [[Ju]]
 deps = ["DataStructures", "Documenter", "LinearAlgebra", "NNlib", "ProgressMeter", "SparseArrays", "StatsBase"]
-git-tree-sha1 = "0f0d2484758a8130449b8e3784b46844a0f49125"
-repo-rev = "master"
+git-tree-sha1 = "a9d9d3fc87c8894b8e0b72662dd920f009639a89"
+repo-rev = "e58891195eb63555419611777a0353876f07f007"
 repo-url = "https://github.com/Ju-jl/Ju.jl"
 uuid = "449ae9ca-b987-11e8-3919-0764a06dfe61"
 version = "0.1.0"
