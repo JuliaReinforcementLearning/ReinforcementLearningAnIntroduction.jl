@@ -64,8 +64,8 @@ function pre_train()
                             EpisodeSARDBuffer(),
                             identity,
                             :defensive)
-    # train!(env, (offensive_agent, defensive_agent); callbacks=(stop_at_episode(10^5),  gen_records()))  # debug
-    train!(env, (offensive_agent, defensive_agent); callbacks=(stop_at_episode(10^5),))
+    # train!(env, (offensive_agent, defensive_agent); callbacks=(stop_at_episode(10^6),  gen_records()))  # debug
+    train!(env, (offensive_agent, defensive_agent); callbacks=(stop_at_episode(10^6),))
     (offensive_agent, defensive_agent)
 end
 
