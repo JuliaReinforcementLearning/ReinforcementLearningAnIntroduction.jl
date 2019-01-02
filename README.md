@@ -8,7 +8,9 @@
 </blockquote>
 </div>
 
-This repo reproduces almost all the figures on the book *Reinforcement Learning: An Introduction(2nd)*.
+<hr>
+
+This repo reproduces almost all the figures on the book [Reinforcement Learning: An Introduction(2nd)](http://incompleteideas.net/book/the-book-2nd.html).
 
 # Workflow
 
@@ -23,10 +25,12 @@ $ julia -e "using Pkg; Pkg.add(\"Plots\"); Pkg.add(PackageSpec(url=\"https://git
 Then enter the REPL:
 
 ```julia
-julia> using RLIntro  # it might take several minutes to pre-compile
+julia> using RLIntro  # Hold on! It might take several minutes to pre-compile
 
 julia> @show [f for f in names(RLIntro) if startswith(string(f), "fig")];  # list all the functions to reproduce corresponding figures
 [f for f = names(RLIntro) if startswith(string(f), "fig")] = Symbol[:fig_10_1, :fig_10_2, :fig_10_3, :fig_10_4, :fig_10_5, :fig_11_2, :fig_12_3, :fig_13_1, :fig_13_2, :fig_2_1, :fig_2_2, :fig_2_3, :fig_2_4, :fig_2_5, :fig_2_6, :fig_3_2, :fig_3_5, :fig_4_1, :fig_4_2, :fig_4_3, :fig_5_1, :fig_5_2, :fig_5_3, :fig_5_4, :fig_6_2_a, :fig_6_2_b, :fig_6_2_c, :fig_6_2_d, :fig_6_3_a, :fig_6_3_b, :fig_6_5, :fig_7_2, :fig_8_2, :fig_8_4, :fig_8_4_example, :fig_8_5, :fig_8_7, :fig_8_8, :fig_9_1, :fig_9_10, :fig_9_2_a, :fig_9_2_b, :fig_9_5]
+
+julia> fig_2_2()  # reproduce figure_2_2
 ```
 
 **Notice** that for some figures you may need to install *pdflatex*.
@@ -61,10 +65,10 @@ If you would like to make some improvements, I'd suggest the following workflow:
 | | [fig_8_5](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_8_5.png), [fig_8_7](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_8_7.png), [fig_8_8_a](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_8_8_a.png), [fig_8_8_b](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_8_8_b.png) | |
 | Chapter09 | [fig_9_1_a](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_9_1_a.png), [fig_9_1_b](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_9_1_b.png), [fig_9_2_a](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_9_2_a.png), [fig_9_2_b](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_9_2_b.png), [fig_9_5](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_9_5.png)| |
 | Chapter10 | [fig_10_1_1](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_10_1_1.png), [fig_10_1_2](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_10_1_2.png), [fig_10_1_3](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_10_1_3.png), [fig_10_1_4](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_10_1_4.png), [fig_10_1_5](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_10_1_5.png) | |
-| | [fig_10_3](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_10_3.png), [fig_10_5](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_10_4.png), [fig_10_5](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_10_5.png)| |
+| | [fig_10_3](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_10_3.png), [fig_10_4](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_10_4.png), [fig_10_5](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_10_5.png)| |
 |Chapter11 | [fig_11_2](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_11_2.png) | |
-|Chapter12 | [fig_12_3](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_12_3.png)| |
-| Chapter13 | [fig_13_1](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_13_1.png), [fig_13_2](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_13_2.png)
+|Chapter12 | [fig_12_3](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_12_3.png)| Other figures in Chapter12 are not that easy to reproduce by using the Ju.jl package. You may take a try and correct me with a PR.|
+| Chapter13 | [fig_13_1](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_13_1.png), [fig_13_2](https://raw.githubusercontent.com/Ju-jl/ReinforcementLearningAnIntroduction.jl/master/docs/src/assets/figures/figure_13_2.png) | Figure_13_2 is a slightly different to the original figure on the book.|
 
 # Related Packages
 
