@@ -28,7 +28,7 @@ function run_once_RL()
         features[i, :, :] .= [0 1; 1 0]
     end
     agent = Agent(ReinforceLearner(LinearPolicy(features, [-1.47, 1.47]),
-                                2e-4,
+                                2^-13,
                                 1.),
                 EpisodeSARDBuffer())
     callbacks = (stop_at_episode(1000, false),  rewards_of_each_episode())
@@ -56,8 +56,8 @@ function run_once_RLBaseline()
     end
     agent = Agent(ReinforceBaselineLearner(TabularV(zeros(length(observationspace(env)))),
                                            LinearPolicy(features, [-1.47, 1.47]),
-                                           1e-4,
-                                           1e-4,
+                                           2^-6,
+                                           2^-9,
                                            1.),
                 EpisodeSARDBuffer())
     callbacks = (stop_at_episode(1000, false),  rewards_of_each_episode())
