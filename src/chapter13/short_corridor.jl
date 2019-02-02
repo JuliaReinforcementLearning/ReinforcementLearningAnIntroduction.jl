@@ -6,7 +6,7 @@ using NNlib:softmax
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 import Ju:LinearPolicy
 
@@ -44,7 +44,7 @@ function fig_13_1()
         avg_rewards .+= run_once_RL()
     end
     plot!(p, avg_rewards ./100)
-    savefig(p, figpath("13_1"))
+    savefig(p, "figure_13_1.png")
     p
 end
 
@@ -79,6 +79,6 @@ function fig_13_2()
     end
     plot!(p, avg_rewards ./100, label="Reinforce")
 
-    savefig(p, figpath("13_2"))
+    savefig(p, "figure_13_2.png")
     p
 end

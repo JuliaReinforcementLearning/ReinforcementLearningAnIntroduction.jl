@@ -33,8 +33,6 @@ julia> @show [f for f in names(RLIntro) if startswith(string(f), "fig")];  # lis
 julia> fig_2_2()  # reproduce figure_2_2
 ```
 
-**Notice** that for some figures you may need to install *pdflatex*.
-
 ## Develop
 
 If you would like to make some improvements, I'd suggest the following workflow:

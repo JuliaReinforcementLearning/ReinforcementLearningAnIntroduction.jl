@@ -3,7 +3,7 @@ using ..BairdCounter
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 
 function record_weights()
@@ -42,6 +42,6 @@ function fig_11_2()
     for i in 1:length(init_weights)
         plot!(p, [w[i] for w in weights])
     end
-    savefig(p, figpath("11_2"))
+    savefig(p, "figure_11_2.png")
     p
 end

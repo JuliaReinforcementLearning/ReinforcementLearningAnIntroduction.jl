@@ -1,11 +1,10 @@
 using Ju
 using Statistics
-using LaTeXStrings
 using ..RandomWalk
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 const true_values = [i/6 for i in 1:5]
 
@@ -54,7 +53,7 @@ function fig_6_2_a()
         train!(env, agent; callbacks = (stop_at_episode(i),))
         plot!(p, agent.learner.approximator.table[2:end - 1])
     end
-    savefig(p, figpath("6_2_a"))
+    savefig(p, "figure_6_2_a.png")
     p
 end
 
@@ -63,15 +62,15 @@ function fig_6_2_b()
     for α in [0.05, 0.1, 0.15]
         callbacks = (stop_at_episode(100), record_rms())
         train!(gen_env_TDagent(α)...;callbacks = callbacks)
-        plot!(p, callbacks[2](), label = latexstring("TD \\alpha=$α"))
+        plot!(p, callbacks[2](), label ="TD alpha=$α")
     end
 
     for α in [0.01, 0.02, 0.03, 0.04]
         callbacks = (stop_at_episode(100), record_rms())
         train!(gen_env_MCagent(α)...;callbacks = callbacks)
-        plot!(p, callbacks[2](), label = latexstring("MC \\alpha=$α"))
+        plot!(p, callbacks[2](), label ="MC alpha=$α")
     end
-    savefig(p, figpath("6_2_b"))
+    savefig(p, "figure_6_2_b.png")
     p
 end
 
@@ -93,6 +92,6 @@ function fig_6_2_c()
     end
     plot!(mean(avg_rms), color=:red, label="MC")
 
-    savefig(p, figpath("6_2_c"))
+    savefig(p, "figure_6_2_c.png")
     p
 end

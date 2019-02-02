@@ -4,7 +4,7 @@ using StatsBase:mean
 using ..BlackJack
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 const Indices = LinearIndices(size(observationspace(BlackJackEnv)))
 
@@ -29,8 +29,8 @@ function fig_5_1(n=10000)
                             for dealer_card in 2:11, player_sum in 11:21]
     p1 = heatmap(usable_ace_values)
     p2 = heatmap(no_usable_ace_values)
-    savefig(p1, figpath("5_1_usable_ace_n_$n"))
-    savefig(p2, figpath("5_1_no_usable_ace_n_$n"))
+    savefig(p1, "figure_5_1_usable_ace_n_$n.png")
+    savefig(p2, "figure_5_1_no_usable_ace_n_$n.png")
     p1, p2
 end
 
@@ -56,10 +56,10 @@ function fig_5_2(n=1000000)
     p2 = heatmap(no_usable_ace_values)
     p3 = heatmap(usable_ace_policy)
     p4 = heatmap(no_usable_ace_policy)
-    savefig(p1, figpath("5_2_usable_ace_n_$n"))
-    savefig(p2, figpath("5_2_no_usable_ace_n_$n"))
-    savefig(p3, figpath("5_2_usable_ace_policy_n_$n"))
-    savefig(p4, figpath("5_2_no_usable_ace_policy_n_$n"))
+    savefig(p1, "figure_5_2_usable_ace_n_$n.png")
+    savefig(p2, "figure_5_2_no_usable_ace_n_$n.png")
+    savefig(p3, "figure_5_2_usable_ace_policy_n_$n.png")
+    savefig(p4, "figure_5_2_no_usable_ace_policy_n_$n.png")
     p1, p2, p3, p4
 end
 
@@ -93,6 +93,6 @@ function fig_5_3(n=10000)
     end
     p = plot(mean((run() .- (-0.27726)).^2 for _ in 1:100), label="Weighted Importance Sampling")
     p = plot!(p, mean((run(:OrdinaryImportanceSampling) .- (-0.27726)).^2 for _ in 1:100), xscale=:log10, label="Ordinary Importance Sampling")
-    savefig(p, figpath("5_3"))
+    savefig(p, "figure_5_3.png")
     p
 end

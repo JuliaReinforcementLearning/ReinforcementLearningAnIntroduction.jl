@@ -3,7 +3,7 @@ using StatsBase:mean
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 function run_once(b)
     distribution = randn(b)
@@ -18,6 +18,6 @@ function fig_8_7(n_runs = 100)
         xs = (1:2*b) ./ b
         plot!(p, xs, rms, label="b=$b")
     end
-    savefig(p, figpath("8_7"))
+    savefig(p, "figure_8_7.png")
     p
 end

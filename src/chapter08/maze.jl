@@ -5,7 +5,7 @@ using StatsBase:mean
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 function record_steps(n=0)
     env = MazeEnv()
@@ -29,7 +29,7 @@ function fig_8_2()
     plot!(p, mean(record_steps(0) for _ in 1:30), label="0 planning step")
     plot!(p, mean(record_steps(5) for _ in 1:30), label="5 planning step")
     plot!(p, mean(record_steps(50) for _ in 1:30), label="50 planning step")
-    savefig(p, figpath("8_2"))
+    savefig(p, "figure_8_2.png")
     p
 end
 
@@ -73,7 +73,7 @@ function fig_8_4()
     p = plot(legend=:topleft, dpi=200)
     plot!(p, mean(cumulative_dyna_reward(ExperienceSampleModel(), walls(), 1000, change_walls, 2000) for _ in 1:30), label="dyna-Q")
     plot!(p, mean(cumulative_dyna_reward(TimeBasedSampleModel(4), walls(), 1000, change_walls, 2000) for _ in 1:30), label="dyna-Q+")
-    savefig(p, figpath("8_4"))
+    savefig(p, "figure_8_4.png")
     p
 end
 
@@ -85,7 +85,7 @@ function fig_8_5()
     p = plot(legend=:topleft, dpi=200)
     plot!(p, mean(cumulative_dyna_reward(ExperienceSampleModel(), walls(), 3000, change_walls, 3000) for _ in 1:30), label="dyna-Q")
     plot!(p, mean(cumulative_dyna_reward(TimeBasedSampleModel(4, 1e-3), walls(), 3000, change_walls, 3000) for _ in 1:30), label="dyna-Q+")
-    savefig(p, figpath("8_5"))
+    savefig(p, "figure_8_5.png")
     p
 end
 
@@ -124,6 +124,6 @@ function fig_8_4_example()
     p = plot(legend=:topleft, dpi=200)
     plot!(mean([run_once(ExperienceSampleModel(), ratio) for ratio in 1:6] for _ in 1:5), label="Dyna", yscale=:log10)
     plot!(mean([run_once(PrioritizedSweepingSampleModel(), ratio) for ratio in 1:6] for _ in 1:5), label="Prioritized", yscale=:log10)
-    savefig(p, figpath("8_4_example"))
+    savefig(p, "figure_8_4_example.png")
     p
 end

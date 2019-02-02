@@ -3,7 +3,7 @@ using Distributions
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 const PoissonUpperBound = 10
 const MaxCars= 20
@@ -52,8 +52,8 @@ function fig_4_2(max_iter=100)
     V, π = TabularV((1+MaxCars)^2), DeterministicPolicy(zeros(Int,21^2), length(Actions))
     policy_iteration!(V, π, CarRentalEnvModel; γ=0.9, max_iter=max_iter)
     p1 = heatmap(0:MaxCars, 0:MaxCars, reshape([decode_action(x) for x in π.table], 1+MaxCars,1+MaxCars))
-    savefig(p1, figpath("4_2_policy"))
+    savefig(p1, "figure_4_2_policy.png")
     p2 = heatmap(0:MaxCars, 0:MaxCars, reshape(V.table, 1+MaxCars,1+MaxCars))
-    savefig(p2, figpath("4_2_value"))
+    savefig(p2, "figure_4_2_value.png")
     p1, p2
 end

@@ -4,7 +4,7 @@ using Statistics
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 function gen_model(ns, na, nb, termination_prob)
     transitions = rand(1:ns, ns, na, nb)
@@ -74,12 +74,12 @@ function fig_8_8()
         plot!(p, mean(on_policy(ns, na, b, steps, eval_every) for _ in 1:30), label="on_policy b=$b")
         plot!(p, mean(alternate_policy(ns, na, b, steps, eval_every) for _ in 1:30), label="uniform b=$b")
     end
-    savefig(p, figpath("8_8_a"))
+    savefig(p, "figure_8_8_a.png")
 
     ns, b, steps = 10000, 1, 200000
     p = plot(legend=:bottomright, dpi=200)
     plot!(p, mean(on_policy(ns, na, b, steps, eval_every) for _ in 1:30), label="on_policy b=$b")
     plot!(p, mean(alternate_policy(ns, na, b, steps, eval_every) for _ in 1:30), label="uniform b=$b")
-    savefig(p, figpath("8_8_b"))
+    savefig(p, "figure_8_8_b.png")
     p
 end

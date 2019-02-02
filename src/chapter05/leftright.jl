@@ -4,7 +4,7 @@ using ..LeftRight
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 function fig_5_4()
     function value_collect()
@@ -31,6 +31,6 @@ function fig_5_4()
         train!(LeftRightEnv(), agent; callbacks = callbacks)
         plot!(p, callbacks[2](), xscale = :log10)
     end
-    savefig(p, figpath("5_4"))
+    savefig(p, "figure_5_4.png")
     p
 end

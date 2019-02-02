@@ -5,7 +5,7 @@ using ..MountainCar:POSITION_MAX, POSITION_MIN, VELOCITY_MAX, VELOCITY_MIN, Moun
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 function cost_to_go(approximator)
     [-approximator([p, v], Val(:max))
      for p in range(POSITION_MIN, stop=POSITION_MAX, length=40),
@@ -37,7 +37,7 @@ function fig_10_1()
     for (i, nepisode) in enumerate([1, 11, 93, 907, 8093])
         train!(env, agent; callbacks=(stop_at_episode(nepisode),))
         p = heatmap(cost_to_go(agent.learner.approximator))
-        savefig(p, figpath("10_1_$i"))
+        savefig(p, "figure_10_1_$i.png")
     end
 end
 
@@ -52,7 +52,7 @@ function fig_10_2()
         end
         plot!(p, avg_steps_per_episode ./ 500)
     end
-    savefig(p, figpath("10_2"))
+    savefig(p, "figure_10_2.png")
     p
 end
 
@@ -67,7 +67,7 @@ function fig_10_3()
         end
         plot!(p, avg_steps_per_episode ./ 500)
     end
-    savefig(p, figpath("10_3"))
+    savefig(p, "figure_10_3.png")
     p
 end
 
@@ -82,6 +82,6 @@ function fig_10_4()
     @showprogress for (A, n) in [(0.4:0.1:1.7, 1), (0.3:0.1:1.6, 2), (0.2:0.1:1.4, 4), (0.2:0.1:1.0, 8), (0.2:0.1:0.7, 16)]
         plot!(p, A, [mean(run_once(α/8, n) for _ in 1:5) for α in A], label="n = $n")
     end
-    savefig(p, figpath("10_4"))
+    savefig(p, "figure_10_4.png")
     p
 end

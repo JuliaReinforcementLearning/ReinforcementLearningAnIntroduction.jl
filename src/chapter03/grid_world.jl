@@ -2,7 +2,7 @@ using Ju
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 const GridWorldLinearIndices = LinearIndices((5,5))
 const GridWorldCartesianIndices = CartesianIndices((5,5))
@@ -34,7 +34,7 @@ function fig_3_2()
     V, π = TabularV(25), RandomPolicy(fill(0.25, 25, 4))
     policy_evaluation!(V, π, GridWorldEnvModel)
     p = heatmap(1:5, 1:5, reshape(V.table, 5,5), yflip=true)
-    savefig(p, figpath("3_2"))
+    savefig(p, "figure_3_2.png")
     p
 end
 
@@ -42,6 +42,6 @@ function fig_3_5()
     V, π = TabularV(25), DeterministicPolicy(rand(1:4, 25), 4)
     policy_iteration!(V, π, GridWorldEnvModel)
     p = heatmap(1:5, 1:5, reshape(V.table, 5,5), yflip=true)
-    savefig(p, figpath("3_5"))
+    savefig(p, "figure_3_5.png")
     p
 end

@@ -1,7 +1,7 @@
 module MultiArmBandits
 
 using Ju
-using StatPlots
+using StatsPlots
 gr()
 
 import Ju:AbstractSyncEnvironment,
@@ -36,7 +36,7 @@ function (env::MultiArmBanditsEnv)(a::Int)
      isdone=false)
 end
 
-"`violin` is broken. https://github.com/JuliaPlots/StatPlots.jl/issues/198"
+"`violin` is broken. https://github.com/JuliaPlots/StatsPlots.jl/issues/198"
 render(env::MultiArmBanditsEnv) = violin([randn(100) .+ x for x in env.truevalues], leg=false)
 observe(env::MultiArmBanditsEnv) = (observation=1, isdone=false)
 observationspace(env::MultiArmBanditsEnv) = DiscreteSpace(1)

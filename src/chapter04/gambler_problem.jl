@@ -3,7 +3,7 @@ using Distributions
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 const pₕ = 0.4
 const WinCapital = 100
@@ -30,6 +30,6 @@ function fig_4_3(max_iter=typemax(Int))
     V = TabularV(1+WinCapital)
     value_iteration!(V, GamblerProblemEnvModel; γ=1.0, max_iter=max_iter)
     p = plot(V.table[2:end-1])
-    savefig(p, figpath("4_3"))
+    savefig(p, "figure_4_3.png")
     p
 end

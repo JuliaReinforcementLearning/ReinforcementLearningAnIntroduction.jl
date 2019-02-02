@@ -4,7 +4,7 @@ using ..CliffWalking
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 function rewards_of_each_episode()
     rewards = []
@@ -61,7 +61,7 @@ function fig_6_3_a()
     p = plot(legend=:bottomright, dpi=200)
     plot!(p, mean(rewards(gen_env_Qagent()...) for _ in 1:100), label="QLearning")
     plot!(p, mean(rewards(gen_env_SARSAagent()...) for _ in 1:100), label="SARSA")
-    savefig(p, figpath("6_3_a"))
+    savefig(p, "figure_6_3_a.png")
     p
 end
 
@@ -82,6 +82,6 @@ function fig_6_3_b()
     plot!(p, A, [mean(avg_reward_per_episode(1000, gen_env_Qagent(α)...) for _ in 1:10) for α in A], label="Asymptotic interim Q")
     plot!(p, A, [mean(avg_reward_per_episode(1000, gen_env_SARSAagent(α)...) for _ in 1:10) for α in A], label="Asymptotic SARSA")
     plot!(p, A, [mean(avg_reward_per_episode(1000, gen_env_ExpectedSARSAagent(α)...) for _ in 1:10) for α in A], label="Asymptotic ExpectedSARSA")
-    savefig(p, figpath("6_3_b"))
+    savefig(p, "figure_6_3_b.png")
     p
 end

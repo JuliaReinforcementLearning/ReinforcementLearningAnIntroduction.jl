@@ -4,7 +4,7 @@ using StatsBase:mean
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 function count_left_actions_from_A()
     counts_per_episode = []
@@ -54,6 +54,6 @@ function fig_6_5()
     p = plot(legend=:topright, dpi=200)
     plot!(p, mean(run_once(gen_env_DQagent()...) for _ in 1:10000), label="Double-Q")
     plot!(p, mean(run_once(gen_env_Qagent()...) for _ in 1:10000), label="Q")
-    savefig(p, figpath("6_5"))
+    savefig(p, "figure_6_5.png")
     p
 end

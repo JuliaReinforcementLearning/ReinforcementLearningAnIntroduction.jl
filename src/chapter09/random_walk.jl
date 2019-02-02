@@ -4,7 +4,7 @@ using StatsBase:mean
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 const ACTIONS = collect(Iterators.flatten((-100:-1, 1:100)))
 const NS = 1002
@@ -60,10 +60,10 @@ function fig_9_1()
     train!(env, agent;callbacks=callbacks)
     p1 = plot(2:(NS-1), agent.learner.approximator.(2:(NS-1)), label="group estimation")
     plot!(p1, 2:(NS-1), TRUE_STATE_VALUES[2:(NS-1)], label="true values")
-    savefig(p1, figpath("9_1_a"))
+    savefig(p1, "figure_9_1_a.png")
     distribution = callbacks[2]()
     p2 = plot(distribution ./ sum(distribution), label="state distribution")
-    savefig(p2, figpath("9_1_b"))
+    savefig(p2, "figure_9_1_b.png")
     p1, p2
 end
 
@@ -78,7 +78,7 @@ function fig_9_2_a()
     train!(env, agent; callbacks=(stop_at_episode(10^5),))
     p = plot(2:(NS-1), agent.learner.approximator.(2:(NS-1)), label="Approximate TD value")
     plot!(p, 2:(NS-1), TRUE_STATE_VALUES[2:(NS-1)], label="true values")
-    savefig(p, figpath("9_2_a"))
+    savefig(p, "figure_9_2_a.png")
     p
 end
 
@@ -101,7 +101,7 @@ function fig_9_2_b()
     for n in [2^i for i in 0:9]
         plot!(p, A, mean([run_once(n, α) for α in A] for _ in 1:100), label="n = $n")
     end
-    savefig(p, figpath("9_2_b"))
+    savefig(p, "figure_9_2_b.png")
     p
 end
 
@@ -123,7 +123,7 @@ function fig_9_5()
         plot!(p, mean(run_once_MC(FourierV(order), 0.00005) for _ in 1:1), label="Fourier $order")
         plot!(p, mean(run_once_MC(PolynomialV(order), 0.0001) for _ in 1:1), label="Polynomial $order")
     end
-    savefig(p, figpath("9_5"))
+    savefig(p, "figure_9_5.png")
     p
 end
 
@@ -146,6 +146,6 @@ function fig_9_10()
     p = plot(legend=:topleft, dpi = 200)
     plot!(p, mean(run_once(agg(), 1e-4) for _ in 1:10), label="aggregation")
     plot!(p, mean(run_once(tilings(), 1e-4/50) for _ in 1:10), label="tilings")
-    savefig(p, figpath("9_10"))
+    savefig(p, "figure_9_10.png")
     p
 end

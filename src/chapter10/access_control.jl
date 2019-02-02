@@ -4,7 +4,7 @@ using ..AccessControl
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 function fig_10_5()
     env = AccessControlEnv()
@@ -24,6 +24,6 @@ function fig_10_5()
                for n in 1:AccessControl.N_SERVERS],
                 label="priority = $(AccessControl.PRIORITIES[i])")
     end
-    savefig(p, figpath("10_5"))
+    savefig(p, "figure_10_5.png")
     p
 end

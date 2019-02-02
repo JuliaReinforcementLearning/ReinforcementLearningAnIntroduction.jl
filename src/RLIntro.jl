@@ -1,5 +1,7 @@
 module RLIntro
 
+export plot_all
+
 include("environments/environments.jl")
 
 using Reexport
@@ -16,5 +18,13 @@ include("chapter10/chapter10.jl")
 include("chapter11/chapter11.jl")
 include("chapter12/chapter12.jl")
 include("chapter13/chapter13.jl")
+
+function plot_all(fig_dir=".")
+    for f in names(RLIntro)
+        if startswith(string(f), "fig")
+            @eval $f()
+        end
+    end
+end
 
 end # module

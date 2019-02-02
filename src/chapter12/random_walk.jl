@@ -1,12 +1,11 @@
 using Ju
-using LaTeXStrings
 using ProgressMeter
 using StatsBase:mean
 using ..RandomWalk
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 
 const N = 21
@@ -52,9 +51,9 @@ function fig_12_3()
     Λ = [0., 0.4, .8, 0.9, 0.95, 0.975, 0.99, 1.]
     p = plot(legend=:topright, dpi = 200)
     @showprogress for (A, λ) in zip(As, Λ)
-        plot!(p, A, [records(α, λ) for α in A], label=latexstring("\\lambda = $λ"))
+        plot!(p, A, [records(α, λ) for α in A], label="lambda = $λ")
     end
     ylims!(p, (0.25, 0.55))
-    savefig(p, figpath("12_3"))
+    savefig(p, "figure_12_3.png")
     p
 end

@@ -5,7 +5,7 @@ using ..RandomWalk
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 const N = 21
 
@@ -55,6 +55,6 @@ function fig_7_2()
     @showprogress for n in [2^i for i in 0:9]
         plot!(p, A, records(n), label="n=$n")
     end
-    savefig(p, figpath("7_2"))
+    savefig(p, "figure_7_2.png")
     p
 end

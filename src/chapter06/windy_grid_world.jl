@@ -3,7 +3,7 @@ using ..WindyGridWorld
 using Plots
 gr()
 
-figpath(f) = "docs/src/assets/figures/figure_$f.png"
+
 
 function episode_count()
     counts = []
@@ -32,6 +32,6 @@ function fig_6_2_d()
     callbacks = (stop_at_step(8000), episode_count())
     train!(env, agent; callbacks=callbacks)
     p = plot(callbacks[2](), legend=:bottomright, dpi=200)
-    savefig(p, figpath("6_2_d"))
+    savefig(p, "figure_6_2_d.png")
     p
 end
