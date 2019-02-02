@@ -6,7 +6,7 @@ gr()
 
 
 
-function fig_10_5()
+function fig_10_5(fig_dir=".")
     env = AccessControlEnv()
     nstates = length(observationspace(env))
     nactions = length(actionspace(env))
@@ -24,6 +24,6 @@ function fig_10_5()
                for n in 1:AccessControl.N_SERVERS],
                 label="priority = $(AccessControl.PRIORITIES[i])")
     end
-    savefig(p, "figure_10_5.png")
+    savefig(p, joinpath(fig_dir, "figure_10_5.png"))
     p
 end

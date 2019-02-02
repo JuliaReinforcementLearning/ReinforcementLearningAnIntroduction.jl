@@ -45,7 +45,7 @@ function gen_env_Qagent()
     env, agent
 end
 
-function fig_6_5()
+function fig_6_5(fig_dir=".")
     function run_once(env, agent)
         cbs = (stop_at_episode(300), count_left_actions_from_A())
         train!(env, agent; callbacks=cbs)
@@ -54,6 +54,6 @@ function fig_6_5()
     p = plot(legend=:topright, dpi=200)
     plot!(p, mean(run_once(gen_env_DQagent()...) for _ in 1:10000), label="Double-Q")
     plot!(p, mean(run_once(gen_env_Qagent()...) for _ in 1:10000), label="Q")
-    savefig(p, "figure_6_5.png")
+    savefig(p, joinpath(fig_dir, "figure_6_5.png"))
     p
 end

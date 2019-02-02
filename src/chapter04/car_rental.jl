@@ -48,12 +48,12 @@ end
 
 const CarRentalEnvModel = DeterministicDistributionModel([nextstep(s, a) for s in 1:(MaxCars+1)^2, a in 1:length(Actions)])
 
-function fig_4_2(max_iter=100)
+function fig_4_2(fig_dir=".", max_iter=100)
     V, π = TabularV((1+MaxCars)^2), DeterministicPolicy(zeros(Int,21^2), length(Actions))
     policy_iteration!(V, π, CarRentalEnvModel; γ=0.9, max_iter=max_iter)
     p1 = heatmap(0:MaxCars, 0:MaxCars, reshape([decode_action(x) for x in π.table], 1+MaxCars,1+MaxCars))
-    savefig(p1, "figure_4_2_policy.png")
+    savefig(p1, joinpath(fig_dir, "figure_4_2_policy.png"))
     p2 = heatmap(0:MaxCars, 0:MaxCars, reshape(V.table, 1+MaxCars,1+MaxCars))
-    savefig(p2, "figure_4_2_value.png")
+    savefig(p2, joinpath(fig_dir, "figure_4_2_value.png"))
     p1, p2
 end

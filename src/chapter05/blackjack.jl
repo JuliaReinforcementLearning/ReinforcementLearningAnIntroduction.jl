@@ -18,7 +18,7 @@ const player_policy = begin
     DeterministicPolicy(table, 2)
 end
 
-function fig_5_1(n=10000)
+function fig_5_1(fig_dir=".", n=10000)
     agent = Agent(MonteCarloLearner(TabularV(length(Indices)), player_policy, 1.0),
                   EpisodeSARDBuffer(),
                   preprocessor)
@@ -29,13 +29,13 @@ function fig_5_1(n=10000)
                             for dealer_card in 2:11, player_sum in 11:21]
     p1 = heatmap(usable_ace_values)
     p2 = heatmap(no_usable_ace_values)
-    savefig(p1, "figure_5_1_usable_ace_n_$n.png")
-    savefig(p2, "figure_5_1_no_usable_ace_n_$n.png")
+    savefig(p1, joinpath(fig_dir, "figure_5_1_usable_ace_n_$n.png"))
+    savefig(p2, joinpath(fig_dir, "figure_5_1_no_usable_ace_n_$n.png"))
     p1, p2
 end
 
 "TODO: WARNING!!! result is not the same with the implementation by Python"
-function fig_5_2(n=1000000)
+function fig_5_2(fig_dir=".", n=1000000)
     agent = Agent(MonteCarloExploringStartLearner(TabularQ(length(Indices), length(actionspace(BlackJackEnv))),
                                         player_policy,
                                         RandomPolicy(fill(0.5, length(Indices), length(actionspace(BlackJackEnv)))),
@@ -56,14 +56,14 @@ function fig_5_2(n=1000000)
     p2 = heatmap(no_usable_ace_values)
     p3 = heatmap(usable_ace_policy)
     p4 = heatmap(no_usable_ace_policy)
-    savefig(p1, "figure_5_2_usable_ace_n_$n.png")
-    savefig(p2, "figure_5_2_no_usable_ace_n_$n.png")
-    savefig(p3, "figure_5_2_usable_ace_policy_n_$n.png")
-    savefig(p4, "figure_5_2_no_usable_ace_policy_n_$n.png")
+    savefig(p1, joinpath(fig_dir, "figure_5_2_usable_ace_n_$n.png"))
+    savefig(p2, joinpath(fig_dir, "figure_5_2_no_usable_ace_n_$n.png"))
+    savefig(p3, joinpath(fig_dir, "figure_5_2_usable_ace_policy_n_$n.png"))
+    savefig(p4, joinpath(fig_dir, "figure_5_2_no_usable_ace_policy_n_$n.png"))
     p1, p2, p3, p4
 end
 
-function fig_5_3(n=10000)
+function fig_5_3(fig_dir=".", n=10000)
     init_internal_state = [1, 13, 2]
     s = preprocessor(BlackJack.encode(init_internal_state...))
 
@@ -93,6 +93,6 @@ function fig_5_3(n=10000)
     end
     p = plot(mean((run() .- (-0.27726)).^2 for _ in 1:100), label="Weighted Importance Sampling")
     p = plot!(p, mean((run(:OrdinaryImportanceSampling) .- (-0.27726)).^2 for _ in 1:100), xscale=:log10, label="Ordinary Importance Sampling")
-    savefig(p, "figure_5_3.png")
+    savefig(p, joinpath(fig_dir, "figure_5_3.png"))
     p
 end

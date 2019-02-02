@@ -30,18 +30,18 @@ const GridWorldActions = [CartesianIndex(-1, 0),
 
 const GridWorldEnvModel = DeterministicDistributionModel([nextstep(GridWorldCartesianIndices[s], a) for s in 1:25, a in GridWorldActions])
 
-function fig_3_2()
+function fig_3_2(fig_dir=".")
     V, π = TabularV(25), RandomPolicy(fill(0.25, 25, 4))
     policy_evaluation!(V, π, GridWorldEnvModel)
     p = heatmap(1:5, 1:5, reshape(V.table, 5,5), yflip=true)
-    savefig(p, "figure_3_2.png")
+    savefig(p, joinpath(fig_dir, "figure_3_2.png"))
     p
 end
 
-function fig_3_5()
+function fig_3_5(fig_dir=".")
     V, π = TabularV(25), DeterministicPolicy(rand(1:4, 25), 4)
     policy_iteration!(V, π, GridWorldEnvModel)
     p = heatmap(1:5, 1:5, reshape(V.table, 5,5), yflip=true)
-    savefig(p, "figure_3_5.png")
+    savefig(p, joinpath(fig_dir, "figure_3_5.png"))
     p
 end

@@ -6,7 +6,7 @@ gr()
 
 
 
-function fig_5_4()
+function fig_5_4(fig_dir=".")
     function value_collect()
         values = []
         function f(env, agent)
@@ -31,6 +31,6 @@ function fig_5_4()
         train!(LeftRightEnv(), agent; callbacks = callbacks)
         plot!(p, callbacks[2](), xscale = :log10)
     end
-    savefig(p, "figure_5_4.png")
+    savefig(p, joinpath(fig_dir, "figure_5_4.png"))
     p
 end

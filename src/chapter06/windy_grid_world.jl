@@ -27,11 +27,11 @@ function gen_env_agent()
     env, agent
 end
 
-function fig_6_2_d()
+function fig_6_2_d(fig_dir=".")
     env, agent = gen_env_agent()
     callbacks = (stop_at_step(8000), episode_count())
     train!(env, agent; callbacks=callbacks)
     p = plot(callbacks[2](), legend=:bottomright, dpi=200)
-    savefig(p, "figure_6_2_d.png")
+    savefig(p, joinpath(fig_dir, "figure_6_2_d.png"))
     p
 end

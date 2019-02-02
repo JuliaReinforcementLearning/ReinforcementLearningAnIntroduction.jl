@@ -67,19 +67,19 @@ function on_policy(ns, na, nb, steps=20000, eval_every=100, ϵ=0.1, termination_
     rewards
 end
 
-function fig_8_8()
+function fig_8_8(fig_dir=".")
     p = plot(legend=:bottomright, dpi=200)
     ns, na, steps, eval_every = 1000, 2, 20000, 100
     for b in [1, 3, 10]
         plot!(p, mean(on_policy(ns, na, b, steps, eval_every) for _ in 1:30), label="on_policy b=$b")
         plot!(p, mean(alternate_policy(ns, na, b, steps, eval_every) for _ in 1:30), label="uniform b=$b")
     end
-    savefig(p, "figure_8_8_a.png")
+    savefig(p, joinpath(fig_dir, "figure_8_8_a.png"))
 
     ns, b, steps = 10000, 1, 200000
     p = plot(legend=:bottomright, dpi=200)
     plot!(p, mean(on_policy(ns, na, b, steps, eval_every) for _ in 1:30), label="on_policy b=$b")
     plot!(p, mean(alternate_policy(ns, na, b, steps, eval_every) for _ in 1:30), label="uniform b=$b")
-    savefig(p, "figure_8_8_b.png")
+    savefig(p, joinpath(fig_dir, "figure_8_8_b.png"))
     p
 end

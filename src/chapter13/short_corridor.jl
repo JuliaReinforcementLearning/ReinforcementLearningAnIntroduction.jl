@@ -37,14 +37,14 @@ function run_once_RL()
 end
 
 "Some episode may never end due. Because the policy may exploit one action"
-function fig_13_1()
+function fig_13_1(fig_dir=".")
     p = plot(legend=:bottomright, dpi = 200)
     avg_rewards = run_once_RL()
     @showprogress for _ in 1:99
         avg_rewards .+= run_once_RL()
     end
     plot!(p, avg_rewards ./100)
-    savefig(p, "figure_13_1.png")
+    savefig(p, joinpath(fig_dir, "figure_13_1.png"))
     p
 end
 
@@ -65,7 +65,7 @@ function run_once_RLBaseline()
     callbacks[2]()
 end
 
-function fig_13_2()
+function fig_13_2(fig_dir=".")
     p = plot(legend=:bottomright, dpi = 200)
     avg_rewards = run_once_RLBaseline()
     @showprogress for _ in 1:99
@@ -79,6 +79,6 @@ function fig_13_2()
     end
     plot!(p, avg_rewards ./100, label="Reinforce")
 
-    savefig(p, "figure_13_2.png")
+    savefig(p, joinpath(fig_dir, "figure_13_2.png"))
     p
 end

@@ -26,10 +26,10 @@ end
 
 const GamblerProblemEnvModel = DeterministicDistributionModel([nextstep(s, a) for s in 1:(WinCapital+1), a in 1:WinCapital])
 
-function fig_4_3(max_iter=typemax(Int))
+function fig_4_3(fig_dir=".", max_iter=typemax(Int))
     V = TabularV(1+WinCapital)
     value_iteration!(V, GamblerProblemEnvModel; γ=1.0, max_iter=max_iter)
     p = plot(V.table[2:end-1])
-    savefig(p, "figure_4_3.png")
+    savefig(p, joinpath(fig_dir, "figure_4_3.png"))
     p
 end

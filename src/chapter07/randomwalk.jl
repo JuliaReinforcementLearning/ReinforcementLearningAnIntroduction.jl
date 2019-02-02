@@ -50,11 +50,11 @@ function records(n)
     avg_rms
 end
 
-function fig_7_2()
+function fig_7_2(fig_dir=".")
     p = plot(legend=:topright, dpi = 200)
     @showprogress for n in [2^i for i in 0:9]
         plot!(p, A, records(n), label="n=$n")
     end
-    savefig(p, "figure_7_2.png")
+    savefig(p, joinpath(fig_dir, "figure_7_2.png"))
     p
 end

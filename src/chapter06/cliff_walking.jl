@@ -51,7 +51,7 @@ function gen_env_Qagent(α=0.5)
     env, agent
 end
 
-function fig_6_3_a()
+function fig_6_3_a(fig_dir=".")
     function rewards(env, agent)
         callbacks=(stop_at_episode(500, false), rewards_of_each_episode())
         train!(env, agent; callbacks=callbacks)
@@ -61,11 +61,11 @@ function fig_6_3_a()
     p = plot(legend=:bottomright, dpi=200)
     plot!(p, mean(rewards(gen_env_Qagent()...) for _ in 1:100), label="QLearning")
     plot!(p, mean(rewards(gen_env_SARSAagent()...) for _ in 1:100), label="SARSA")
-    savefig(p, "figure_6_3_a.png")
+    savefig(p, joinpath(fig_dir, "figure_6_3_a.png"))
     p
 end
 
-function fig_6_3_b()
+function fig_6_3_b(fig_dir=".")
     A = 0.1:0.05:0.95
     function avg_reward_per_episode(n_episodes, env, agent)
         callbacks=(stop_at_episode(n_episodes, false), rewards_of_each_episode())
@@ -82,6 +82,6 @@ function fig_6_3_b()
     plot!(p, A, [mean(avg_reward_per_episode(1000, gen_env_Qagent(α)...) for _ in 1:10) for α in A], label="Asymptotic interim Q")
     plot!(p, A, [mean(avg_reward_per_episode(1000, gen_env_SARSAagent(α)...) for _ in 1:10) for α in A], label="Asymptotic SARSA")
     plot!(p, A, [mean(avg_reward_per_episode(1000, gen_env_ExpectedSARSAagent(α)...) for _ in 1:10) for α in A], label="Asymptotic ExpectedSARSA")
-    savefig(p, "figure_6_3_b.png")
+    savefig(p, joinpath(fig_dir, "figure_6_3_b.png"))
     p
 end

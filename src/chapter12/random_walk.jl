@@ -46,7 +46,7 @@ function records(α, λ, nruns=10)
     mean(rms)
 end
 
-function fig_12_3()
+function fig_12_3(fig_dir=".")
     As = [0:0.1:1, 0:0.1:1, 0:0.1:1, 0:0.1:1, 0:0.1:1, 0:0.05:0.5, 0:0.02:0.2, 0:0.01:0.1]
     Λ = [0., 0.4, .8, 0.9, 0.95, 0.975, 0.99, 1.]
     p = plot(legend=:topright, dpi = 200)
@@ -54,6 +54,6 @@ function fig_12_3()
         plot!(p, A, [records(α, λ) for α in A], label="lambda = $λ")
     end
     ylims!(p, (0.25, 0.55))
-    savefig(p, "figure_12_3.png")
+    savefig(p, joinpath(fig_dir, "figure_12_3.png"))
     p
 end

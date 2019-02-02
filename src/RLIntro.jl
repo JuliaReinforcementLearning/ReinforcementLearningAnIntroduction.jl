@@ -22,7 +22,7 @@ include("chapter13/chapter13.jl")
 function plot_all(fig_dir=".")
     for f in names(RLIntro)
         if startswith(string(f), "fig")
-            @eval $f()
+            @eval $f($fig_dir)
         end
     end
 end

@@ -14,7 +14,7 @@ function record_weights()
     record() = weights
 end
 
-function fig_11_2()
+function fig_11_2(fig_dir=".")
     env = BairdCounterEnv()
     nstates = length(observationspace(env))
     nactions = length(actionspace(env))
@@ -42,6 +42,6 @@ function fig_11_2()
     for i in 1:length(init_weights)
         plot!(p, [w[i] for w in weights])
     end
-    savefig(p, "figure_11_2.png")
+    savefig(p, joinpath(fig_dir, "figure_11_2.png"))
     p
 end

@@ -46,18 +46,18 @@ function gen_env_MCagent(α)
     env, agent
 end
 
-function fig_6_2_a()
+function fig_6_2_a(fig_dir=".")
     p = plot(dpi = 200)
     for i in [1, 9, 90]
         env, agent = gen_env_TDagent(0.1)
         train!(env, agent; callbacks = (stop_at_episode(i),))
         plot!(p, agent.learner.approximator.table[2:end - 1])
     end
-    savefig(p, "figure_6_2_a.png")
+    savefig(p, joinpath(fig_dir, "figure_6_2_a.png"))
     p
 end
 
-function fig_6_2_b()
+function fig_6_2_b(fig_dir=".")
     p = plot(dpi = 200)
     for α in [0.05, 0.1, 0.15]
         callbacks = (stop_at_episode(100), record_rms())
@@ -70,11 +70,11 @@ function fig_6_2_b()
         train!(gen_env_MCagent(α)...;callbacks = callbacks)
         plot!(p, callbacks[2](), label ="MC alpha=$α")
     end
-    savefig(p, "figure_6_2_b.png")
+    savefig(p, joinpath(fig_dir, "figure_6_2_b.png"))
     p
 end
 
-function fig_6_2_c()
+function fig_6_2_c(fig_dir=".")
     p = plot(dpi = 200)
     avg_rms = []
     for i in 1:100
@@ -92,6 +92,6 @@ function fig_6_2_c()
     end
     plot!(mean(avg_rms), color=:red, label="MC")
 
-    savefig(p, "figure_6_2_c.png")
+    savefig(p, joinpath(fig_dir, "figure_6_2_c.png"))
     p
 end

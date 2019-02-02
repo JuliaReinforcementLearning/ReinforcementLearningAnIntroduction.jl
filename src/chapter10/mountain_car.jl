@@ -32,16 +32,16 @@ function gen_env_agent(α=2e-4, n=0)
     env, agent
 end
 
-function fig_10_1()
+function fig_10_1(fig_dir=".")
     env, agent = gen_env_agent()
     for (i, nepisode) in enumerate([1, 11, 93, 907, 8093])
         train!(env, agent; callbacks=(stop_at_episode(nepisode),))
         p = heatmap(cost_to_go(agent.learner.approximator))
-        savefig(p, "figure_10_1_$i.png")
+        savefig(p, joinpath(fig_dir, "figure_10_1_$i.png"))
     end
 end
 
-function fig_10_2()
+function fig_10_2(fig_dir=".")
     p = plot(legend=:topright, dpi = 200)
     for α in [0.1/8, 0.2/8, 0.5/8]
         avg_steps_per_episode = zeros(500)
@@ -52,11 +52,11 @@ function fig_10_2()
         end
         plot!(p, avg_steps_per_episode ./ 500)
     end
-    savefig(p, "figure_10_2.png")
+    savefig(p, joinpath(fig_dir, "figure_10_2.png"))
     p
 end
 
-function fig_10_3()
+function fig_10_3(fig_dir=".")
     p = plot(legend=:topright, dpi = 200)
     for (α, n) in [(0.5/8, 1), (0.3/8, 8)]
         avg_steps_per_episode = zeros(500)
@@ -67,11 +67,11 @@ function fig_10_3()
         end
         plot!(p, avg_steps_per_episode ./ 500)
     end
-    savefig(p, "figure_10_3.png")
+    savefig(p, joinpath(fig_dir, "figure_10_3.png"))
     p
 end
 
-function fig_10_4()
+function fig_10_4(fig_dir=".")
     function run_once(α, n)
         callbacks = (stop_at_episode(50, false), steps_per_episode())
         train!(gen_env_agent(α, n)...; callbacks=callbacks)
@@ -79,9 +79,9 @@ function fig_10_4()
     end
 
     p = plot(legend=:topright, dpi = 200)
-    @showprogress for (A, n) in [(0.4:0.1:1.7, 1), (0.3:0.1:1.6, 2), (0.2:0.1:1.4, 4), (0.2:0.1:1.0, 8), (0.2:0.1:0.7, 16)]
+    @showprogress for (A, n) in [(0.4:0.1:1.7, 1), (0.3:0.1:1.6, 2), (0.2:0.1:1.4, 4), (0.2:0.1:0.9, 8), (0.2:0.1:0.7, 16)]
         plot!(p, A, [mean(run_once(α/8, n) for _ in 1:5) for α in A], label="n = $n")
     end
-    savefig(p, "figure_10_4.png")
+    savefig(p, joinpath(fig_dir, "figure_10_4.png"))
     p
 end

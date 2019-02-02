@@ -24,12 +24,12 @@ function record_steps(n=0)
     callbacks[2]()
 end
 
-function fig_8_2()
+function fig_8_2(fig_dir=".")
     p = plot(legend=:topright, dpi=200)
     plot!(p, mean(record_steps(0) for _ in 1:30), label="0 planning step")
     plot!(p, mean(record_steps(5) for _ in 1:30), label="5 planning step")
     plot!(p, mean(record_steps(50) for _ in 1:30), label="50 planning step")
-    savefig(p, "figure_8_2.png")
+    savefig(p, joinpath(fig_dir, "figure_8_2.png"))
     p
 end
 
@@ -64,7 +64,7 @@ function cumulative_dyna_reward(model, walls, nstep1, change, nstep2)
     record_fun()
 end
 
-function fig_8_4()
+function fig_8_4(fig_dir=".")
     walls() = Set([CartesianIndex(4, j) for j in 1:8])
     function change_walls(walls)
         pop!(walls, CartesianIndex(4,1))
@@ -73,11 +73,11 @@ function fig_8_4()
     p = plot(legend=:topleft, dpi=200)
     plot!(p, mean(cumulative_dyna_reward(ExperienceSampleModel(), walls(), 1000, change_walls, 2000) for _ in 1:30), label="dyna-Q")
     plot!(p, mean(cumulative_dyna_reward(TimeBasedSampleModel(4), walls(), 1000, change_walls, 2000) for _ in 1:30), label="dyna-Q+")
-    savefig(p, "figure_8_4.png")
+    savefig(p, joinpath(fig_dir, "figure_8_4.png"))
     p
 end
 
-function fig_8_5()
+function fig_8_5(fig_dir=".")
     walls() = Set([CartesianIndex(4, j) for j in 2:9])
     function change_walls(walls)
         pop!(walls, CartesianIndex(4,9))
@@ -85,11 +85,11 @@ function fig_8_5()
     p = plot(legend=:topleft, dpi=200)
     plot!(p, mean(cumulative_dyna_reward(ExperienceSampleModel(), walls(), 3000, change_walls, 3000) for _ in 1:30), label="dyna-Q")
     plot!(p, mean(cumulative_dyna_reward(TimeBasedSampleModel(4, 1e-3), walls(), 3000, change_walls, 3000) for _ in 1:30), label="dyna-Q+")
-    savefig(p, "figure_8_5.png")
+    savefig(p, joinpath(fig_dir, "figure_8_5.png"))
     p
 end
 
-function fig_8_4_example()
+function fig_8_4_example(fig_dir=".")
     function stop_le(n)
         steps = []
         count = 0
@@ -124,6 +124,6 @@ function fig_8_4_example()
     p = plot(legend=:topleft, dpi=200)
     plot!(mean([run_once(ExperienceSampleModel(), ratio) for ratio in 1:6] for _ in 1:5), label="Dyna", yscale=:log10)
     plot!(mean([run_once(PrioritizedSweepingSampleModel(), ratio) for ratio in 1:6] for _ in 1:5), label="Prioritized", yscale=:log10)
-    savefig(p, "figure_8_4_example.png")
+    savefig(p, joinpath(fig_dir, "figure_8_4_example.png"))
     p
 end
