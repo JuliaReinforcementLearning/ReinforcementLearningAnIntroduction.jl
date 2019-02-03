@@ -16,33 +16,61 @@ This repo reproduces almost all the figures on the book [Reinforcement Learning:
 
 ## Reproduce
 
-Just run the following command to install this package:
+### Docker
+
+I have built a docker image for a quick test.
 
 ```bash
-$ julia -e "using Pkg; Pkg.add(\"Plots\"); Pkg.add(PackageSpec(url=\"https://github.com/Ju-jl/Ju.jl.git\")); Pkg.add(PackageSpec(url=\"https://github.com/Ju-jl/ReinforcementLearningAnIntroduction.jl\"));"
+$ docker run -it --rm -v /path/to/save/figures:/figures tianjun2018/rlintro
 ```
 
-Then enter the REPL:
+By running the above command, you'll enter a julia REPL with everything properly installed.
 
 ```julia
-julia> using RLIntro  # Hold on! It might take several minutes to pre-compile
+julia> using RLIntro
 
-julia> @show [f for f in names(RLIntro) if startswith(string(f), "fig")];  # list all the functions to reproduce corresponding figures
-[f for f = names(RLIntro) if startswith(string(f), "fig")] = Symbol[:fig_10_1, :fig_10_2, :fig_10_3, :fig_10_4, :fig_10_5, :fig_11_2, :fig_12_3, :fig_13_1, :fig_13_2, :fig_2_1, :fig_2_2, :fig_2_3, :fig_2_4, :fig_2_5, :fig_2_6, :fig_3_2, :fig_3_5, :fig_4_1, :fig_4_2, :fig_4_3, :fig_5_1, :fig_5_2, :fig_5_3, :fig_5_4, :fig_6_2_a, :fig_6_2_b, :fig_6_2_c, :fig_6_2_d, :fig_6_3_a, :fig_6_3_b, :fig_6_5, :fig_7_2, :fig_8_2, :fig_8_4, :fig_8_4_example, :fig_8_5, :fig_8_7, :fig_8_8, :fig_9_1, :fig_9_10, :fig_9_2_a, :fig_9_2_b, :fig_9_5]
+julia> plot_all("/figures")  # save all figures into the mounted folder
+```
 
-julia> fig_2_2()  # reproduce figure_2_2
+Usually it will take almost an hour to finish. Then you can view all the figures in the `/path/to/save/figures` folder you specified above.
+
+### Local Machine
+
+Make sure you have installed Julia v1.1.0 or above (the reason is that we will use a customized registry here). Then enter the pkg mode of Julia REPL (run `julia` and then press `]`):
+
+```julia
+(v1.1) pkg> registry add https://github.com/Ju-jl/Registry.git
+
+(v1.1) pkg> add Plots
+
+(v1.1) pkg> add RLIntro
+```
+
+Then press `CTRL+C` and come back to REPL mode.
+
+```julia
+julia> using RLIntro  # Hold on! It might take several minutes to pre-compile!
+
+julia> plot_all("/path/to/save/figures")
 ```
 
 ## Develop
 
-If you would like to make some improvements, I'd suggest the following workflow:
+If you would like to make some improvements, I'd suggest the following workflow to avoid frequently pre-compile the whole package:
 
 1. Clone this repo and enter the project folder.
-1. Enter the pkg mode and `(RLIntro) pkg> add https://github.com/Ju-jl/Ju.jl.git` (Because the `Ju.j` is not registered yet. It will not be a big problem after Julia 1.1 get released)
-1. Make changes to some existing *Environment* or create a new Environment and include it in the REPL (like `include("src/environments/MultiArmBandits.jl")`)
+1. Run `julia --project`
+1. Enter the pkg mode (press `]`)
+1. Add the customized registry `(RLIntro) pkg> registry add https://github.com/Ju-jl/Registry.git`
+1. Install dependencies `(RLIntro) pkg> instantiate`
+1. `(RLIntro) pkg> dev Ju`. (If you want to improve the dependent package `Ju.jl`)
+1. Run `CTRL-C` and come back to REPL.
+1. Make changes to some existing *Reinforcement Learning Environment* or create a new Reinforcement Learning Environment and include it in the REPL (like `include("src/environments/MultiArmBandits.jl")`)
 1. Make changes to the related source codes and include it in the REPL (like `include("src/chapter02/ten_armed_testbed.jl")`)
+1. Make changes to the `Ju.jl` package if necessary. Usually it is in the folder like `C:\Users\juti\.julia\dev\Ju` (You can get the path by running `(RLIntro) pkg> status` in the package mode).
 1. Run the functions to draw figures (`fig_2_2()`).
-1. Repeat the above three steps.
+1. Repeat the above four steps.
+1. And do not forget to make a PR.😋
 
 # Contents
 
