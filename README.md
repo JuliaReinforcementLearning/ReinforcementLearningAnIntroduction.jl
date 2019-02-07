@@ -16,7 +16,7 @@ This repo reproduces almost all the figures on the book [Reinforcement Learning:
 
 ## Reproduce
 
-### Docker
+### Docker [![](https://img.shields.io/docker/pulls/tianjun2018/rlintro.svg?style=flat)](https://hub.docker.com/r/tianjun2018/rlintro)
 
 I have built a docker image for a quick test.
 
