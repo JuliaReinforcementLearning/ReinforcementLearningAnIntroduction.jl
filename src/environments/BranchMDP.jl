@@ -1,45 +1,54 @@
 module BranchMDP
 
-using Ju
+export BranchMDPEnv,
+       reset!, observe, interact!
 
-import Ju:AbstractSyncEnvironment,
-          reset!, render, observe, observationspace, actionspace
+using ReinforcementLearningEnvironments
+import ReinforcementLearningEnvironments:reset!, observe, interact!
 
-export BranchMDPEnv
-
-mutable struct BranchMDPEnv <: AbstractSyncEnvironment{DiscreteSpace, DiscreteSpace, 1}
+mutable struct BranchMDPEnv <: AbstractEnv
     transition::Array{Int, 3}
     rewards::Array{Float64, 3}
     current::Int
     termination_prob::Float64
+    reward::Float64
+    observation_space::DiscreteSpace
+    action_space::DiscreteSpace
+
     BranchMDPEnv(ns::Int, na::Int, b::Int, termination_prob::Float64=0.1) = new(
         rand(1:ns, ns, na, b),
         randn(ns, na, b),
         1,
         termination_prob,
-        false)
+        0.,
+        DiscreteSpace(ns + 1),
+        DiscreteSpace(na)
+    )
 end
 
-function (env::BranchMDPEnv)(a::Int)
+function interact!(env::BranchMDPEnv, a::Int)
     if rand() < env.termination_prob
-        (observation=size(env.transition, 1) + 1, reward=0., isdone=true)
+        env.reward = 0.
+        env.current = size(env.transition, 1) + 1
     else
         b = rand(1:size(env.transition, 3))
         s′ = env.transition[env.current, a, b]
         r = env.rewards[env.current, a, b]
         env.current = s′
-        (observation=s′, reward=r, isdone=false)
+        env.reward = r
     end
+    nothing
 end
 
-observe(env::BranchMDPEnv) = (observation=env.current, isdone=env.current == size(env.transition, 1)+1)
+observe(env::BranchMDPEnv) = Observation(
+    reward = env.reward,
+    terminal = env.current == size(env.transition, 1)+1,
+    state = env.current
+)
 
 function reset!(env::BranchMDPEnv, s::Int=1)
     env.current = s
-    (observation=s, isdone=false)
+    nothing
 end
-
-observationspace(env::BranchMDPEnv) = DiscreteSpace(size(env.transition, 1)+1)
-actionspace(env::BranchMDPEnv) = DiscreteSpace(size(env.transition, 2))
 
 end

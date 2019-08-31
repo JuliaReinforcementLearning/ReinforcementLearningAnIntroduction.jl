@@ -1,15 +1,16 @@
 module ShortCorridor
 
-using Ju
+export ShortCorridorEnv,
+       reset!, observe, interact!
 
-import Ju:AbstractSyncEnvironment,
-          reset!, render, observe, observationspace, actionspace
+using ReinforcementLearningEnvironments
+import ReinforcementLearningEnvironments:reset!, observe, interact!
 
-export ShortCorridorEnv
-
-mutable struct ShortCorridorEnv <: AbstractSyncEnvironment{DiscreteSpace,DiscreteSpace,1}
+mutable struct ShortCorridorEnv <: AbstractEnv
     position::Int
-    ShortCorridorEnv() = new(1)
+    observation_space::DiscreteSpace
+    action_space::DiscreteSpace
+    ShortCorridorEnv() = new(1, DiscreteSpace(4), DiscreteSpace(2))
 end
 
 function (env::ShortCorridorEnv)(a)
@@ -20,18 +21,18 @@ function (env::ShortCorridorEnv)(a)
     elseif env.position == 3
         env.position += a == 1 ? -1 : 1
     end
-    (observation = env.position,
-     reward      = -1.,
-     isdone      = env.position == 4)
+    nothing
 end
 
 function reset!(env::ShortCorridorEnv)
     env.position = 1
-    (observation=1, isdone=false)
+    nothing
 end
 
-observe(env::ShortCorridorEnv) = (observation=env.position, isdone=env.position==4)
-observationspace(env::ShortCorridorEnv) = DiscreteSpace(4)
-actionspace(env::ShortCorridorEnv) = DiscreteSpace(2)
+observe(env::ShortCorridorEnv) = Observation(
+    state = env.position,
+    terminal = env.position==4,
+    reward = env.position == 4 ? 0. : -1.
+)
 
 end

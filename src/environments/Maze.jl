@@ -1,12 +1,11 @@
 module Maze
 
-using Ju
+export MazeEnv,
+       reset!, observe, interact!
 
-import Ju:AbstractSyncEnvironment,
-          reset!, render, observe, observationspace, actionspace
+using ReinforcementLearningEnvironments
+import ReinforcementLearningEnvironments:reset!, observe, interact!
 import Base:*
-
-export MazeEnv
 
 const Actions = [CartesianIndex(0, -1),  # left
                  CartesianIndex(0, 1),   # right
@@ -21,6 +20,16 @@ mutable struct MazeEnv <: AbstractSyncEnvironment{DiscreteSpace, DiscreteSpace, 
     goal::CartesianIndex{2}
     NX::Int
     NY::Int
+    observation_space::DiscreteSpace
+    action_space::DiscreteSpace
+    MazeEnv(w, p, s, g, NX, NY) = new(w, p, s, g, NX, NY, DiscreteSpace(NX * NY), DiscreteSpace(length(Actions)))
+end
+
+function MazeEnv()
+    walls = Set([[CartesianIndex(i,3) for i in 2:4]; CartesianIndex(5, 6); [CartesianIndex(j, 8) for j in 1:3]])
+    start = CartesianIndex(3, 1)
+    goal = CartesianIndex(1, 9)
+    MazeEnv(walls, start, start, goal, 6, 9)
 end
 
 function extend(p::CartesianIndex{2}, n::Int)
@@ -40,34 +49,25 @@ function *(env::MazeEnv, n::Int)
     MazeEnv(walls, position, start, goal, NX, NY)
 end
 
-function MazeEnv()
-    walls = Set([[CartesianIndex(i,3) for i in 2:4]; CartesianIndex(5, 6); [CartesianIndex(j, 8) for j in 1:3]])
-    start = CartesianIndex(3, 1)
-    goal = CartesianIndex(1, 9)
-    MazeEnv(walls, start, start, goal, 6, 9)
-end
-
-function (env::MazeEnv)(a::Int)
-    p, reward, isdone = env.position + Actions[a], 0., false
+function interact!(env::MazeEnv, a::Int)
+    p = env.position + Actions[a]
     if p == env.goal
-        reward = 1.
-        isdone = true
         env.position = env.goal
     elseif !(p ∈ env.walls)
         env.position = CartesianIndex(min(max(p[1], 1), env.NX), min(max(p[2], 1), env.NY))
     end
-    (observation = (env.position[2]-1)*env.NX + env.position[1],
-     reward      = reward,
-     isdone      = isdone)
+    nothing
 end
 
-observe(env::MazeEnv) = (observation = (env.position[2]-1)*env.NX + env.position[1], isdone = env.position == env.goal)
+observe(env::MazeEnv) = Observation(
+    reward = Float64(env.position == env.goal),
+    terminal = env.position == env.goal,
+    state = (env.position[2]-1)*env.NX + env.position[1])
+)
+
 function reset!(env::MazeEnv)
     env.position = env.start
-    (observation = (env.position[2]-1)*env.NX + env.position[1], isdone = env.position == env.goal)
+    nothing
 end
-
-observationspace(env::MazeEnv) = DiscreteSpace(env.NX * env.NY)
-actionspace(env::MazeEnv) = DiscreteSpace(length(Actions))
 
 end

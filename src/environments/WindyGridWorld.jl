@@ -1,11 +1,10 @@
 module WindyGridWorld
 
-using Ju
+export WindyGridWorldEnv,
+       reset!, observe, interact!, get_legal_actions
 
-import Ju:AbstractSyncEnvironment,
-          reset!, render, observe, observationspace, actionspace
-
-export WindyGridWorldEnv
+using ReinforcementLearningEnvironments
+import ReinforcementLearningEnvironments:reset!, observe, interact!, get_legal_actions
 
 const NX = 7
 const NY = 10
@@ -20,29 +19,29 @@ const Actions = [CartesianIndex(0, -1),  # left
 
 const LinearInds = LinearIndices((NX, NY))
 
-mutable struct WindyGridWorldEnv <: AbstractSyncEnvironment{DiscreteSpace,DiscreteSpace,1}
+mutable struct WindyGridWorldEnv <: AbstractEnv
     position::CartesianIndex{2}
-    WindyGridWorldEnv() = new(StartPosition)
+    observation_space::DiscreteSpace
+    action_space::DiscreteSpace
+    WindyGridWorldEnv() = new(StartPosition, DiscreteSpace(length(LinearInds)), DiscreteSpace(length(Actions)))
 end
 
-function (env::WindyGridWorldEnv)(a::Int)
+function interact!(env::WindyGridWorldEnv, a::Int)
     p = env.position + Wind[env.position[2]] + Actions[a]
     p = CartesianIndex(min(max(p[1], 1), NX), min(max(p[2], 1), NY))
     env.position = p
-    (observation = LinearInds[p],
-     reward      = p == Goal ? 0. : -1.,
-     isdone      = p == Goal)
+    nothing
 end
 
-observe(env::WindyGridWorldEnv) = (observation = LinearInds[env.position], isdone = env.position == Goal)
+observe(env::WindyGridWorldEnv) = Observation(
+    state = LinearInds[env.position],
+    terminal = env.position == Goal,
+    reward = env.position == Goal ? 0. : -1.
+)
 
 function reset!(env::WindyGridWorldEnv)
     env.position = StartPosition
-    (observation = LinearInds[StartPosition],
-     isdone      = false)
+    nothing
 end
-
-observationspace(env::WindyGridWorldEnv) = DiscreteSpace(length(LinearInds))
-actionspace(env::WindyGridWorldEnv) = DiscreteSpace(length(Actions))
 
 end

@@ -1,12 +1,13 @@
 module AccessControl
 
-using Ju
+export AccessControlEnv,
+       reset!, observe, interact!
+
+using ReinforcementLearningEnvironments
+import ReinforcementLearningEnvironments:reset!, observe, interact!
+
 using Distributions
 
-import Ju:AbstractSyncEnvironment,
-          reset!, render, observe, observationspace, actionspace
-
-export AccessControlEnv
 
 const N_SERVERS = 10
 const PRIORITIES = [1.,2.,4.,8.]
@@ -16,14 +17,17 @@ const CUSTOMERS = 1:length(PRIORITIES)
 
 const TRANSFORMER = LinearIndices((0:N_SERVERS, CUSTOMERS))
 
-mutable struct AccessControlEnv <: AbstractSyncEnvironment{DiscreteSpace, DiscreteSpace, 1}
+mutable struct AccessControlEnv <: AbstractEnv
     n_servers::Int
     n_free_servers::Int
     customer::Int
-    AccessControlEnv() = new(10, 0, rand(CUSTOMERS))
+    reward::Float64
+    observation_space::DiscreteSpace
+    action_space::DiscreteSpace
+    AccessControlEnv() = new(10, 0, rand(CUSTOMERS), 0., DiscreteSpace(length(TRANSFORMER)), DiscreteSpace(2))
 end
 
-function (env::AccessControlEnv)(a)
+function interact!(env::AccessControlEnv, a)
     action, reward = ACTIONS[a], 0.
     if env.n_free_servers > 0 && action == :accept
         env.n_free_servers -= 1
@@ -32,21 +36,22 @@ function (env::AccessControlEnv)(a)
 
     env.n_free_servers += rand(Binomial(env.n_servers - env.n_free_servers, FREE_PROB))
     env.customer = rand(CUSTOMERS)
+    env.reward = reward
 
-    (observation = TRANSFORMER[CartesianIndex(env.n_free_servers+1, env.customer)],
-     reward      = reward,
-     isdone      = false)
+    nothing
 end
 
-observe(env::AccessControlEnv) = (observation=TRANSFORMER[CartesianIndex(env.n_free_servers+1, env.customer)], isdone=false)
+observe(env::AccessControlEnv) = Observation(
+    reward = env.reward,
+    terminal = false,
+    state = TRANSFORMER[CartesianIndex(env.n_free_servers+1, env.customer)]
+)
 
 function reset!(env::AccessControlEnv)
     env.n_free_servers = env.n_servers
     env.customer = rand(CUSTOMERS)
-    (observation=TRANSFORMER[CartesianIndex(env.n_free_servers+1, env.customer)], isdone=false)
+    env.reward = 0.
+    nothing
 end
-
-observationspace(env::AccessControlEnv) = DiscreteSpace(length(TRANSFORMER))
-actionspace(env::AccessControlEnv) = DiscreteSpace(2)
 
 end

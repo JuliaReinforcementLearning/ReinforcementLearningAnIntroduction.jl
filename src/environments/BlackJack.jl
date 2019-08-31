@@ -1,12 +1,12 @@
 module BlackJack
 
+export BlackJackEnv,
+       reset!, observe, interact!
+
+using ReinforcementLearningEnvironments
+import ReinforcementLearningEnvironments:reset!, observe, interact!
+
 using Random
-using Ju
-
-import Ju:AbstractSyncEnvironment,
-          reset!, render, observe, observationspace, actionspace
-
-export BlackJackEnv
 
 function get_card()
     card = rand(1:13)
@@ -51,45 +51,44 @@ mutable struct BlackJackEnv <: AbstractSyncEnvironment{MultiDiscreteSpace, Discr
     dealer_card::Int
     dealer_state::Vector{Int}
     isend::Bool
+    reward::Float64
+    observation_space::
+    action_space::
+
     function BlackJackEnv(;is_random_start=false, init=nothing)
+        obs_space, act_space = MultiDiscreteSpace([2, 12, 10]), DiscreteSpace(2)
+
         if is_random_start
             player_state = [rand(0:1), rand(11:21)]
             dealer_card = rand(2:11)
             dealer_state = [dealer_card == 11 ? 1 : 0, dealer_card]
-            new(is_random_start, init, player_state, dealer_card, dealer_state, false)
+            new(is_random_start, init, player_state, dealer_card, dealer_state, false, 0., obs_space, act_space)
         elseif init == nothing
             player_state = cards2state(get_card(), get_card())
             while player_state[2] < 11
                 update_state!(player_state, get_card())
             end
             dealer_card = get_card()
-            new(is_random_start, init, player_state, dealer_card, cards2state(dealer_card, get_card()), false)
+            new(is_random_start, init, player_state, dealer_card, cards2state(dealer_card, get_card()), false, 0., obs_space, act_space)
         else
-            new(is_random_start, init, init[1:2], init[3], cards2state(init[3], get_card()), false)
+            new(is_random_start, init, init[1:2], init[3], cards2state(init[3], get_card()), false, 0., obs_space, act_space)
         end
     end
 end
 
-function (env::BlackJackEnv)(a::Int)
+function interact!(env::BlackJackEnv, a::Int)
     if a == 1
         update_state!(env.player_state, get_card())
         env.isend = env.player_state[2] > 21
-        (observation = encode(env.player_state[1],
-                              min(env.player_state[2], 22),  # 22 is used to represent all invalid sum
-                              env.dealer_card),
-         reward = env.player_state[2] > 21 ? -1. : 0.,
-         isdone =  env.isend)
+        env.reward = env.player_state[2] > 21 ? -1. : 0.
     else
         while env.dealer_state[2] < 17
             update_state!(env.dealer_state, get_card())
         end
         env.isend = true
-        (observation = encode(env.player_state[1],
-                              min(env.player_state[2], 22),  # 22 is used to represent all invalid sum
-                              env.dealer_card),
-         reward = (env.dealer_state[2] > 21 || env.dealer_state[2] < env.player_state[2]) ? 1. : (env.dealer_state[2] == env.player_state[2] ? 0. : -1.),
-         isdone = true)
+        env.reward = (env.dealer_state[2] > 21 || env.dealer_state[2] < env.player_state[2]) ? 1. : (env.dealer_state[2] == env.player_state[2] ? 0. : -1.)
     end
+    nothing
 end
 
 function reset!(env::BlackJackEnv) 
@@ -111,18 +110,18 @@ function reset!(env::BlackJackEnv)
         env.dealer_state = cards2state(env.dealer_card, get_card())
     end
     env.isend = false
-    (observation = encode(env.player_state[1], env.player_state[2], env.dealer_card),
-     isdone = false)
+    env.reward = 0.
+    nothing
 end
 
-function observe(env::BlackJackEnv)
-    (observation = encode(env.player_state[1],
-                          min(env.player_state[2], 22),  # 22 is used to represent all invalid sum
-                          env.dealer_card),
-     isdone=env.isend)
-end
-
-observationspace(::Type{BlackJackEnv}) = MultiDiscreteSpace([2, 12, 10])
-actionspace(::Type{BlackJackEnv}) = DiscreteSpace(2)
+observe(env::BlackJackEnv) = Observation(
+    reward = env.reward,
+    terminal = env.isend,
+    state = encode(
+        env.player_state[1],
+        min(env.player_state[2], 22),  # 22 is used to represent all invalid sum
+        env.dealer_card
+    )
+)
 
 end

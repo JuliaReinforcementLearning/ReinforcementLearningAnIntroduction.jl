@@ -4,3 +4,8 @@
 deps/deps.jl
 Manifest.toml
 docs/build/
+
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

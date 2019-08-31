@@ -1,16 +1,17 @@
 module LeftRight
 
-using Ju
-using StatsBase:sample, Weights
+export LeftRightEnv,
+       reset!, observe, interact!
 
-import Ju:AbstractSyncEnvironment,
-          reset!, render, observe, observationspace, actionspace
+using ReinforcementLearningEnvironments
+import ReinforcementLearningEnvironments:reset!, observe, interact!
 
-export LeftRightEnv
-
-mutable struct LeftRightEnv <: AbstractSyncEnvironment{DiscreteSpace,DiscreteSpace,1}
+mutable struct LeftRightEnv <: AbstractEnv
     transitions::Array{Float64,3}
     current_state::Int
+    observation_space::DiscreteSpace
+    actionspace::DiscreteSpace
+    LeftRightEnv(transitions, current_state) = new(transitions, current_state, DiscreteSpace(2), DiscreteSpace(2))
 end
 
 function LeftRightEnv()
@@ -20,22 +21,20 @@ function LeftRightEnv()
     LeftRightEnv(t, rand(1:2))
 end
 
-function(env::LeftRightEnv)(a::Int)
-    s′ = sample(Weights(@view(env.transitions[env.current_state, a, :]), 1.))
-    env.current_state = s′
-    (observation = s′,
-     reward      = Float64(s′ == 2),
-     isdone      = s′ == 2)
+function interact!(env::LeftRightEnv, a::Int)
+    env.current_state = sample(Weights(@view(env.transitions[env.current_state, a, :]), 1.))
+    nothing
 end
 
 function reset!(env::LeftRightEnv) 
     env.current_state = 1
-    (observation = 1,
-     isdone = false)
+    nothing
 end
 
-observe(env::LeftRightEnv) = (observation = env.current_state, isdone = env.current_state == 2)
-observationspace(env::LeftRightEnv) = DiscreteSpace(2)
-actionspace(env::LeftRightEnv) = DiscreteSpace(2)
+observe(env::LeftRightEnv) = Observation(
+    reward = Float64(env.current_state == 2),
+    terminal = env.current_state == 2,
+    state = env.current_state
+)
 
 end

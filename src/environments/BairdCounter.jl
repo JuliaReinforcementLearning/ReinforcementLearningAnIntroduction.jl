@@ -1,38 +1,38 @@
 module BairdCounter
 
-using Ju
+export BairdCounterEnv,
+       reset!, observe, interact!
 
-import Ju:AbstractSyncEnvironment,
-          reset!, render, observe, observationspace, actionspace
-
-export BairdCounterEnv
+using ReinforcementLearningEnvironments
+import ReinforcementLearningEnvironments:reset!, observe, interact!
 
 const ACTIONS = (:dashed, :solid)
 
-mutable struct BairdCounterEnv <: AbstractSyncEnvironment{DiscreteSpace, DiscreteSpace, 1}
+mutable struct BairdCounterEnv <: AbstractEnv
     current::Int
-    BairdCounterEnv() = new(rand(1:7))
+    observation_space::DiscreteSpace
+    action_space::DiscreteSpace
+    BairdCounterEnv() = new(rand(1:7), DiscreteSpace(7), DiscreteSpace(length(ACTIONS)))
 end
 
-function (env::BairdCounterEnv)(a)
+function interact!(env::BairdCounterEnv, a)
     if ACTIONS[a] == :dashed
         env.current = rand(1:6)
     else
         env.current = 7
     end
-    (observation = env.current,
-     reward      = 0.,
-     isdone      = false)
+    nothing
 end
 
-observe(env::BairdCounterEnv) = (observation=env.current, isdone=false)
+observe(env::BairdCounterEnv) = Observation(
+    reward = 0.,
+    terminal = false,
+    state=env.current
+)
 
 function reset!(env::BairdCounterEnv)
     env.current = rand(1:6)
-    (observation=env.current, isdone=false)
+    nothing
 end
-
-observationspace(env::BairdCounterEnv) = DiscreteSpace(7)
-actionspace(env::BairdCounterEnv) = DiscreteSpace(length(ACTIONS))
 
 end
