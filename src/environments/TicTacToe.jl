@@ -4,13 +4,14 @@ export TicTacToeEnv,
        reset!, observe, interact!, get_legal_actions
 
 using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments:reset!, observe, interact!, get_legal_actions
+import ReinforcementLearningEnvironments:reset!, observe, interact!, get_legal_actions, get_roles, get_next_role
 
 
 const REWARD_LOSE = 0.
 const REWARD_UNFINISH = 0.
 const REWARD_WIN = 1.
 const REWARD_TIE = 0.5
+const IDLE_ACTION = 10
 
 struct Offensive end
 const offensive = Offensive()
@@ -39,7 +40,9 @@ get_legal_actions(state::Board) = state .=== nothing
 
 function get_next_state(state::Board, role::Roles, action)
     s = copy(state)
-    s[action] = role
+    if action != IDLE_ACTION
+        s[action] = role
+    end
     s
 end
 
@@ -85,11 +88,11 @@ Using a 3 * 3 Array to simulate the [tic-tac-toe](https://en.wikipedia.org/wiki/
 mutable struct TicTacToeEnv <: AbstractEnv
     role::Union{Nothing, Roles}
     board::Board
+    observation_space::DiscreteSpace
     action_space::DiscreteSpace
-    state_space::DiscreteSpace
     function TicTacToeEnv()
         init_board = Board(nothing, 3,3)
-        new(nothing, init_board, DiscreteSpace(length(STATES_INFO)), DiscreteSpace(length(init_board)))
+        new(nothing, init_board, DiscreteSpace(length(STATES_INFO)), DiscreteSpace(length(init_board) + 1))
     end
 end
 
@@ -116,7 +119,7 @@ function RLEnvs.observe(env::TicTacToeEnv, role::Roles)
         reward = reward,
         terminal = isdone,
         state = STATE2ID[env.board],
-        legal_actions = get_legal_actions(env.board)
+        legal_actions = get_legal_actions(env, role)
     )
 end
 
@@ -128,25 +131,43 @@ end
 
 get_next_role(env::TicTacToeEnv) = is_done(env) ? nothing : get_next_role(env.role)
 
-RLEnvs.interact!(env::TicTacToeEnv, action::Int) = interact!(env, get_next_role(env) => action)
+function RLEnvs.interact!(env::TicTacToeEnv, action::Int)
+    next_role = get_next_role(env)
+    another_role = get_next_role(next_role)
+    interact!(env, [next_role, another_role] => [action, IDLE_ACTION])
+end
 
-function RLEnvs.interact!(env::TicTacToeEnv, act_info::Pair{<:Roles, Int}) 
-    role, action = act_info
-
+function RLEnvs.interact!(env::TicTacToeEnv, act_info::Pair{<:Vector, <:Vector}) 
     is_done(env) && throw(ArgumentError("env is already done!"))
-
+    roles, actions = act_info
     nextrole = get_next_role(env)
-    role ≢ nextrole && throw(ArgumentError("invalid role of $role, should be $nextrole"))
 
-    get_legal_actions(env.board)[action] || throw(ArgumentError("invalid action: $action"))
+    for (role, action) in zip(roles, actions)
+        if role === nextrole
+            env.board[action] === nothing || throw(ArgumentError("invalid action: $action"))
+            env.role = role
+            env.board[action] = role
+        else
+            action != IDLE_ACTION && throw(ArgumentError("invalid action [$action] for role [$role]"))
+        end
+    end
 
-    env.role = role
-    env.board[action] = role
     nothing
 end
 
 get_roles(::TicTacToeEnv) = ROLES
-RLEnvs.get_legal_actions(env::TicTacToeEnv) = get_legal_actions(env.board)
+
+function get_legal_actions(env::TicTacToeEnv, role)
+    legal_actions = fill(false, IDLE_ACTION)
+    if role === get_next_role(env)
+        for i in 1:9
+            legal_actions[i] = env.board[i] === nothing
+        end
+    else
+        legal_actions[end] = true
+    end
+    legal_actions
+end
 
 function Base.show(io::IO, env::TicTacToeEnv)
     for r in 1:3

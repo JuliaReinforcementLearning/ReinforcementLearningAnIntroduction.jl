@@ -1,0 +1,4 @@
+[deps]
+RLIntro = "02c1da58-b9a1-11e8-0212-f9611b8fe936"
+ReinforcementLearning = "158674fc-8238-5cab-b5ba-03dfc80d1318"
+ReinforcementLearningEnvironments = "25e41dd2-4622-11e9-1641-f1adca772921"
