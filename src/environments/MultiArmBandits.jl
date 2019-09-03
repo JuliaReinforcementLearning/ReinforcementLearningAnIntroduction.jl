@@ -1,6 +1,6 @@
 module MultiArmBandits
 
-export MultiArmBanditsEnv
+export MultiArmBanditsEnv,
        reset!, observe, interact!
 
 using ReinforcementLearningEnvironments

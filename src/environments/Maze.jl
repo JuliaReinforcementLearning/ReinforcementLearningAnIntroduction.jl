@@ -13,7 +13,7 @@ const Actions = [CartesianIndex(0, -1),  # left
                  CartesianIndex(1, 0),   # down
                 ]
 
-mutable struct MazeEnv <: AbstractSyncEnvironment{DiscreteSpace, DiscreteSpace, 1}
+mutable struct MazeEnv <: AbstractEnv
     walls::Set{CartesianIndex{2}}
     position::CartesianIndex{2}
     start::CartesianIndex{2}
@@ -62,7 +62,7 @@ end
 observe(env::MazeEnv) = Observation(
     reward = Float64(env.position == env.goal),
     terminal = env.position == env.goal,
-    state = (env.position[2]-1)*env.NX + env.position[1])
+    state = (env.position[2]-1)*env.NX + env.position[1]
 )
 
 function reset!(env::MazeEnv)

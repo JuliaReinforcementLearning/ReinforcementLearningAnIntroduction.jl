@@ -37,7 +37,7 @@ function interact!(env::CliffWalkingEnv, a::Int)
 end
 
 observe(env::CliffWalkingEnv) = Observation(
-    reward = env.position == Goal ? 0. : (iscliff(p) ? -100. : -1.)
+    reward = env.position == Goal ? 0. : (iscliff(env.position) ? -100. : -1.),
     terminal = env.position == Goal || iscliff(env.position),
     state = LinearInds[env.position]
 )

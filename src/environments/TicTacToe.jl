@@ -4,7 +4,7 @@ export TicTacToeEnv,
        reset!, observe, interact!, get_legal_actions
 
 using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments:reset!, observe, interact!, get_legal_actions, get_roles, get_next_role
+import ReinforcementLearningEnvironments:reset!, observe, interact!, get_legal_actions
 
 
 const REWARD_LOSE = 0.

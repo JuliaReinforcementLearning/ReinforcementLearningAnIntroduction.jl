@@ -44,7 +44,7 @@ dealer_card: 2:11 => 1:10
 """
 encode(usable_ace, player_sum, dealer_card) = (usable_ace+1, player_sum-10, dealer_card-1)
 
-mutable struct BlackJackEnv <: AbstractSyncEnvironment{MultiDiscreteSpace, DiscreteSpace, 1}
+mutable struct BlackJackEnv <: AbstractEnv
     is_random_start::Bool
     init::Union{Nothing, Vector{Int}}
     player_state::Vector{Int}
@@ -52,8 +52,8 @@ mutable struct BlackJackEnv <: AbstractSyncEnvironment{MultiDiscreteSpace, Discr
     dealer_state::Vector{Int}
     isend::Bool
     reward::Float64
-    observation_space::
-    action_space::
+    observation_space::MultiDiscreteSpace
+    action_space::DiscreteSpace
 
     function BlackJackEnv(;is_random_start=false, init=nothing)
         obs_space, act_space = MultiDiscreteSpace([2, 12, 10]), DiscreteSpace(2)
