@@ -10,4 +10,12 @@
 
 <hr>
 
-This repo contains most of the reinforcement learning environments referred in the book [Reinforcement Learning: An Introduction(2nd)](http://incompleteideas.net/book/the-book-2nd.html). You may also view the [notebooks](https://github.com/JuliaReinforcementLearning/ReinforcementLearningAnIntroduction.jl/tree/master/notebooks) for how to reproduce most of the figures on that book.
+<p align="center">
+    <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl">
+  <img src="https://img.shields.io/badge/powered%20by-ReinforcementLearning.jl-brightgreen">
+  </a>
+</p>
+
+This repo contains most of the reinforcement learning environments referred in the book [Reinforcement Learning: An Introduction(2nd)](http://incompleteideas.net/book/the-book-2nd.html). You may also view the notebooks bellow for how to reproduce most of the figures on that book:
+
+- [View on Nextjournal]()
