@@ -82,7 +82,7 @@ function init_hands!(env::BlackJackEnv)
         end
         push!(dealer_hands, deal_card())
     else
-        player_hands, dealer_hands = deepcopy(init)
+        player_hands, dealer_hands = deepcopy(env.init)
     end
 
     env.player_hands, env.dealer_hands = player_hands, dealer_hands
