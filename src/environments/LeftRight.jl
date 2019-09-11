@@ -6,11 +6,13 @@ export LeftRightEnv,
 using ReinforcementLearningEnvironments
 import ReinforcementLearningEnvironments:reset!, observe, interact!
 
+using StatsBase
+
 mutable struct LeftRightEnv <: AbstractEnv
     transitions::Array{Float64,3}
     current_state::Int
     observation_space::DiscreteSpace
-    actionspace::DiscreteSpace
+    action_space::DiscreteSpace
     LeftRightEnv(transitions, current_state) = new(transitions, current_state, DiscreteSpace(2), DiscreteSpace(2))
 end
 

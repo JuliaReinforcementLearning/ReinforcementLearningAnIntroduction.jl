@@ -26,7 +26,7 @@ end
 mutable struct CliffWalkingEnv <: AbstractEnv
     position::CartesianIndex{2}
     observation_space::DiscreteSpace
-    actionspace::DiscreteSpace
+    action_space::DiscreteSpace
     CliffWalkingEnv() = new(Start, DiscreteSpace(length(LinearInds)), DiscreteSpace(length(Actions)))
 end
 
