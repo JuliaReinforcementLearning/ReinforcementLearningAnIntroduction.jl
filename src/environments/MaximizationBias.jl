@@ -25,6 +25,8 @@ mutable struct MaximizationBiasEnv <: AbstractEnv
     MaximizationBiasEnv() = new(1, 0., DiscreteSpace(3), DiscreteSpace(10))
 end
 
+const LEFT = 1
+
 function interact!(env::MaximizationBiasEnv, a::Int)
     if env.position == 1
         if a == 1
