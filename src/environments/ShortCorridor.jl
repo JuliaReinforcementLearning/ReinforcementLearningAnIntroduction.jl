@@ -13,7 +13,7 @@ mutable struct ShortCorridorEnv <: AbstractEnv
     ShortCorridorEnv() = new(1, DiscreteSpace(4), DiscreteSpace(2))
 end
 
-function (env::ShortCorridorEnv)(a)
+function interact!(env::ShortCorridorEnv, a)
     if env.position == 1 && a == 2
         env.position += 1
     elseif env.position == 2
