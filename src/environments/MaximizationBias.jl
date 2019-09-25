@@ -1,10 +1,9 @@
 module MaximizationBias
 
-using Ju
-import Ju:AbstractSyncEnvironment,
-          reset!, render, observe, observationspace, actionspace
+export MaximizationBiasEnv, reset!, observe, interact!
 
-export MaximizationBiasEnv
+using ReinforcementLearningEnvironments
+import ReinforcementLearningEnvironments: reset!, observe, interact!
 
 """
 states:
@@ -16,33 +15,40 @@ actions:
 1: left
 2: right
 """
-mutable struct MaximizationBiasEnv <: AbstractSyncEnvironment{DiscreteSpace,DiscreteSpace,1}
+mutable struct MaximizationBiasEnv <: AbstractEnv
     position::Int
-    MaximizationBiasEnv() = new(1)
+    reward::Float64
+    observation_space::DiscreteSpace
+    action_space::DiscreteSpace
+
+    MaximizationBiasEnv() = new(1, 0.0, DiscreteSpace(3), DiscreteSpace(10))
 end
 
-function (env::MaximizationBiasEnv)(a::Int)
+const LEFT = 1
+
+function interact!(env::MaximizationBiasEnv, a::Int)
     if env.position == 1
         if a == 1
             env.position = 2
-            (observation=env.position, reward=0., isdone=false)
+            env.reward = 0.0
         else
             env.position = 3
-            (observation=env.position, reward=0., isdone=true)
+            env.reward = 0.0
         end
     elseif env.position == 2
         env.position = 3
-        (observation=3, reward=randn()-0.1, isdone=true)
+        env.reward = randn() - 0.1
     end
+    nothing
 end
 
 function reset!(env::MaximizationBiasEnv)
     env.position = 1
-    (observation=1, isdone=false)
+    env.reward = 0.0
+    nothing
 end
 
-observe(env::MaximizationBiasEnv) = (observation=env.position, isdone=env.position == 3)
-observationspace(env::MaximizationBiasEnv) = DiscreteSpace(3)
-actionspace(env::MaximizationBiasEnv) = DiscreteSpace(10)
+observe(env::MaximizationBiasEnv) =
+    Observation(reward = env.reward, terminal = env.position == 3, state = env.position)
 
 end

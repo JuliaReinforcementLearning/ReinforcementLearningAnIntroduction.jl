@@ -1,45 +1,49 @@
 module MultiArmBandits
 
-using Ju
-using StatsPlots
-gr()
+export MultiArmBanditsEnv, reset!, observe, interact!
 
-import Ju:AbstractSyncEnvironment,
-          reset!, render, observe, observationspace, actionspace
+using ReinforcementLearningEnvironments
+import ReinforcementLearningEnvironments: reset!, observe, interact!
 
-export MultiArmBanditsEnv
-
-mutable struct MultiArmBanditsEnv <: AbstractSyncEnvironment{DiscreteSpace, DiscreteSpace, 1}
+mutable struct MultiArmBanditsEnv <: AbstractEnv
     truevalues::Vector{Float64}
     truereward::Float64
     bestaction::Int
     isbest::Bool
-    function MultiArmBanditsEnv(truereward::Float64=0., k::Int=10) 
+    reward::Float64
+    isdone::Bool
+    observation_space::DiscreteSpace
+    action_space::DiscreteSpace
+    function MultiArmBanditsEnv(; truereward::Float64 = 0.0, k::Int = 10)
         truevalues = truereward .+ randn(k)
-        new(truevalues, truereward, findmax(truevalues)[2])
+        new(
+            truevalues,
+            truereward,
+            findmax(truevalues)[2],
+            false,
+            0.0,
+            false,
+            DiscreteSpace(1),
+            DiscreteSpace(length(truevalues)),
+        )
     end
 end
 
 ## interfaces
 
 function reset!(env::MultiArmBanditsEnv)
-    env.truevalues = env.truereward .+ randn(length(env.truevalues))
-    env.bestaction = findmax(env.truevalues)[2]
     env.isbest = false
-    (observation=1, isdone=false)
+    nothing
 end
 
-function (env::MultiArmBanditsEnv)(a::Int) 
+function interact!(env::MultiArmBanditsEnv, a::Int)
     env.isbest = a == env.bestaction
-    (observation=1,
-     reward=randn() + env.truevalues[a],
-     isdone=false)
+    env.reward = randn() + env.truevalues[a]
+    env.isdone = true
+    nothing
 end
 
-"`violin` is broken. https://github.com/JuliaPlots/StatsPlots.jl/issues/198"
-render(env::MultiArmBanditsEnv) = violin([randn(100) .+ x for x in env.truevalues], leg=false)
-observe(env::MultiArmBanditsEnv) = (observation=1, isdone=false)
-observationspace(env::MultiArmBanditsEnv) = DiscreteSpace(1)
-actionspace(env::MultiArmBanditsEnv) = DiscreteSpace(length(env.truevalues))
+observe(env::MultiArmBanditsEnv) =
+    Observation(state = 1, terminal = env.isdone, reward = env.reward)
 
 end

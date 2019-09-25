@@ -1,37 +1,57 @@
 module RandomWalk
 
-using Ju
+export RandomWalkEnv, reset!, observe, interact!
 
-import Ju:AbstractSyncEnvironment,
-          reset!, render, observe, observationspace, actionspace
-
-export RandomWalkEnv
+using ReinforcementLearningEnvironments
+import ReinforcementLearningEnvironments: reset!, observe, interact!
 
 
-mutable struct RandomWalkEnv <: AbstractSyncEnvironment{DiscreteSpace,DiscreteSpace,1}
+mutable struct RandomWalkEnv <: AbstractEnv
     N::Int
     start::Int
     state::Int
     actions::Vector{Int}
     leftreward::Float64
     rightreward::Float64
-    RandomWalkEnv(;N=7, actions=[-1, 1], start=div(N+1, 2), leftreward=-1., rightreward=1.) = new(N, start, start, actions, leftreward, rightreward)
+    observation_space::DiscreteSpace
+    action_space::DiscreteSpace
+
+    RandomWalkEnv(
+        ;
+        N = 7,
+        actions = [-1, 1],
+        start = div(N + 1, 2),
+        leftreward = -1.0,
+        rightreward = 1.0,
+    ) =
+        new(
+            N,
+            start,
+            start,
+            actions,
+            leftreward,
+            rightreward,
+            DiscreteSpace(N),
+            DiscreteSpace(length(actions)),
+        )
 end
 
-function (env::RandomWalkEnv)(a::Int)
+function interact!(env::RandomWalkEnv, a::Int)
     env.state = min(max(env.state + env.actions[a], 1), env.N)
-    (observation = env.state,
-     reward = env.state == env.N ? env.rightreward : (env.state == 1 ? env.leftreward : 0.),
-     isdone = env.state == env.N || env.state == 1)
+    nothing
 end
 
 function reset!(env::RandomWalkEnv)
     env.state = env.start
-    (observation = env.state, isdone = false)
+    nothing
 end
 
-observe(env::RandomWalkEnv) = (observation = env.state, isdone = env.state == env.N || env.state == 1)
-observationspace(env::RandomWalkEnv) = DiscreteSpace(env.N)
-actionspace(env::RandomWalkEnv) = DiscreteSpace(length(env.actions))
+observe(env::RandomWalkEnv) =
+    Observation(
+        state = env.state,
+        terminal = env.state == env.N || env.state == 1,
+        reward = env.state == env.N ? env.rightreward :
+                 (env.state == 1 ? env.leftreward : 0.0),
+    )
 
 end
