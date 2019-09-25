@@ -16,14 +16,6 @@
 
 This repo contains most of the reinforcement learning environments referred in the book [Reinforcement Learning: An Introduction(2nd)](http://incompleteideas.net/book/the-book-2nd.html). You may also view the notebooks bellow for how to reproduce most of the figures on that book:
 
-<details>
-<summary> View on Nextjournal </summary>
-</details>
-
-<details>
-<summary> View on Jupyter NBViewer </summary>
-</details>
-
-<details>
-<summary> View on Github </summary>
-</details>
+- [View on Nextjournal](https://nextjournal.com/Jun-Tian/notebooks-for-reinforcementlearninganintroductionjl)
+- [View on Jupyter NBViewer](https://nbviewer.jupyter.org/github/JuliaReinforcementLearning/ReinforcementLearningAnIntroduction.jl/tree/master/notebooks/)
+- [View on Github](https://github.com/JuliaReinforcementLearning/ReinforcementLearningAnIntroduction.jl/tree/master/notebooks)
