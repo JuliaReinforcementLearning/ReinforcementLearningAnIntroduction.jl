@@ -1,17 +1,17 @@
 module Maze
 
-export MazeEnv,
-       reset!, observe, interact!
+export MazeEnv, reset!, observe, interact!
 
 using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments:reset!, observe, interact!
-import Base:*
+import ReinforcementLearningEnvironments: reset!, observe, interact!
+import Base: *
 
-const Actions = [CartesianIndex(0, -1),  # left
-                 CartesianIndex(0, 1),   # right
-                 CartesianIndex(-1, 0),  # up
-                 CartesianIndex(1, 0),   # down
-                ]
+const Actions = [
+    CartesianIndex(0, -1),  # left
+    CartesianIndex(0, 1),   # right
+    CartesianIndex(-1, 0),  # up
+    CartesianIndex(1, 0),   # down
+]
 
 mutable struct MazeEnv <: AbstractEnv
     walls::Set{CartesianIndex{2}}
@@ -22,11 +22,16 @@ mutable struct MazeEnv <: AbstractEnv
     NY::Int
     observation_space::DiscreteSpace
     action_space::DiscreteSpace
-    MazeEnv(w, p, s, g, NX, NY) = new(w, p, s, g, NX, NY, DiscreteSpace(NX * NY), DiscreteSpace(length(Actions)))
+    MazeEnv(w, p, s, g, NX, NY) =
+        new(w, p, s, g, NX, NY, DiscreteSpace(NX * NY), DiscreteSpace(length(Actions)))
 end
 
 function MazeEnv()
-    walls = Set([[CartesianIndex(i,3) for i in 2:4]; CartesianIndex(5, 6); [CartesianIndex(j, 8) for j in 1:3]])
+    walls = Set([
+        [CartesianIndex(i, 3) for i = 2:4]
+        CartesianIndex(5, 6)
+        [CartesianIndex(j, 8) for j = 1:3]
+    ])
     start = CartesianIndex(3, 1)
     goal = CartesianIndex(1, 9)
     MazeEnv(walls, start, start, goal, 6, 9)
@@ -34,7 +39,7 @@ end
 
 function extend(p::CartesianIndex{2}, n::Int)
     x, y = Tuple(p)
-    [CartesianIndex(n*(x-1)+i, n*(y-1)+j) for i in 1:n for j in 1:n]
+    [CartesianIndex(n * (x - 1) + i, n * (y - 1) + j) for i = 1:n for j = 1:n]
 end
 
 function remap(p::CartesianIndex{2}, n::Int)
@@ -59,11 +64,12 @@ function interact!(env::MazeEnv, a::Int)
     nothing
 end
 
-observe(env::MazeEnv) = Observation(
-    reward = Float64(env.position == env.goal),
-    terminal = env.position == env.goal,
-    state = (env.position[2]-1)*env.NX + env.position[1]
-)
+observe(env::MazeEnv) =
+    Observation(
+        reward = Float64(env.position == env.goal),
+        terminal = env.position == env.goal,
+        state = (env.position[2] - 1) * env.NX + env.position[1],
+    )
 
 function reset!(env::MazeEnv)
     env.position = env.start

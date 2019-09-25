@@ -1,10 +1,9 @@
 module BlackJack
 
-export BlackJackEnv,
-       reset!, observe, interact!
+export BlackJackEnv, reset!, observe, interact!
 
 using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments:reset!, observe, interact!
+import ReinforcementLearningEnvironments: reset!, observe, interact!
 
 using Random
 
@@ -13,7 +12,7 @@ const ACTIONS = [:hit, :stick]
 const INDS = LinearIndices((
     2,  # player has ace or not
     11, # player's hands sum, 12 ~ 21, plus other cases that the sum is greater than 21
-    10  # dealer's hands sum, 2~11
+    10,  # dealer's hands sum, 2~11
 ))
 
 deal_card() = rand(1:13)
@@ -35,7 +34,7 @@ function Base.push!(h::Hands, x)
     push!(h.cards, x)
     h.sum += value(x)
     h.n_usable_ace += is_ace(x)
-    
+
     if h.n_usable_ace > 0 && is_busted(h)
         h.sum -= 10
         h.n_usable_ace -= 1
@@ -48,21 +47,21 @@ mutable struct BlackJackEnv <: AbstractEnv
     is_end::Bool
     reward::Float64
     is_exploring_start::Bool
-    init::Union{Nothing, Tuple{Hands, Hands}}
+    init::Union{Nothing,Tuple{Hands,Hands}}
     observation_space::DiscreteSpace
     action_space::DiscreteSpace
 end
 
-function BlackJackEnv(;is_exploring_start=false, init=nothing)
+function BlackJackEnv(; is_exploring_start = false, init = nothing)
     env = BlackJackEnv(
         Hands(),
         Hands(),
         false,
-        0.,
+        0.0,
         is_exploring_start,
         init,
         DiscreteSpace(length(INDS)),
-        DiscreteSpace(2)
+        DiscreteSpace(2),
     )
     init_hands!(env)
     env
@@ -93,24 +92,24 @@ function interact!(env::BlackJackEnv, a::Int)
         push!(env.player_hands, deal_card())
         if is_busted(env.player_hands)
             env.is_end = true
-            env.reward = -1.
+            env.reward = -1.0
         else
             env.is_end = false
-            env.reward = 0.
+            env.reward = 0.0
         end
     elseif ACTIONS[a] == :stick
         while env.dealer_hands.sum < 17
             push!(env.dealer_hands, deal_card())
         end
         if is_busted(env.dealer_hands)
-            env.reward = 1.
+            env.reward = 1.0
         else
             if env.player_hands.sum > env.dealer_hands.sum
-                env.reward = 1.
+                env.reward = 1.0
             elseif env.player_hands.sum < env.dealer_hands.sum
-                env.reward = -1.
+                env.reward = -1.0
             else
-                env.reward = 0.
+                env.reward = 0.0
             end
         end
         env.is_end = true
@@ -118,25 +117,23 @@ function interact!(env::BlackJackEnv, a::Int)
     nothing
 end
 
-function reset!(env::BlackJackEnv) 
+function reset!(env::BlackJackEnv)
     env.is_end = false
-    env.reward = 0.
+    env.reward = 0.0
 
     init_hands!(env)
 
     nothing
 end
 
-encode(env) = INDS[
-    env.player_hands.n_usable_ace > 0 ? 1 : 2,
-    12 <= env.player_hands.sum <= 21 ? env.player_hands.sum - 10 : 1,
-    2 <= env.dealer_hands.sum <= 10 ? env.dealer_hands.sum : 1
-]
+encode(env) =
+    INDS[
+        env.player_hands.n_usable_ace > 0 ? 1 : 2,
+        12 <= env.player_hands.sum <= 21 ? env.player_hands.sum - 10 : 1,
+        2 <= env.dealer_hands.sum <= 10 ? env.dealer_hands.sum : 1,
+    ]
 
-observe(env::BlackJackEnv) = Observation(
-    reward = env.reward,
-    terminal = env.is_end,
-    state = encode(env)
-)
+observe(env::BlackJackEnv) =
+    Observation(reward = env.reward, terminal = env.is_end, state = encode(env))
 
 end

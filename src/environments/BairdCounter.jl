@@ -1,10 +1,9 @@
 module BairdCounter
 
-export BairdCounterEnv,
-       reset!, observe, interact!
+export BairdCounterEnv, reset!, observe, interact!
 
 using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments:reset!, observe, interact!
+import ReinforcementLearningEnvironments: reset!, observe, interact!
 
 const ACTIONS = (:dashed, :solid)
 
@@ -24,11 +23,8 @@ function interact!(env::BairdCounterEnv, a)
     nothing
 end
 
-observe(env::BairdCounterEnv) = Observation(
-    reward = 0.,
-    terminal = false,
-    state=env.current
-)
+observe(env::BairdCounterEnv) =
+    Observation(reward = 0.0, terminal = false, state = env.current)
 
 function reset!(env::BairdCounterEnv)
     env.current = rand(1:6)

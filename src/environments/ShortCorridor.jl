@@ -1,10 +1,9 @@
 module ShortCorridor
 
-export ShortCorridorEnv,
-       reset!, observe, interact!
+export ShortCorridorEnv, reset!, observe, interact!
 
 using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments:reset!, observe, interact!
+import ReinforcementLearningEnvironments: reset!, observe, interact!
 
 mutable struct ShortCorridorEnv <: AbstractEnv
     position::Int
@@ -29,10 +28,11 @@ function reset!(env::ShortCorridorEnv)
     nothing
 end
 
-observe(env::ShortCorridorEnv) = Observation(
-    state = env.position,
-    terminal = env.position==4,
-    reward = env.position == 4 ? 0. : -1.
-)
+observe(env::ShortCorridorEnv) =
+    Observation(
+        state = env.position,
+        terminal = env.position == 4,
+        reward = env.position == 4 ? 0.0 : -1.0,
+    )
 
 end

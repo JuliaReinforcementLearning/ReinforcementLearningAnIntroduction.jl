@@ -1,20 +1,20 @@
 module CliffWalking
 
-export CliffWalkingEnv,
-       reset!, observe, interact!
+export CliffWalkingEnv, reset!, observe, interact!
 
 using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments:reset!, observe, interact!
+import ReinforcementLearningEnvironments: reset!, observe, interact!
 
 const NX = 4
 const NY = 12
 const Start = CartesianIndex(4, 1)
 const Goal = CartesianIndex(4, 12)
-const Actions = [CartesianIndex(0, -1),  # left
-                 CartesianIndex(0, 1),   # right
-                 CartesianIndex(-1, 0),  # up
-                 CartesianIndex(1, 0),   # down
-                ]
+const Actions = [
+    CartesianIndex(0, -1),  # left
+    CartesianIndex(0, 1),   # right
+    CartesianIndex(-1, 0),  # up
+    CartesianIndex(1, 0),   # down
+]
 
 const LinearInds = LinearIndices((NX, NY))
 
@@ -27,7 +27,8 @@ mutable struct CliffWalkingEnv <: AbstractEnv
     position::CartesianIndex{2}
     observation_space::DiscreteSpace
     action_space::DiscreteSpace
-    CliffWalkingEnv() = new(Start, DiscreteSpace(length(LinearInds)), DiscreteSpace(length(Actions)))
+    CliffWalkingEnv() =
+        new(Start, DiscreteSpace(length(LinearInds)), DiscreteSpace(length(Actions)))
 end
 
 function interact!(env::CliffWalkingEnv, a::Int)
@@ -36,11 +37,12 @@ function interact!(env::CliffWalkingEnv, a::Int)
     nothing
 end
 
-observe(env::CliffWalkingEnv) = Observation(
-    reward = env.position == Goal ? 0. : (iscliff(env.position) ? -100. : -1.),
-    terminal = env.position == Goal || iscliff(env.position),
-    state = LinearInds[env.position]
-)
+observe(env::CliffWalkingEnv) =
+    Observation(
+        reward = env.position == Goal ? 0.0 : (iscliff(env.position) ? -100.0 : -1.0),
+        terminal = env.position == Goal || iscliff(env.position),
+        state = LinearInds[env.position],
+    )
 
 function reset!(env::CliffWalkingEnv)
     env.position = Start
