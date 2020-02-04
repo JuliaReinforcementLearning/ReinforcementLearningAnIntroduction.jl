@@ -1,9 +1,8 @@
 module BranchMDP
 
-export BranchMDPEnv, reset!, observe, interact!
+export BranchMDPEnv
 
-using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments: reset!, observe, interact!
+using ReinforcementLearningCore
 
 mutable struct BranchMDPEnv <: AbstractEnv
     transition::Array{Int,3}
@@ -26,7 +25,10 @@ mutable struct BranchMDPEnv <: AbstractEnv
         )
 end
 
-function interact!(env::BranchMDPEnv, a::Int)
+RLBase.get_observation_space(env::BranchMDPEnv) = env.observation_space
+RLBase.get_action_space(env::BranchMDPEnv) = env.action_space
+
+function (env::BranchMDPEnv)(a::Int)
     if rand() < env.termination_prob
         env.reward = 0.0
         env.current = size(env.transition, 1) + 1
@@ -40,14 +42,14 @@ function interact!(env::BranchMDPEnv, a::Int)
     nothing
 end
 
-observe(env::BranchMDPEnv) =
-    Observation(
+RLBase.observe(env::BranchMDPEnv) =
+    (
         reward = env.reward,
         terminal = env.current == size(env.transition, 1) + 1,
         state = env.current,
     )
 
-function reset!(env::BranchMDPEnv, s::Int = 1)
+function RLBase.reset!(env::BranchMDPEnv, s::Int = 1)
     env.current = s
     nothing
 end

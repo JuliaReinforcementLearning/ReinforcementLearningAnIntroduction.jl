@@ -1,20 +1,19 @@
 module LeftRight
 
-export LeftRightEnv, reset!, observe, interact!
+export LeftRightEnv
 
-using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments: reset!, observe, interact!
+using ReinforcementLearningCore
+
 
 using StatsBase
 
 mutable struct LeftRightEnv <: AbstractEnv
     transitions::Array{Float64,3}
     current_state::Int
-    observation_space::DiscreteSpace
-    action_space::DiscreteSpace
-    LeftRightEnv(transitions, current_state) =
-        new(transitions, current_state, DiscreteSpace(2), DiscreteSpace(2))
 end
+
+RLBase.get_observation_space(env::LeftRightEnv) = DiscreteSpace(2)
+RLBase.get_action_space(env::LeftRightEnv) = DiscreteSpace(2)
 
 function LeftRightEnv()
     t = zeros(2, 2, 2)
@@ -23,7 +22,7 @@ function LeftRightEnv()
     LeftRightEnv(t, rand(1:2))
 end
 
-function interact!(env::LeftRightEnv, a::Int)
+function (env::LeftRightEnv)(a::Int)
     env.current_state = sample(Weights(
         @view(env.transitions[env.current_state, a, :]),
         1.0,
@@ -31,13 +30,13 @@ function interact!(env::LeftRightEnv, a::Int)
     nothing
 end
 
-function reset!(env::LeftRightEnv)
+function RLBase.reset!(env::LeftRightEnv)
     env.current_state = 1
     nothing
 end
 
-observe(env::LeftRightEnv) =
-    Observation(
+RLBase.observe(env::LeftRightEnv) =
+    (
         reward = Float64(env.current_state == 2),
         terminal = env.current_state == 2,
         state = env.current_state,

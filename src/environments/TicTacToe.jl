@@ -1,9 +1,8 @@
 module TicTacToe
 
-export TicTacToeEnv, reset!, observe, interact!, get_legal_actions
+export TicTacToeEnv
 
-using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments: reset!, observe, interact!, get_legal_actions
+using ReinforcementLearningCore
 
 
 const REWARD_LOSE = 0.0
@@ -38,7 +37,7 @@ end
 get_winner(board, inds) =
     board[inds[1]] == board[inds[2]] == board[inds[3]] ? board[inds[1]] : nothing
 
-get_legal_actions(state::Board) = state .=== nothing
+get_legal_actions_mask(state::Board) = state .=== nothing
 
 function get_next_state(state::Board, role::Roles, action)
     s = copy(state)
@@ -48,7 +47,7 @@ function get_next_state(state::Board, role::Roles, action)
     s
 end
 
-get_next_states(state::Board, role::Roles, actions = findall(get_legal_actions(state))) =
+get_next_states(state::Board, role::Roles, actions = findall(get_legal_actions_mask(state))) =
     (get_next_state(state, role, action) for action in actions)
 
 get_next_role(::Offensive) = defensive
@@ -64,7 +63,7 @@ function get_states_info()
         for s in get_next_states(state, role)
             if !haskey(states_info, s)
                 winner = get_winner(s)
-                isdone = winner != nothing || sum(get_legal_actions(s)) == 0
+                isdone = winner != nothing || sum(get_legal_actions_mask(s)) == 0
                 states_info[s] = (isdone = isdone, winner = winner)
                 if !isdone
                     push!(unfinished_states, (s, get_next_role(role)))
@@ -104,6 +103,9 @@ mutable struct TicTacToeEnv <: AbstractEnv
     end
 end
 
+RLBase.get_observation_space(env::TicTacToeEnv) = env.observation_space
+RLBase.get_action_space(env::TicTacToeEnv) = env.action_space
+
 get_winner(env::TicTacToeEnv) = STATES_INFO[env.board].winner
 is_done(env::TicTacToeEnv) = STATES_INFO[env.board].isdone
 
@@ -123,11 +125,11 @@ function RLEnvs.observe(env::TicTacToeEnv, role::Roles)
         reward = REWARD_UNFINISH
     end
 
-    Observation(
+    (
         reward = reward,
         terminal = isdone,
         state = STATE2ID[env.board],
-        legal_actions = get_legal_actions(env, role),
+        legal_actions = get_legal_actions_mask(env, role),
     )
 end
 
@@ -139,7 +141,7 @@ end
 
 get_next_role(env::TicTacToeEnv) = is_done(env) ? nothing : get_next_role(env.role)
 
-function RLEnvs.interact!(env::TicTacToeEnv, action::Int)
+function RLEnvs.(env::TicTacToeEnv)(action::Int)
     next_role = get_next_role(env)
     another_role = get_next_role(next_role)
     interact!(env, [next_role, another_role] => [action, IDLE_ACTION])
@@ -165,7 +167,7 @@ end
 
 get_roles(::TicTacToeEnv) = ROLES
 
-function get_legal_actions(env::TicTacToeEnv, role)
+function RLBase.get_legal_actions_mask(env::TicTacToeEnv, role)
     legal_actions = fill(false, IDLE_ACTION)
     if role === get_next_role(env)
         for i = 1:9

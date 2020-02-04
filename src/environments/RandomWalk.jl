@@ -1,9 +1,9 @@
 module RandomWalk
 
-export RandomWalkEnv, reset!, observe, interact!
+export RandomWalkEnv
 
-using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments: reset!, observe, interact!
+using ReinforcementLearningCore
+
 
 
 mutable struct RandomWalkEnv <: AbstractEnv
@@ -36,18 +36,21 @@ mutable struct RandomWalkEnv <: AbstractEnv
         )
 end
 
-function interact!(env::RandomWalkEnv, a::Int)
+RLBase.get_observation_space(env::RandomWalkEnv) = env.observation_space
+RLBase.get_action_space(env::RandomWalkEnv) = env.action_space
+
+function (env::RandomWalkEnv)(a::Int)
     env.state = min(max(env.state + env.actions[a], 1), env.N)
     nothing
 end
 
-function reset!(env::RandomWalkEnv)
+function RLBase.reset!(env::RandomWalkEnv)
     env.state = env.start
     nothing
 end
 
-observe(env::RandomWalkEnv) =
-    Observation(
+RLBase.observe(env::RandomWalkEnv) =
+    (
         state = env.state,
         terminal = env.state == env.N || env.state == 1,
         reward = env.state == env.N ? env.rightreward :

@@ -1,9 +1,9 @@
 module AccessControl
 
-export AccessControlEnv, reset!, observe, interact!
+export AccessControlEnv
 
-using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments: reset!, observe, interact!
+using ReinforcementLearningCore
+
 
 using Distributions
 
@@ -16,25 +16,17 @@ const CUSTOMERS = 1:length(PRIORITIES)
 
 const TRANSFORMER = LinearIndices((0:N_SERVERS, CUSTOMERS))
 
-mutable struct AccessControlEnv <: AbstractEnv
-    n_servers::Int
-    n_free_servers::Int
-    customer::Int
-    reward::Float64
-    observation_space::DiscreteSpace
-    action_space::DiscreteSpace
-    AccessControlEnv() =
-        new(
-            10,
-            0,
-            rand(CUSTOMERS),
-            0.0,
-            DiscreteSpace(length(TRANSFORMER)),
-            DiscreteSpace(2),
-        )
+Base.@kwdef mutable struct AccessControlEnv <: AbstractEnv
+    n_servers::Int = 10
+    n_free_servers::Int = 0
+    customer::Int = rand(CUSTOMERS)
+    reward::Float64 = 0.0
 end
 
-function interact!(env::AccessControlEnv, a)
+RLBase.get_observation_space(env::AccessControlEnv) = DiscreteSpace(length(TRANSFORMER))
+RLBase.get_action_space(env::AccessControlEnv) = DiscreteSpace(2)
+
+function (env::AccessControlEnv)(a)
     action, reward = ACTIONS[a], 0.0
     if env.n_free_servers > 0 && action == :accept
         env.n_free_servers -= 1
@@ -48,14 +40,14 @@ function interact!(env::AccessControlEnv, a)
     nothing
 end
 
-observe(env::AccessControlEnv) =
-    Observation(
+RLBase.observe(env::AccessControlEnv) =
+    (
         reward = env.reward,
         terminal = false,
         state = TRANSFORMER[CartesianIndex(env.n_free_servers + 1, env.customer)],
     )
 
-function reset!(env::AccessControlEnv)
+function RLBase.reset!(env::AccessControlEnv)
     env.n_free_servers = env.n_servers
     env.customer = rand(CUSTOMERS)
     env.reward = 0.0

@@ -1,9 +1,9 @@
 module MaximizationBias
 
-export MaximizationBiasEnv, reset!, observe, interact!
+export MaximizationBiasEnv
 
-using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments: reset!, observe, interact!
+using ReinforcementLearningCore
+
 
 """
 states:
@@ -15,18 +15,17 @@ actions:
 1: left
 2: right
 """
-mutable struct MaximizationBiasEnv <: AbstractEnv
-    position::Int
-    reward::Float64
-    observation_space::DiscreteSpace
-    action_space::DiscreteSpace
-
-    MaximizationBiasEnv() = new(1, 0.0, DiscreteSpace(3), DiscreteSpace(10))
+Base.@kwdef mutable struct MaximizationBiasEnv <: AbstractEnv
+    position::Int = 1
+    reward::Float64 = 0.0
 end
+
+RLBase.get_observation_space(env::MaximizationBiasEnv) = DiscreteSpace(3)
+RLBase.get_action_space(env::MaximizationBiasEnv) = DiscreteSpace(10)
 
 const LEFT = 1
 
-function interact!(env::MaximizationBiasEnv, a::Int)
+function (env::MaximizationBiasEnv)(a::Int)
     if env.position == 1
         if a == 1
             env.position = 2
@@ -42,13 +41,13 @@ function interact!(env::MaximizationBiasEnv, a::Int)
     nothing
 end
 
-function reset!(env::MaximizationBiasEnv)
+function RLBase.reset!(env::MaximizationBiasEnv)
     env.position = 1
     env.reward = 0.0
     nothing
 end
 
-observe(env::MaximizationBiasEnv) =
-    Observation(reward = env.reward, terminal = env.position == 3, state = env.position)
+RLBase.observe(env::MaximizationBiasEnv) =
+    (reward = env.reward, terminal = env.position == 3, state = env.position)
 
 end
