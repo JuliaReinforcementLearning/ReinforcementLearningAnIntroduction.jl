@@ -12,7 +12,7 @@ const VELOCITY_MIN = -0.07
 const VELOCITY_MAX = 0.07
 
 Base.@kwdef mutable struct MountainCarEnv <: AbstractEnv
-    p::Float64 = -0.6 + rand() / 5,
+    p::Float64 = -0.6 + rand() / 5
     v::Float64 = 0.0
 end
 

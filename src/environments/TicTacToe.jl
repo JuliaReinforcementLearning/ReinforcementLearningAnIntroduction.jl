@@ -37,7 +37,7 @@ end
 get_winner(board, inds) =
     board[inds[1]] == board[inds[2]] == board[inds[3]] ? board[inds[1]] : nothing
 
-get_legal_actions_mask(state::Board) = state .=== nothing
+RLBase.get_legal_actions_mask(state::Board) = state .=== nothing
 
 function get_next_state(state::Board, role::Roles, action)
     s = copy(state)
@@ -49,6 +49,8 @@ end
 
 get_next_states(state::Board, role::Roles, actions = findall(get_legal_actions_mask(state))) =
     (get_next_state(state, role, action) for action in actions)
+
+get_next_state_id(id::Int, role::Roles, action) = STATE2ID[get_next_state(ID2STATE[id], role, action)]
 
 get_next_role(::Offensive) = defensive
 get_next_role(::Defensive) = offensive
@@ -105,13 +107,15 @@ end
 
 RLBase.get_observation_space(env::TicTacToeEnv) = env.observation_space
 RLBase.get_action_space(env::TicTacToeEnv) = env.action_space
+RLBase.get_current_player(env::TicTacToeEnv) = get_next_role(env)
+RLBase.get_num_players(env::TicTacToeEnv) = 2
 
 get_winner(env::TicTacToeEnv) = STATES_INFO[env.board].winner
 is_done(env::TicTacToeEnv) = STATES_INFO[env.board].isdone
 
-RLEnvs.observe(env::TicTacToeEnv) = RLEnvs.observe(env, get_next_role(env))
+RLBase.observe(env::TicTacToeEnv) = RLBase.observe(env, get_next_role(env))
 
-function RLEnvs.observe(env::TicTacToeEnv, role::Roles)
+function RLBase.observe(env::TicTacToeEnv, role::Roles)
     isdone, winner = STATES_INFO[env.board]
     if isdone
         if winner == nothing
@@ -129,11 +133,11 @@ function RLEnvs.observe(env::TicTacToeEnv, role::Roles)
         reward = reward,
         terminal = isdone,
         state = STATE2ID[env.board],
-        legal_actions = get_legal_actions_mask(env, role),
+        legal_actions_mask = get_legal_actions_mask(env, role),
     )
 end
 
-function RLEnvs.reset!(env::TicTacToeEnv)
+function RLBase.reset!(env::TicTacToeEnv)
     fill!(env.board, nothing)
     env.role = nothing
     nothing
@@ -141,13 +145,13 @@ end
 
 get_next_role(env::TicTacToeEnv) = is_done(env) ? nothing : get_next_role(env.role)
 
-function RLEnvs.(env::TicTacToeEnv)(action::Int)
+function (env::TicTacToeEnv)(action::Int)
     next_role = get_next_role(env)
     another_role = get_next_role(next_role)
-    interact!(env, [next_role, another_role] => [action, IDLE_ACTION])
+    env([next_role, another_role] => [action, IDLE_ACTION])
 end
 
-function RLEnvs.interact!(env::TicTacToeEnv, act_info::Pair{<:Vector,<:Vector})
+function (env::TicTacToeEnv)(act_info::Pair{<:Vector,<:Vector})
     is_done(env) && throw(ArgumentError("env is already done!"))
     roles, actions = act_info
     nextrole = get_next_role(env)
