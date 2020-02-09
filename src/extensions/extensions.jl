@@ -1,2 +1,5 @@
 include("utils/utils.jl")
 include("learners/learners.jl")
+include("policies/policies.jl")
+include("environment_models/environment_models.jl")
+include("iteration_methods.jl")
