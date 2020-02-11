@@ -56,18 +56,7 @@ RLBase.ApproximatorStyle(m::MonteCarloLearner) = ApproximatorStyle(m.approximato
 
 RLBase.update!(learner::MonteCarloLearner, experience) = update!(learner, VisitStyle(learner), ApproximatorStyle(learner), SamplingStyle(learner), experience)
 
-RLBase.extract_experience(t::AbstractTrajectory, learner::MonteCarloLearner) = extract_experience(t, learner, ApproximatorStyle(learner))
-
-function RLBase.extract_experience(t::AbstractTrajectory, learner::MonteCarloLearner, ::VApproximator)
-    # only extract & update at the end of an episode
-    if length(t) > 0 && get_trace(t, :terminal)[end]
-        get_trace(t, :state, :reward)
-    else
-        nothing
-    end
-end
-
-function RLBase.extract_experience(t::AbstractTrajectory, learner::MonteCarloLearner, ::QApproximator)
+function RLBase.extract_experience(t::AbstractTrajectory, learner::MonteCarloLearner)
     # only extract & update at the end of an episode
     if length(t) > 0 && get_trace(t, :terminal)[end]
         get_trace(t, :state, :action, :reward)
@@ -76,14 +65,12 @@ function RLBase.extract_experience(t::AbstractTrajectory, learner::MonteCarloLea
     end
 end
 
-RLBase.update!(learner::MonteCarloLearner, ::Any, ::Any, ::Any, ::Nothing) = nothing
-
 function RLBase.update!(
     learner::MonteCarloLearner,
     ::Type{FirstVisit},
     ::VApproximator,
     ::Type{NoSampling},
-    transitions::NamedTuple{(:state, :reward)},
+    transitions::NamedTuple{(:state, :action, :reward)},
 )
     states, rewards = transitions.state, transitions.reward
     V, γ, α, Returns, G, T = learner.approximator,
@@ -108,15 +95,122 @@ end
 
 function RLBase.update!(
     learner::MonteCarloLearner,
+    ::Type{FirstVisit},
+    ::VApproximator,
+    ::Type{OrdinaryImportanceSampling},
+    transitions::NamedTuple{(:state, :action, :reward, :weights)},
+)
+    states, rewards, weights = transitions.state, transitions.reward, transitions.weights
+    V, γ, α, Returns, G, ρ, T = learner.approximator,
+        learner.γ,
+        learner.α,
+        learner.returns,
+        0.0,
+        1.0,
+        length(states)
+    seen_states = countmap(states)
+
+    for t = T:-1:1
+        S, R = states[t], rewards[t]
+        G = γ * G + R
+        ρ *= weights[t]
+        if seen_states[S] == 1  # first visit
+            update!(V, S => α * (Returns(S, ρ * G) - V(S)))
+            delete!(seen_states, S)
+        else
+            seen_states[S] -= 1
+        end
+    end
+end
+
+function RLBase.update!(
+    learner::MonteCarloLearner,
+    ::Type{FirstVisit},
+    ::VApproximator,
+    ::Type{WeightedImportanceSampling},
+    transitions::NamedTuple{(:state, :action, :reward, :weights)},
+)
+    states, rewards, weights = transitions.state, transitions.reward, transitions.weights
+    V, γ, α, (G_cached, ρ_cached), G, ρ, T = learner.approximator,
+        learner.γ,
+        learner.α,
+        learner.returns,
+        0.0,
+        1.0,
+        length(states)
+    seen_states = countmap(states)
+
+    for t = T:-1:1
+        S, R = states[t], rewards[t]
+        G = γ * G + R
+        ρ *= weights[t]
+        if seen_states[S] == 1  # first visit
+            numerator = G_cached(S, ρ * G)
+            denominator = ρ_cached(S, ρ)
+            val = denominator == 0 ? 0 : numerator / denominator
+            update!(V, S => α * (val - V(S)))
+            delete!(seen_states, S)
+        else
+            seen_states[S] -= 1
+        end
+    end
+end
+
+function RLBase.update!(
+    learner::MonteCarloLearner,
     ::Type{EveryVisit},
     ::VApproximator,
     ::Type{NoSampling},
-    transitions::NamedTuple{(:state, :reward)},
+    transitions::NamedTuple{(:state, :action, :reward)},
 )
     states, rewards = transitions.state, transitions.reward
     α, γ, V, Returns, G = learner.α, learner.γ, learner.approximator, learner.returns, 0.0
     for (s, r) in Iterators.reverse(zip(states, rewards))
         G = γ * G + r
         update!(V, s => α * (Returns(s, G) - V(s)))
+    end
+end
+
+function RLBase.update!(
+    learner::MonteCarloLearner,
+    ::Type{FirstVisit},
+    ::QApproximator,
+    ::Type{NoSampling},
+    transitions::NamedTuple{(:state, :action, :reward)},
+)
+    states, actions, rewards = transitions.state, transitions.action, transitions.reward
+    α, γ, Q, Returns, G, T = learner.α,
+        learner.γ,
+        learner.approximator,
+        learner.returns,
+        0.0,
+        length(states)
+    seen_pairs = countmap(zip(states, actions))
+
+    for t = T:-1:1
+        S, A, R = states[t], actions[t], rewards[t]
+        pair = (S, A)
+        G = γ * G + R
+        if seen_pairs[pair] == 1  # first visit
+            update!(Q, pair => α * (Returns(pair, G) - Q(S, A)))
+            delete!(seen_pairs, pair)
+        else
+            seen_pairs[pair] -= 1
+        end
+    end
+end
+
+function RLBase.update!(
+    learner::MonteCarloLearner,
+    ::Type{EveryVisit},
+    ::QApproximator,
+    ::Type{NoSampling},
+    transitions::NamedTuple{(:state, :action, :reward)},
+)
+    states, actions, rewards = transitions.state, transitions.action, transitions.reward
+    α, γ, Q, Returns, G = learner.α, learner.γ, learner.approximator, learner.returns, 0.0
+    for (s, a, r) in Iterators.reverse(zip(states, actions, rewards))
+        G = γ * G + r
+        update!(Q, (s, a) => α * (Returns((s, a), G) - Q(s, a)))
     end
 end

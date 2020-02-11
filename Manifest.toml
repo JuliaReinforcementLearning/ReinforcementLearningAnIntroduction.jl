@@ -8,9 +8,9 @@ version = "0.5.0"
 
 [[AbstractTrees]]
 deps = ["Markdown"]
-git-tree-sha1 = "940760b82db1f7090f7d16fe6e4b121cc181db45"
+git-tree-sha1 = "86d092c2599f1f7bb01668bf8eb3412f98d61e47"
 uuid = "1520ce14-60c1-5f80-bbc7-55ef81b5835c"
-version = "0.3.1"
+version = "0.3.2"
 
 [[Adapt]]
 deps = ["LinearAlgebra"]
@@ -58,9 +58,9 @@ version = "0.2.0"
 
 [[CUDAapi]]
 deps = ["Libdl", "Logging"]
-git-tree-sha1 = "d9614968b9a13df433870115acff20f41e7b400a"
+git-tree-sha1 = "d7ceadd8f821177d05b897c0517e94633db535fe"
 uuid = "3895d2a7-ec45-59b8-82bb-cfc6a382f9b3"
-version = "3.0.0"
+version = "3.1.0"
 
 [[CUDAdrv]]
 deps = ["CEnum", "CUDAapi", "Printf"]
@@ -70,9 +70,9 @@ version = "6.0.0"
 
 [[CUDAnative]]
 deps = ["Adapt", "CEnum", "CUDAapi", "CUDAdrv", "DataStructures", "InteractiveUtils", "LLVM", "Libdl", "Printf", "TimerOutputs"]
-git-tree-sha1 = "59d6c3e313b874abc718f7d6ad02ea604f96db14"
+git-tree-sha1 = "f86269ff60ebe082a2806ecbce51f3cadc68afe9"
 uuid = "be33ccc6-a3ff-5ff2-a52e-74243cff1e17"
-version = "2.10.0"
+version = "2.10.2"
 
 [[Clustering]]
 deps = ["Distances", "LinearAlgebra", "NearestNeighbors", "Printf", "SparseArrays", "Statistics", "StatsBase"]
@@ -103,12 +103,6 @@ deps = ["Test"]
 git-tree-sha1 = "efdaf19ab11c7889334ca247ff4c9f7c322817b0"
 uuid = "bbf7d656-a473-5ed7-a52c-81e309532950"
 version = "0.2.0"
-
-[[Compat]]
-deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
-git-tree-sha1 = "ed2c4abadf84c53d9e58510b5fc48912c2336fbb"
-uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "2.2.0"
 
 [[Contour]]
 deps = ["LinearAlgebra", "StaticArrays", "Test"]
@@ -263,9 +257,9 @@ uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[Interpolations]]
 deps = ["AxisAlgorithms", "LinearAlgebra", "OffsetArrays", "Random", "Ratios", "SharedArrays", "SparseArrays", "StaticArrays", "WoodburyMatrices"]
-git-tree-sha1 = "c7579b2617b513d8e6eb9f4b91837eefe7080af8"
+git-tree-sha1 = "f5bf159a7705e2a705b0effa1be0c3d18e288fe1"
 uuid = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
-version = "0.12.8"
+version = "0.12.5"
 
 [[IteratorInterfaceExtensions]]
 git-tree-sha1 = "a3f24677c21f5bbe9d2a714f95dcd58337fb2856"
@@ -484,10 +478,9 @@ deps = ["Serialization"]
 uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [[Ratios]]
-deps = ["Compat"]
-git-tree-sha1 = "cdbbe0f350581296f3a2e3e7a91b214121934407"
+git-tree-sha1 = "37d210f612d70f3f7d57d488cb3b6eff56ad4e41"
 uuid = "c84ed2f1-dad5-54f0-aa8e-dbefe2724439"
-version = "0.3.1"
+version = "0.4.0"
 
 [[RecipesBase]]
 git-tree-sha1 = "7bdce29bc9b2f5660a6e5e64d64d91ec941f6aa2"

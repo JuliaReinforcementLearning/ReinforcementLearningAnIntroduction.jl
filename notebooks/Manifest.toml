@@ -480,7 +480,7 @@ deps = ["InteractiveUtils", "Markdown", "Sockets"]
 uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
 
 [[RLIntro]]
-deps = ["DataStructures", "Distributions", "Flux", "Plots", "Random", "ReinforcementLearningBase", "ReinforcementLearningCore", "SparseArrays", "StatsBase", "StatsPlots"]
+deps = ["DataStructures", "Distributions", "Flux", "MacroTools", "Plots", "Random", "ReinforcementLearningBase", "ReinforcementLearningCore", "SparseArrays", "StatsBase", "StatsPlots"]
 path = ".."
 uuid = "02c1da58-b9a1-11e8-0212-f9611b8fe936"
 version = "0.2.0"
@@ -507,7 +507,7 @@ uuid = "189a3867-3050-52da-a836-e630ba90ab69"
 version = "0.2.0"
 
 [[ReinforcementLearningBase]]
-deps = ["Random"]
+deps = ["Distributions", "Random"]
 path = "/home/tj/workspace/github/ReinforcementLearningBase.jl/"
 uuid = "e575027e-6cd6-5018-9292-cdc6200d2b44"
 version = "0.5.0"

@@ -2,7 +2,7 @@ export TDLearner, DoubleLearner, DifferentialTDLearner, TDλReturnLearner
 
 """
     TDLearner(approximator::Tapp, γ::Float64, optimizer::Float64; n::Int=0) where {Tapp<:AbstractVApproximator}
-    TDLearner(approximator::Tapp, γ::Float64, optimizer::Float64; n::Int=0, method::Symbol=:SARSA) where {Tapp<:AbstractQApproximator} 
+    TDLearner(approximator::Tapp, γ::Float64, optimizer::Float64; n::Int=0, method::Symbol=:SARSA) where {Tapp<:AbstractApproximator} 
 
 The `TDLearner`(Temporal Difference Learner) use the latest `n` step experiences to update the `approximator`.
 
@@ -49,7 +49,6 @@ end
 (learner::TDLearner)(obs) = learner.approximator(get_state(obs))
 (learner::TDLearner)(obs, a) = learner.approximator(get_state(s), a)
 
-RLBase.update!(learner::TDLearner, ::Nothing) = nothing
 RLBase.update!(learner::TDLearner{T, M}, experience) where {T, M} = update!(learner, ApproximatorStyle(learner.approximator), Val(M), experience)
 
 function RLBase.update!(
