@@ -51,8 +51,8 @@ SamplingStyle(::MonteCarloLearner{T,A,R,S}) where {T,A,R,S} = S
 
 RLBase.ApproximatorStyle(m::MonteCarloLearner) = ApproximatorStyle(m.approximator)
 
-(learner::MonteCarloLearner)(obs) = learner.approximator(get_state(obs))
-(learner::MonteCarloLearner)(obs, a) = learner.approximator(get_state(s), a)
+(learner::MonteCarloLearner)(obs) = learner.approximator(obs)
+(learner::MonteCarloLearner)(obs, a) = learner.approximator(s, a)
 
 RLBase.update!(learner::MonteCarloLearner, experience) = update!(learner, VisitStyle(learner), ApproximatorStyle(learner), SamplingStyle(learner), experience)
 

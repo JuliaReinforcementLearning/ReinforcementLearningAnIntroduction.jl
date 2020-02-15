@@ -480,7 +480,7 @@ deps = ["InteractiveUtils", "Markdown", "Sockets"]
 uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
 
 [[RLIntro]]
-deps = ["DataStructures", "Distributions", "Flux", "MacroTools", "Plots", "Random", "ReinforcementLearningBase", "ReinforcementLearningCore", "SparseArrays", "StatsBase", "StatsPlots"]
+deps = ["DataStructures", "Distributions", "Flux", "LinearAlgebra", "MacroTools", "Plots", "Random", "ReinforcementLearningBase", "ReinforcementLearningCore", "SparseArrays", "StatsBase", "StatsPlots"]
 path = ".."
 uuid = "02c1da58-b9a1-11e8-0212-f9611b8fe936"
 version = "0.2.0"

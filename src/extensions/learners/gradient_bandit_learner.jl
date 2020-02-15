@@ -11,7 +11,7 @@ Base.@kwdef mutable struct GradientBanditLearner{A,O,B} <: AbstractLearner
     baseline::B
 end
 
-(learner::GradientBanditLearner)(obs) = obs |> get_state |> learner.approximator |> softmax
+(learner::GradientBanditLearner)(s::Int) = s |> learner.approximator |> softmax
 
 RLBase.update!(learner::GradientBanditLearner, ::Nothing) = nothing
 

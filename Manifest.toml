@@ -112,9 +112,9 @@ version = "0.5.1"
 
 [[CuArrays]]
 deps = ["AbstractFFTs", "Adapt", "CEnum", "CUDAapi", "CUDAdrv", "CUDAnative", "DataStructures", "GPUArrays", "Libdl", "LinearAlgebra", "MacroTools", "NNlib", "Printf", "Random", "Requires", "SparseArrays", "TimerOutputs"]
-git-tree-sha1 = "9aac17f7e09017107c84ed2657f462e86b1d56b3"
+git-tree-sha1 = "7c20c5a45bb245cf248f454d26966ea70255b271"
 uuid = "3a865a2d-5b23-5a0f-bc46-62713ec82fae"
-version = "1.7.1"
+version = "1.7.2"
 
 [[DataAPI]]
 git-tree-sha1 = "674b67f344687a88310213ddfa8a2b3c76cc4252"
@@ -494,7 +494,7 @@ uuid = "189a3867-3050-52da-a836-e630ba90ab69"
 version = "0.2.0"
 
 [[ReinforcementLearningBase]]
-deps = ["Random"]
+deps = ["Distributions", "Random"]
 path = "/home/tj/workspace/github/ReinforcementLearningBase.jl/"
 uuid = "e575027e-6cd6-5018-9292-cdc6200d2b44"
 version = "0.5.0"
@@ -592,9 +592,9 @@ version = "1.0.0"
 
 [[Tables]]
 deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "LinearAlgebra", "TableTraits", "Test"]
-git-tree-sha1 = "aaed7b3b00248ff6a794375ad6adf30f30ca5591"
+git-tree-sha1 = "22eea0f6619df63954b9404c8d47cd42c5d529f9"
 uuid = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
-version = "0.2.11"
+version = "1.0.1"
 
 [[Test]]
 deps = ["Distributed", "InteractiveUtils", "Logging", "Random"]
