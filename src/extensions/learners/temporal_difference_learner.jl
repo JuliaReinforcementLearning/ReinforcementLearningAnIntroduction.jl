@@ -98,12 +98,12 @@ function RLBase.extract_experience(
     # !!! n starts with 0
     if N > 0
         (
-            states = select_last_dim(get_trace(t, :state), N-n:N),
-            actions = select_last_dim(get_trace(t, :action), N-n:N),
-            rewards = select_last_dim(get_trace(t, :reward), N-n:N),
-            terminals = select_last_dim(get_trace(t, :terminal), N-n:N),
-            next_states = select_last_dim(get_trace(t, :next_state), N-n:N),
-            next_actions = select_last_dim(get_trace(t, :next_action), N-n:N),
+            states = select_last_dim(get_trace(t, :state), max(1, N-n):N),
+            actions = select_last_dim(get_trace(t, :action), max(1, N-n):N),
+            rewards = select_last_dim(get_trace(t, :reward), max(1, N-n):N),
+            terminals = select_last_dim(get_trace(t, :terminal), max(1, N-n):N),
+            next_states = select_last_dim(get_trace(t, :next_state), max(1, N-n):N),
+            next_actions = select_last_dim(get_trace(t, :next_action), max(1, N-n):N),
         )
     else
         nothing
@@ -147,11 +147,11 @@ function RLBase.extract_experience(
         # !!! n starts with 0
         n, N = policy.learner.n, length(t)
         (
-            states = select_last_dim(get_trace(t, :state), N-n:N),
-            actions = select_last_dim(get_trace(t, :action), N-n:N),
-            rewards = select_last_dim(get_trace(t, :reward), N-n:N),
-            terminals = select_last_dim(get_trace(t, :terminal), N-n:N),
-            next_states = select_last_dim(get_trace(t, :next_state), N-n:N),
+            states = select_last_dim(get_trace(t, :state), max(1, N-n):N),
+            actions = select_last_dim(get_trace(t, :action), max(1, N-n):N),
+            rewards = select_last_dim(get_trace(t, :reward), max(1, N-n):N),
+            terminals = select_last_dim(get_trace(t, :terminal), max(1, N-n):N),
+            next_states = select_last_dim(get_trace(t, :next_state), max(1, N-n):N),
             prob_of_next_actions = pdf(get_prob(policy, select_last_frame(get_trace(t, :next_state))))
         )
     else
@@ -197,11 +197,11 @@ function RLBase.extract_experience(
     n, N = learner.n, length(t)
     if length(t) > 0
         (
-            states = select_last_dim(get_trace(t, :state), N-n:N),
-            actions = select_last_dim(get_trace(t, :action), N-n:N),
-            rewards = select_last_dim(get_trace(t, :reward), N-n:N),
-            terminals = select_last_dim(get_trace(t, :terminal), N-n:N),
-            next_states = select_last_dim(get_trace(t, :next_state), N-n:N),
+            states = select_last_dim(get_trace(t, :state), max(1, N-n):N),
+            actions = select_last_dim(get_trace(t, :action), max(1, N-n):N),
+            rewards = select_last_dim(get_trace(t, :reward), max(1, N-n):N),
+            terminals = select_last_dim(get_trace(t, :terminal), max(1, N-n):N),
+            next_states = select_last_dim(get_trace(t, :next_state), max(1, N-n):N),
         )
     else
         nothing
@@ -297,10 +297,10 @@ function RLBase.extract_experience(
     n, N = learner.n, length(t)
     if length(t) > 0
         (
-            states = select_last_dim(get_trace(t, :state), N-n:N),
-            rewards = select_last_dim(get_trace(t, :reward), N-n:N),
-            terminals = select_last_dim(get_trace(t, :terminal), N-n:N),
-            next_states = select_last_dim(get_trace(t, :next_state), N-n:N),
+            states = select_last_dim(get_trace(t, :state), max(1, N-n):N),
+            rewards = select_last_dim(get_trace(t, :reward), max(1, N-n):N),
+            terminals = select_last_dim(get_trace(t, :terminal), max(1, N-n):N),
+            next_states = select_last_dim(get_trace(t, :next_state), max(1, N-n):N),
         )
     else
         nothing
@@ -318,7 +318,7 @@ function RLBase.extract_experience(
         n, N = π.π_target.learner.n, length(buffer)
         (
             states = transitions.states,
-            actions = select_last_dim(get_trace(t, :action), N-n:N),
+            actions = select_last_dim(get_trace(t, :action), max(1, N-n):N),
             rewards = transitions.rewards,
             terminals = transitions.terminals,
             next_states = transitions.next_states,
