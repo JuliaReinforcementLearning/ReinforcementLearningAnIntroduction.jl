@@ -208,6 +208,88 @@ function RLBase.extract_experience(
     end
 end
 
+function RLBase.update!(
+    learner::TDLearner{<:AbstractApproximator,:SARS},
+    model::Union{TimeBasedSampleModel,ExperienceBasedSampleModel},
+    t::AbstractTrajectory,
+    plan_step::Int,
+)
+    @assert learner.n == 0 "n must be 0 here"
+    for _ = 1:plan_step
+        transitions = extract_experience(model, learner)
+        if !isnothing(transitions)
+            update!(learner, transitions)
+        end
+    end
+end
+
+function RLBase.extract_experience(
+    model::Union{ExperienceBasedSampleModel,TimeBasedSampleModel},
+    learner::TDLearner{<:AbstractApproximator,:SARS},
+)
+    if length(model.experiences) > 0
+        s = sample(model)
+        (
+            states = [s[1]],
+            actions = [s[2]],
+            rewards = [s[3]],
+            terminals = [s[4]],
+            next_states = [s[5]],
+        )
+    else
+        nothing
+    end
+end
+
+function RLBase.get_priority(learner::TDLearner{<:AbstractApproximator,:SARS}, transition::Tuple)
+    s, a, r, d, s′ = transition
+    γ, Q, opt = learner.γ, learner.approximator, learner.optimizer
+    error = d ? apply!(opt, (s, a), r - Q(s, a)) :
+            apply!(opt, (s, a), r + γ^(learner.n + 1) * maximum(Q(s′)) - Q(s, a))
+    abs(error)
+end
+
+function RLBase.update!(
+    learner::TDLearner{<:AbstractApproximator,:SARS},
+    model::PrioritizedSweepingSampleModel,
+    t::AbstractTrajectory,
+    plan_step::Int,
+)
+    for _ = 1:plan_step
+        # @assert learner.n == 0 "n must be 0 here"
+        transitions = extract_experience(model, learner)
+        if !isnothing(transitions)
+            update!(learner, transitions)
+            s, _, _, _, _ = transitions
+            s = s[]  # length(s) is assumed to be 1
+            for (s̄, ā, r̄, d̄) in model.predecessors[s]
+                P = get_priority(learner, (s̄, ā, r̄, d̄, s))
+                if P ≥ model.θ
+                    model.PQueue[(s̄, ā)] = P
+                end
+            end
+        end
+    end
+end
+
+function RLBase.extract_experience(
+    model::PrioritizedSweepingSampleModel,
+    learner::TDLearner{<:AbstractApproximator,:SARS},
+)
+    if length(model.PQueue) > 0
+        s = sample(model)
+        (
+            states = [s[1]],
+            actions = [s[2]],
+            rewards = [s[3]],
+            terminals = [s[4]],
+            next_states = [s[5]],
+        )
+    else
+        nothing
+    end
+end
+
 #####
 # SARS DoubleLearner
 #####

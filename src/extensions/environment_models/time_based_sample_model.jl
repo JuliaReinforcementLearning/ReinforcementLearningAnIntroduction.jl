@@ -30,7 +30,7 @@ mutable struct TimeBasedSampleModel <: AbstractEnvironmentModel
         )
 end
 
-function extract_transitions(t::AbstractTrajectory, m::TimeBasedSampleModel)
+function RLBase.extract_experience(t::AbstractTrajectory, m::TimeBasedSampleModel)
     if length(t) > 0
         get_trace(t, :state)[end],
         get_trace(t, :action)[end],

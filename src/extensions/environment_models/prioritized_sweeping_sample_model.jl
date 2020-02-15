@@ -40,8 +40,13 @@ function RLBase.extract_experience(
     end
 end
 
-function RLBase.update!(m::PrioritizedSweepingSampleModel, transition, P)
-    s, a, r, d, s′ = transition
+function RLBase.update!(m::PrioritizedSweepingSampleModel, t::AbstractTrajectory, p::AbstractPolicy)
+    experience = extract_experience(t, m)
+    isnothing(experience) || update!(m, (experience..., get_priority(p, experience)))
+end
+
+function RLBase.update!(m::PrioritizedSweepingSampleModel, transition::Tuple)
+    s, a, r, d, s′, P = transition
     m.experiences[(s, a)] = (r, d, s′)
     if P >= m.θ
         m.PQueue[(s, a)] = P
