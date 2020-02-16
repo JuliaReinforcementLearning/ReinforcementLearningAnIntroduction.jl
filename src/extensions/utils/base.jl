@@ -60,3 +60,4 @@ end
 discount_rewards(rewards, γ) = discount_rewards!(similar(rewards), rewards, γ)
 
 discount_rewards_reduced(rewards, γ) = foldr((r, g) -> r + γ * g, rewards)
+
