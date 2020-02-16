@@ -407,3 +407,53 @@ function RLBase.extract_experience(
         )
     end
 end
+
+#####
+# DifferentialTDLearner
+#####
+
+"""
+    DifferentialTDLearner(;approximator::A, α::Float64, β::Float64, R̄::Float64 = 0.0, n::Int = 0)
+"""
+Base.@kwdef mutable struct DifferentialTDLearner{A<:AbstractApproximator} <: AbstractLearner
+    approximator::A
+    α::Float64
+    β::Float64
+    R̄::Float64 = 0.0
+    n::Int = 0
+end
+
+(learner::DifferentialTDLearner)(obs) = learner.approximator(obs)
+(learner::DifferentialTDLearner)(obs, a) = learner.approximator(s, a)
+
+function RLBase.update!(learner::DifferentialTDLearner, transition)
+    states, actions, rewards, terminals, next_states, next_actions = transition
+    n, α, β, Q = learner.n, learner.α, learner.β, learner.approximator
+    if length(states) ≥ n + 1
+        s, a = states[1], actions[1]
+        s′, a′ = next_states[end], next_actions[end]
+        δ = sum(r -> r - learner.R̄, rewards) + Q(s′, a′) - Q(s, a)
+        learner.R̄ += β * δ
+        update!(Q, (s, a) => α * δ)
+    end
+end
+
+function RLBase.extract_experience(
+    t::AbstractTrajectory,
+    learner::DifferentialTDLearner,
+)
+    n, N = learner.n, length(t)
+    # !!! n starts with 0
+    if N > 0
+        (
+            states = select_last_dim(get_trace(t, :state), max(1, N-n):N),
+            actions = select_last_dim(get_trace(t, :action), max(1, N-n):N),
+            rewards = select_last_dim(get_trace(t, :reward), max(1, N-n):N),
+            terminals = select_last_dim(get_trace(t, :terminal), max(1, N-n):N),
+            next_states = select_last_dim(get_trace(t, :next_state), max(1, N-n):N),
+            next_actions = select_last_dim(get_trace(t, :next_action), max(1, N-n):N),
+        )
+    else
+        nothing
+    end
+end
