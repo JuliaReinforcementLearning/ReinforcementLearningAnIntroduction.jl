@@ -50,7 +50,7 @@ mutable struct TDLearner{Tapp<:AbstractApproximator,method,O} <: AbstractLearner
 end
 
 (learner::TDLearner)(obs) = learner.approximator(obs)
-(learner::TDLearner)(obs, a) = learner.approximator(s, a)
+(learner::TDLearner)(obs, a) = learner.approximator(obs, a)
 
 RLBase.update!(learner::TDLearner{T, M}, experience) where {T, M} = update!(learner, ApproximatorStyle(learner.approximator), Val(M), experience)
 
@@ -337,15 +337,25 @@ RLBase.update!(
     ::VApproximator,
     ::Val{:SRS},
     transitions::NamedTuple{(:states, :rewards, :terminals, :next_states)}
-) = update!(learner, merge(transitions, (weights=nothing,)))
+) = update!(
+    learner,
+    (
+        states = transitions.states,
+        actions = nothing,
+        rewards = transitions.rewards,
+        terminals = transitions.terminals,
+        next_states = transitions.next_states,
+        weights = nothing
+    )
+)
 
 function RLBase.update!(
     learner::TDLearner,
     ::VApproximator,
     ::Val{:SRS},
-    transitions::NamedTuple{(:states, :rewards, :terminals, :next_states, :weights)}
+    transitions::NamedTuple{(:states, :actions, :rewards, :terminals, :next_states, :weights)}
 )
-    states, rewards, terminals, next_states, weights = transitions
+    states, actions, rewards, terminals, next_states, weights = transitions
     n, γ, V, optimizer = learner.n, learner.γ, learner.approximator, learner.optimizer
 
     if length(terminals) > 0 && terminals[end]
@@ -390,14 +400,14 @@ function RLBase.extract_experience(
 end
 
 function RLBase.extract_experience(
-    buffer::AbstractTrajectory,
+    t::AbstractTrajectory,
     π::OffPolicy{<:VBasedPolicy{<:TDLearner{<:AbstractApproximator,:SRS}}},
 )
-    transitions = extract_experience(buffer, π.π_target.learner)
+    transitions = extract_experience(t, π.π_target.value_learner)
     if isnothing(transitions)
         nothing
     else
-        n, N = π.π_target.learner.n, length(buffer)
+        n, N = π.π_target.value_learner.n, length(t)
         (
             states = transitions.states,
             actions = select_last_dim(get_trace(t, :action), max(1, N-n):N),
@@ -424,7 +434,7 @@ Base.@kwdef mutable struct DifferentialTDLearner{A<:AbstractApproximator} <: Abs
 end
 
 (learner::DifferentialTDLearner)(obs) = learner.approximator(obs)
-(learner::DifferentialTDLearner)(obs, a) = learner.approximator(s, a)
+(learner::DifferentialTDLearner)(obs, a) = learner.approximator(obs, a)
 
 function RLBase.update!(learner::DifferentialTDLearner, transition)
     states, actions, rewards, terminals, next_states, next_actions = transition
@@ -455,5 +465,57 @@ function RLBase.extract_experience(
         )
     else
         nothing
+    end
+end
+
+#####
+# TDλReturnLearner
+#####
+"""
+    TDλReturnLearner(;approximator::Tapp, γ::Float64 = 1.0, α::Float64, λ::Float64)
+"""
+Base.@kwdef struct TDλReturnLearner{Tapp<:AbstractApproximator} <: AbstractLearner
+    approximator::Tapp
+    γ::Float64 = 1.0
+    α::Float64
+    λ::Float64
+end
+
+(learner::TDλReturnLearner)(obs) = learner.approximator(obs)
+(learner::TDλReturnLearner)(obs, a) = learner.approximator(obs, a)
+
+function RLBase.extract_experience(
+    t::AbstractTrajectory,
+    learner::TDλReturnLearner{<:AbstractApproximator},
+)
+    if length(t) > 0 && get_trace(t, :terminal)[end]
+        (
+            states = get_trace(t, :state),
+            rewards = get_trace(t, :reward),
+            terminals = get_trace(t, :terminal),
+            next_states = get_trace(t, :next_state),
+        )
+    else
+        nothing
+    end
+end
+
+function RLBase.update!(learner::TDλReturnLearner, transition)
+    λ, γ, V, α = learner.λ, learner.γ, learner.approximator, learner.α
+    states, rewards, terminals, next_states = transition
+    T = length(states)
+    for t = 1:T
+        G = 0.0
+        for n = 1:(T-t)
+            G += λ^(n - 1) *
+                 (discount_rewards_reduced(@view(rewards[t:t+n-1]), γ) +
+                  γ^n * V(next_states[t+n-1]))
+        end
+        G *= 1 - λ
+        G += λ^(T - t) *
+             (discount_rewards_reduced(@view(rewards[t:T]), γ) +
+              γ^(T - t + 1) * V(next_states[T]))
+        sₜ = states[t]
+        update!(V, sₜ => α * (G - V(sₜ)))
     end
 end
