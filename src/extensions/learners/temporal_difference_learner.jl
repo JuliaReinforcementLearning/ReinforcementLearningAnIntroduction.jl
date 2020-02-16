@@ -403,11 +403,11 @@ function RLBase.extract_experience(
     t::AbstractTrajectory,
     π::OffPolicy{<:VBasedPolicy{<:TDLearner{<:AbstractApproximator,:SRS}}},
 )
-    transitions = extract_experience(t, π.π_target.value_learner)
+    transitions = extract_experience(t, π.π_target.learner)
     if isnothing(transitions)
         nothing
     else
-        n, N = π.π_target.value_learner.n, length(t)
+        n, N = π.π_target.learner.n, length(t)
         (
             states = transitions.states,
             actions = select_last_dim(get_trace(t, :action), max(1, N-n):N),

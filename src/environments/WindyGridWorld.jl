@@ -1,8 +1,8 @@
-module WindyGridWorld
+@reexport module WindyGridWorld
 
 export WindyGridWorldEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 const NX = 7
 const NY = 10

@@ -1,8 +1,8 @@
-module AccessControl
+@reexport module AccessControl
 
 export AccessControlEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 
 using Distributions

@@ -1,8 +1,8 @@
-module Maze
+@reexport module Maze
 
 export MazeEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 import Base: *
 

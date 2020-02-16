@@ -1,8 +1,8 @@
-module MultiArmBandits
+@reexport module MultiArmBandits
 
 export MultiArmBanditsEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 
 mutable struct MultiArmBanditsEnv <: AbstractEnv

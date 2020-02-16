@@ -1,8 +1,8 @@
-module CliffWalking
+@reexport module CliffWalking
 
 export CliffWalkingEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 
 const NX = 4

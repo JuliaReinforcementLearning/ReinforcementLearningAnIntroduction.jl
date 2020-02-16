@@ -1,8 +1,8 @@
-module BairdCounter
+@reexport module BairdCounter
 
 export BairdCounterEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 const ACTIONS = (:dashed, :solid)
 

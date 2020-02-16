@@ -59,7 +59,11 @@ RLBase.update!(learner::MonteCarloLearner, experience) = update!(learner, VisitS
 function RLBase.extract_experience(t::AbstractTrajectory, learner::MonteCarloLearner)
     # only extract & update at the end of an episode
     if length(t) > 0 && get_trace(t, :terminal)[end]
-        get_trace(t, :state, :action, :reward)
+        (
+            states=get_trace(t, :state),
+            actions = get_trace(t, :action),
+            rewards = get_trace(t, :reward),
+        )
     else
         nothing
     end
@@ -70,9 +74,9 @@ function RLBase.update!(
     ::Type{FirstVisit},
     ::VApproximator,
     ::Type{NoSampling},
-    transitions::NamedTuple{(:state, :action, :reward)},
+    transitions::NamedTuple{(:states, :actions, :rewards)},
 )
-    states, rewards = transitions.state, transitions.reward
+    states, rewards = transitions.states, transitions.rewards
     V, γ, α, Returns, G, T = learner.approximator,
         learner.γ,
         learner.α,
@@ -98,9 +102,9 @@ function RLBase.update!(
     ::Type{FirstVisit},
     ::VApproximator,
     ::Type{OrdinaryImportanceSampling},
-    transitions::NamedTuple{(:state, :action, :reward, :weights)},
+    transitions::NamedTuple{(:states, :actions, :rewards, :weights)},
 )
-    states, rewards, weights = transitions.state, transitions.reward, transitions.weights
+    states, rewards, weights = transitions.states, transitions.rewards, transitions.weights
     V, γ, α, Returns, G, ρ, T = learner.approximator,
         learner.γ,
         learner.α,
@@ -128,9 +132,9 @@ function RLBase.update!(
     ::Type{FirstVisit},
     ::VApproximator,
     ::Type{WeightedImportanceSampling},
-    transitions::NamedTuple{(:state, :action, :reward, :weights)},
+    transitions::NamedTuple{(:states, :actions, :rewards, :weights)},
 )
-    states, rewards, weights = transitions.state, transitions.reward, transitions.weights
+    states, rewards, weights = transitions.states, transitions.rewards, transitions.weights
     V, γ, α, (G_cached, ρ_cached), G, ρ, T = learner.approximator,
         learner.γ,
         learner.α,
@@ -161,9 +165,9 @@ function RLBase.update!(
     ::Type{EveryVisit},
     ::VApproximator,
     ::Type{NoSampling},
-    transitions::NamedTuple{(:state, :action, :reward)},
+    transitions::NamedTuple{(:states, :actions, :rewards)},
 )
-    states, rewards = transitions.state, transitions.reward
+    states, rewards = transitions.states, transitions.rewards
     α, γ, V, Returns, G = learner.α, learner.γ, learner.approximator, learner.returns, 0.0
     for (s, r) in Iterators.reverse(zip(states, rewards))
         G = γ * G + r
@@ -176,9 +180,9 @@ function RLBase.update!(
     ::Type{FirstVisit},
     ::QApproximator,
     ::Type{NoSampling},
-    transitions::NamedTuple{(:state, :action, :reward)},
+    transitions::NamedTuple{(:states, :actions, :rewards)},
 )
-    states, actions, rewards = transitions.state, transitions.action, transitions.reward
+    states, actions, rewards = transitions
     α, γ, Q, Returns, G, T = learner.α,
         learner.γ,
         learner.approximator,
@@ -205,9 +209,9 @@ function RLBase.update!(
     ::Type{EveryVisit},
     ::QApproximator,
     ::Type{NoSampling},
-    transitions::NamedTuple{(:state, :action, :reward)},
+    transitions::NamedTuple{(:states, :actions, :rewards)},
 )
-    states, actions, rewards = transitions.state, transitions.action, transitions.reward
+    states, actions, rewards = transitions
     α, γ, Q, Returns, G = learner.α, learner.γ, learner.approximator, learner.returns, 0.0
     for (s, a, r) in Iterators.reverse(zip(states, actions, rewards))
         G = γ * G + r

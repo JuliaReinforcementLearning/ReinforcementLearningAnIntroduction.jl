@@ -1,8 +1,8 @@
-module BlackJack
+@reexport module BlackJack
 
 export BlackJackEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 using Random
 
 const ACTIONS = [:hit, :stick]

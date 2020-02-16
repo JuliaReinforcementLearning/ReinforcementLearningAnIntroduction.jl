@@ -1,8 +1,8 @@
-module TicTacToe
+@reexport module TicTacToe
 
 export TicTacToeEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 
 const REWARD_LOSE = 0.0

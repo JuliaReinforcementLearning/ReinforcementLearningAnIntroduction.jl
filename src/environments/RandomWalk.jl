@@ -1,8 +1,8 @@
-module RandomWalk
+@reexport module RandomWalk
 
 export RandomWalkEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 
 

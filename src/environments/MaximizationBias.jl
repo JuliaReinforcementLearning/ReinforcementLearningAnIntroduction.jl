@@ -1,8 +1,8 @@
-module MaximizationBias
+@reexport module MaximizationBias
 
 export MaximizationBiasEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 
 """

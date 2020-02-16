@@ -1,8 +1,8 @@
-module MountainCar
+@reexport module MountainCar
 
 export MountainCarEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 
 const ACTIONS = [-1, 0, 1]

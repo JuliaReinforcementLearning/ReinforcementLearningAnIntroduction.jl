@@ -1,8 +1,8 @@
-module LeftRight
+@reexport module LeftRight
 
 export LeftRightEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 
 using StatsBase

@@ -1,8 +1,8 @@
-module BranchMDP
+@reexport module BranchMDP
 
 export BranchMDPEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 mutable struct BranchMDPEnv <: AbstractEnv
     transition::Array{Int,3}

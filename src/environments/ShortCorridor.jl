@@ -1,8 +1,8 @@
-module ShortCorridor
+@reexport module ShortCorridor
 
 export ShortCorridorEnv
 
-using ReinforcementLearningCore
+using ReinforcementLearningBase
 
 
 Base.@kwdef mutable struct ShortCorridorEnv <: AbstractEnv
