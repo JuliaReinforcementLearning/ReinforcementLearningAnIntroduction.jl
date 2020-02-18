@@ -1,9 +1,9 @@
-module Maze
+@reexport module Maze
 
-export MazeEnv, reset!, observe, interact!
+export MazeEnv
 
-using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments: reset!, observe, interact!
+using ReinforcementLearningBase
+
 import Base: *
 
 const Actions = [
@@ -25,6 +25,9 @@ mutable struct MazeEnv <: AbstractEnv
     MazeEnv(w, p, s, g, NX, NY) =
         new(w, p, s, g, NX, NY, DiscreteSpace(NX * NY), DiscreteSpace(length(Actions)))
 end
+
+RLBase.get_observation_space(env::MazeEnv) = env.observation_space
+RLBase.get_action_space(env::MazeEnv) = env.action_space
 
 function MazeEnv()
     walls = Set([
@@ -54,7 +57,7 @@ function *(env::MazeEnv, n::Int)
     MazeEnv(walls, position, start, goal, NX, NY)
 end
 
-function interact!(env::MazeEnv, a::Int)
+function (env::MazeEnv)(a::Int)
     p = env.position + Actions[a]
     if p == env.goal
         env.position = env.goal
@@ -64,14 +67,14 @@ function interact!(env::MazeEnv, a::Int)
     nothing
 end
 
-observe(env::MazeEnv) =
-    Observation(
+RLBase.observe(env::MazeEnv) =
+    (
         reward = Float64(env.position == env.goal),
         terminal = env.position == env.goal,
         state = (env.position[2] - 1) * env.NX + env.position[1],
     )
 
-function reset!(env::MazeEnv)
+function RLBase.reset!(env::MazeEnv)
     env.position = env.start
     nothing
 end

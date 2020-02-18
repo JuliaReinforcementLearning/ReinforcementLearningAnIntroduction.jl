@@ -1,9 +1,8 @@
-module WindyGridWorld
+@reexport module WindyGridWorld
 
-export WindyGridWorldEnv, reset!, observe, interact!, get_legal_actions
+export WindyGridWorldEnv
 
-using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments: reset!, observe, interact!, get_legal_actions
+using ReinforcementLearningBase
 
 const NX = 7
 const NY = 10
@@ -19,33 +18,28 @@ const Actions = [
 
 const LinearInds = LinearIndices((NX, NY))
 
-mutable struct WindyGridWorldEnv <: AbstractEnv
-    position::CartesianIndex{2}
-    observation_space::DiscreteSpace
-    action_space::DiscreteSpace
-    WindyGridWorldEnv() =
-        new(
-            StartPosition,
-            DiscreteSpace(length(LinearInds)),
-            DiscreteSpace(length(Actions)),
-        )
+Base.@kwdef mutable struct WindyGridWorldEnv <: AbstractEnv
+    position::CartesianIndex{2} = StartPosition
 end
 
-function interact!(env::WindyGridWorldEnv, a::Int)
+RLBase.get_observation_space(env::WindyGridWorldEnv) = DiscreteSpace(length(LinearInds))
+RLBase.get_action_space(env::WindyGridWorldEnv) = DiscreteSpace(length(Actions))
+
+function (env::WindyGridWorldEnv)(a::Int)
     p = env.position + Wind[env.position[2]] + Actions[a]
     p = CartesianIndex(min(max(p[1], 1), NX), min(max(p[2], 1), NY))
     env.position = p
     nothing
 end
 
-observe(env::WindyGridWorldEnv) =
-    Observation(
+RLBase.observe(env::WindyGridWorldEnv) =
+    (
         state = LinearInds[env.position],
         terminal = env.position == Goal,
         reward = env.position == Goal ? 0.0 : -1.0,
     )
 
-function reset!(env::WindyGridWorldEnv)
+function RLBase.reset!(env::WindyGridWorldEnv)
     env.position = StartPosition
     nothing
 end

@@ -1,10 +1,8 @@
-module BlackJack
+@reexport module BlackJack
 
-export BlackJackEnv, reset!, observe, interact!
+export BlackJackEnv
 
-using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments: reset!, observe, interact!
-
+using ReinforcementLearningBase
 using Random
 
 const ACTIONS = [:hit, :stick]
@@ -48,9 +46,10 @@ mutable struct BlackJackEnv <: AbstractEnv
     reward::Float64
     is_exploring_start::Bool
     init::Union{Nothing,Tuple{Hands,Hands}}
-    observation_space::DiscreteSpace
-    action_space::DiscreteSpace
 end
+
+RLBase.get_observation_space(env::BlackJackEnv) = DiscreteSpace(length(INDS))
+RLBase.get_action_space(env::BlackJackEnv) = DiscreteSpace(2)
 
 function BlackJackEnv(; is_exploring_start = false, init = nothing)
     env = BlackJackEnv(
@@ -60,8 +59,6 @@ function BlackJackEnv(; is_exploring_start = false, init = nothing)
         0.0,
         is_exploring_start,
         init,
-        DiscreteSpace(length(INDS)),
-        DiscreteSpace(2),
     )
     init_hands!(env)
     env
@@ -87,7 +84,7 @@ function init_hands!(env::BlackJackEnv)
     env.player_hands, env.dealer_hands = player_hands, dealer_hands
 end
 
-function interact!(env::BlackJackEnv, a::Int)
+function (env::BlackJackEnv)(a::Int)
     if ACTIONS[a] == :hit
         push!(env.player_hands, deal_card())
         if is_busted(env.player_hands)
@@ -117,7 +114,7 @@ function interact!(env::BlackJackEnv, a::Int)
     nothing
 end
 
-function reset!(env::BlackJackEnv)
+function RLBase.reset!(env::BlackJackEnv)
     env.is_end = false
     env.reward = 0.0
 
@@ -133,7 +130,7 @@ encode(env) =
         2 <= env.dealer_hands.sum <= 10 ? env.dealer_hands.sum : 1,
     ]
 
-observe(env::BlackJackEnv) =
-    Observation(reward = env.reward, terminal = env.is_end, state = encode(env))
+RLBase.observe(env::BlackJackEnv) =
+    (reward = env.reward, terminal = env.is_end, state = encode(env))
 
 end

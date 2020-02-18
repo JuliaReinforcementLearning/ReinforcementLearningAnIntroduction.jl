@@ -1,9 +1,9 @@
-module MultiArmBandits
+@reexport module MultiArmBandits
 
-export MultiArmBanditsEnv, reset!, observe, interact!
+export MultiArmBanditsEnv
 
-using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments: reset!, observe, interact!
+using ReinforcementLearningBase
+
 
 mutable struct MultiArmBanditsEnv <: AbstractEnv
     truevalues::Vector{Float64}
@@ -31,19 +31,22 @@ end
 
 ## interfaces
 
-function reset!(env::MultiArmBanditsEnv)
+RLBase.get_observation_space(env::MultiArmBanditsEnv) = env.observation_space
+RLBase.get_action_space(env::MultiArmBanditsEnv) = env.action_space
+
+function RLBase.reset!(env::MultiArmBanditsEnv)
     env.isbest = false
     nothing
 end
 
-function interact!(env::MultiArmBanditsEnv, a::Int)
+function (env::MultiArmBanditsEnv)(a::Int)
     env.isbest = a == env.bestaction
     env.reward = randn() + env.truevalues[a]
     env.isdone = true
     nothing
 end
 
-observe(env::MultiArmBanditsEnv) =
-    Observation(state = 1, terminal = env.isdone, reward = env.reward)
+RLBase.observe(env::MultiArmBanditsEnv) =
+    (state = 1, terminal = env.isdone, reward = env.reward)
 
 end

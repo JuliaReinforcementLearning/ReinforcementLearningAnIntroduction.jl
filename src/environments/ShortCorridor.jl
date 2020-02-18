@@ -1,18 +1,18 @@
-module ShortCorridor
+@reexport module ShortCorridor
 
-export ShortCorridorEnv, reset!, observe, interact!
+export ShortCorridorEnv
 
-using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments: reset!, observe, interact!
+using ReinforcementLearningBase
 
-mutable struct ShortCorridorEnv <: AbstractEnv
-    position::Int
-    observation_space::DiscreteSpace
-    action_space::DiscreteSpace
-    ShortCorridorEnv() = new(1, DiscreteSpace(4), DiscreteSpace(2))
+
+Base.@kwdef mutable struct ShortCorridorEnv <: AbstractEnv
+    position::Int = 1
 end
 
-function interact!(env::ShortCorridorEnv, a)
+RLBase.get_observation_space(env::ShortCorridorEnv) = DiscreteSpace(4)
+RLBase.get_action_space(env::ShortCorridorEnv) = DiscreteSpace(2)
+
+function (env::ShortCorridorEnv)(a)
     if env.position == 1 && a == 2
         env.position += 1
     elseif env.position == 2
@@ -23,13 +23,13 @@ function interact!(env::ShortCorridorEnv, a)
     nothing
 end
 
-function reset!(env::ShortCorridorEnv)
+function RLBase.reset!(env::ShortCorridorEnv)
     env.position = 1
     nothing
 end
 
-observe(env::ShortCorridorEnv) =
-    Observation(
+RLBase.observe(env::ShortCorridorEnv) =
+    (
         state = env.position,
         terminal = env.position == 4,
         reward = env.position == 4 ? 0.0 : -1.0,

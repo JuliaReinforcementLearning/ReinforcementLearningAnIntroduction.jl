@@ -1,20 +1,19 @@
-module BairdCounter
+@reexport module BairdCounter
 
-export BairdCounterEnv, reset!, observe, interact!
+export BairdCounterEnv
 
-using ReinforcementLearningEnvironments
-import ReinforcementLearningEnvironments: reset!, observe, interact!
+using ReinforcementLearningBase
 
 const ACTIONS = (:dashed, :solid)
 
-mutable struct BairdCounterEnv <: AbstractEnv
-    current::Int
-    observation_space::DiscreteSpace
-    action_space::DiscreteSpace
-    BairdCounterEnv() = new(rand(1:7), DiscreteSpace(7), DiscreteSpace(length(ACTIONS)))
+Base.@kwdef mutable struct BairdCounterEnv <: AbstractEnv
+    current::Int = rand(1:7)
 end
 
-function interact!(env::BairdCounterEnv, a)
+RLBase.get_observation_space(env::BairdCounterEnv) = DiscreteSpace(7)
+RLBase.get_action_space(env::BairdCounterEnv) = DiscreteSpace(length(ACTIONS))
+
+function (env::BairdCounterEnv)(a)
     if ACTIONS[a] == :dashed
         env.current = rand(1:6)
     else
@@ -23,10 +22,10 @@ function interact!(env::BairdCounterEnv, a)
     nothing
 end
 
-observe(env::BairdCounterEnv) =
-    Observation(reward = 0.0, terminal = false, state = env.current)
+RLBase.observe(env::BairdCounterEnv) =
+    (reward = 0.0, terminal = false, state = env.current)
 
-function reset!(env::BairdCounterEnv)
+function RLBase.reset!(env::BairdCounterEnv)
     env.current = rand(1:6)
     nothing
 end
