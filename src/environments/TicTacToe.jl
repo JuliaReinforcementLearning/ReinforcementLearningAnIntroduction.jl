@@ -1,4 +1,4 @@
-@reexport module TicTacToe
+module TicTacToe
 
 export TicTacToeEnv
 
