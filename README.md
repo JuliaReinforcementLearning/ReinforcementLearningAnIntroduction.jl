@@ -10,12 +10,11 @@
 
 <p align="center">
     <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl">
-  <img src="https://img.shields.io/badge/powered%20by-ReinforcementLearning.jl-brightgreen">
-  </a>
+        <img src="https://img.shields.io/badge/powered%20by-ReinforcementLearning.jl-brightgreen">
+    </a>
+    <a href="https://mybinder.org/v2/gh/JuliaReinforcementLearning/ReinforcementLearningAnIntroduction.jl/master">
+        <img src="https://mybinder.org/badge_logo.svg">
+    </a>
 </p>
 
-This repo contains most of the reinforcement learning environments referred in the book [Reinforcement Learning: An Introduction(2nd)](http://incompleteideas.net/book/the-book-2nd.html). You may also view the notebooks bellow for how to reproduce most of the figures on that book:
-
-- [View on Jupyter NBViewer](https://nbviewer.jupyter.org/github/JuliaReinforcementLearning/ReinforcementLearningAnIntroduction.jl/tree/master/notebooks/)
-- [View on Github](https://github.com/JuliaReinforcementLearning/ReinforcementLearningAnIntroduction.jl/tree/master/notebooks)
-
+This repo contains most of the reinforcement learning environments referred in the book [Reinforcement Learning: An Introduction(2nd)](http://incompleteideas.net/book/the-book-2nd.html). The code to generate those figures are in the `notebooks` folder. Try it interactively on [MyBinder](https://mybinder.org/v2/gh/JuliaReinforcementLearning/ReinforcementLearningAnIntroduction.jl/master) now! 
