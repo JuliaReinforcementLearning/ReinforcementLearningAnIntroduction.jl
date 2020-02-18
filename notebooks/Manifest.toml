@@ -501,15 +501,15 @@ version = "0.2.0"
 
 [[ReinforcementLearningBase]]
 deps = ["CUDAapi", "CuArrays", "Distributions", "MacroTools", "Random"]
-path = "../../ReinforcementLearningBase.jl"
+git-tree-sha1 = "2ab070473e34f942dcf99a88af754f285e0319d7"
 uuid = "e575027e-6cd6-5018-9292-cdc6200d2b44"
-version = "0.5.0"
+version = "0.6.0"
 
 [[ReinforcementLearningCore]]
 deps = ["Distributions", "MacroTools", "ProgressMeter", "Random", "ReinforcementLearningBase", "StatsBase"]
-path = "../../ReinforcementLearningCore"
+git-tree-sha1 = "f39edd08a6e35dc4dc5ef4402256ee49ab0d3733"
 uuid = "de1b191a-4ae0-4afa-a27b-92d07f46b2d6"
-version = "0.1.0"
+version = "0.2.0"
 
 [[Requires]]
 deps = ["UUIDs"]
@@ -570,9 +570,9 @@ uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [[StatsBase]]
 deps = ["DataAPI", "DataStructures", "LinearAlgebra", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics"]
-git-tree-sha1 = "c53e809e63fe5cf5de13632090bc3520649c9950"
+git-tree-sha1 = "be5c7d45daa449d12868f4466dbf5882242cf2d9"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-version = "0.32.0"
+version = "0.32.1"
 
 [[StatsFuns]]
 deps = ["Rmath", "SpecialFunctions"]
