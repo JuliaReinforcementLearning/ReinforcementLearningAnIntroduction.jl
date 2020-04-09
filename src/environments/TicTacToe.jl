@@ -1,3 +1,4 @@
+__precompile__(false)
 module TicTacToe
 
 export TicTacToeEnv
