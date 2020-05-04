@@ -49,12 +49,12 @@ mutable struct TDLearner{Tapp<:AbstractApproximator,method,O} <: AbstractLearner
     end
 end
 
-(learner::TDLearner)(obs) = learner.approximator(obs)
-(learner::TDLearner)(obs, a) = learner.approximator(obs, a)
+(learner::TDLearner)(obs) = learner.approximator(get_state(obs))
+(learner::TDLearner)(obs, a) = learner.approximator(get_state(obs))[a]
 
-RLBase.update!(learner::TDLearner{T, M}, experience) where {T, M} = update!(learner, ApproximatorStyle(learner.approximator), Val(M), experience)
+RLBase.update!(learner::TDLearner{T, M}, experience::NamedTuple) where {T, M} = update!(learner, ApproximatorStyle(learner.approximator), Val(M), experience)
 
-RLBase.extract_experience(t::AbstractTrajectory, learner::TDLearner{T, M}) where {T, M} = extract_experience(t, learner, ApproximatorStyle(learner.approximator), Val(M))
+RLCore.extract_experience(t::AbstractTrajectory, learner::TDLearner{T, M}) where {T, M} = extract_experience(t, learner, ApproximatorStyle(learner.approximator), Val(M))
 
 #####
 # SARSA
@@ -88,7 +88,7 @@ function RLBase.update!(
     end
 end
 
-function RLBase.extract_experience(
+function RLCore.extract_experience(
     t::AbstractTrajectory,
     learner::TDLearner,
     ::QApproximator,
@@ -139,7 +139,7 @@ function RLBase.update!(
     end
 end
 
-function RLBase.extract_experience(
+function RLCore.extract_experience(
     t::AbstractTrajectory,
     policy::QBasedPolicy{<:TDLearner{<:AbstractApproximator,:ExpectedSARSA}}
 )
@@ -188,7 +188,7 @@ function RLBase.update!(
     end
 end
 
-function RLBase.extract_experience(
+function RLCore.extract_experience(
     t::AbstractTrajectory,
     learner::TDLearner,
     ::QApproximator,
@@ -223,7 +223,7 @@ function RLBase.update!(
     end
 end
 
-function RLBase.extract_experience(
+function RLCore.extract_experience(
     model::Union{ExperienceBasedSampleModel,TimeBasedSampleModel},
     learner::TDLearner{<:AbstractApproximator,:SARS},
 )
@@ -272,7 +272,7 @@ function RLBase.update!(
     end
 end
 
-function RLBase.extract_experience(
+function RLCore.extract_experience(
     model::PrioritizedSweepingSampleModel,
     learner::TDLearner{<:AbstractApproximator,:SARS},
 )
@@ -380,7 +380,7 @@ function RLBase.update!(
     end
 end
 
-function RLBase.extract_experience(
+function RLCore.extract_experience(
     t::AbstractTrajectory,
     learner::TDLearner,
     ::VApproximator,
@@ -399,7 +399,7 @@ function RLBase.extract_experience(
     end
 end
 
-function RLBase.extract_experience(
+function RLCore.extract_experience(
     t::AbstractTrajectory,
     π::OffPolicy{<:VBasedPolicy{<:TDLearner{<:AbstractApproximator,:SRS}}},
 )
@@ -448,7 +448,7 @@ function RLBase.update!(learner::DifferentialTDLearner, transition)
     end
 end
 
-function RLBase.extract_experience(
+function RLCore.extract_experience(
     t::AbstractTrajectory,
     learner::DifferentialTDLearner,
 )
@@ -484,7 +484,7 @@ end
 (learner::TDλReturnLearner)(obs) = learner.approximator(obs)
 (learner::TDλReturnLearner)(obs, a) = learner.approximator(obs, a)
 
-function RLBase.extract_experience(
+function RLCore.extract_experience(
     t::AbstractTrajectory,
     learner::TDλReturnLearner{<:AbstractApproximator},
 )
