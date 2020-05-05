@@ -24,6 +24,6 @@ DoubleLearner(l1, l2; seed = nothing) = DoubleLearner(l1, l2, MersenneTwister(se
 RLCore.extract_experience(t::AbstractTrajectory, learner::DoubleLearner) =
     extract_experience(t, learner.L1)
 
-RLBase.update!(learner::DoubleLearner, experience) =
+RLBase.update!(learner::DoubleLearner, experience::NamedTuple) =
     rand(learner.rng, Bool) ? update!(learner.L1, experience) :
     update!(learner.L2, experience)

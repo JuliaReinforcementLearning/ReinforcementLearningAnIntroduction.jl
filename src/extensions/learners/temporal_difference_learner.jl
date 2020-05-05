@@ -1,4 +1,4 @@
-export TDLearner, DoubleLearner, DifferentialTDLearner, TDλReturnLearner
+export TDLearner, DifferentialTDLearner, TDλReturnLearner
 
 using LinearAlgebra:dot
 using Distributions:pdf
@@ -152,7 +152,7 @@ function RLCore.extract_experience(
             rewards = select_last_dim(get_trace(t, :reward), max(1, N-n):N),
             terminals = select_last_dim(get_trace(t, :terminal), max(1, N-n):N),
             next_states = select_last_dim(get_trace(t, :next_state), max(1, N-n):N),
-            prob_of_next_actions = pdf(get_prob(policy, select_last_frame(get_trace(t, :next_state))))
+            prob_of_next_actions = pdf(get_prob(policy, (state=select_last_frame(get_trace(t, :next_state)),)))
         )
     else
         nothing
@@ -433,10 +433,10 @@ Base.@kwdef mutable struct DifferentialTDLearner{A<:AbstractApproximator} <: Abs
     n::Int = 0
 end
 
-(learner::DifferentialTDLearner)(obs) = learner.approximator(obs)
-(learner::DifferentialTDLearner)(obs, a) = learner.approximator(obs, a)
+(learner::DifferentialTDLearner)(obs) = learner.approximator(get_state(obs))
+(learner::DifferentialTDLearner)(obs, a) = learner.approximator(get_state(obs), a)
 
-function RLBase.update!(learner::DifferentialTDLearner, transition)
+function RLBase.update!(learner::DifferentialTDLearner, transition::NamedTuple)
     states, actions, rewards, terminals, next_states, next_actions = transition
     n, α, β, Q = learner.n, learner.α, learner.β, learner.approximator
     if length(states) ≥ n + 1
@@ -500,7 +500,7 @@ function RLCore.extract_experience(
     end
 end
 
-function RLBase.update!(learner::TDλReturnLearner, transition)
+function RLBase.update!(learner::TDλReturnLearner, transition::NamedTuple)
     λ, γ, V, α = learner.λ, learner.γ, learner.approximator, learner.α
     states, rewards, terminals, next_states = transition
     T = length(states)
