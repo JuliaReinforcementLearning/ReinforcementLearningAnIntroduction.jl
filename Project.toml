@@ -1,7 +1,7 @@
 name = "ReinforcementLearningAnIntroduction"
 uuid = "02c1da58-b9a1-11e8-0212-f9611b8fe936"
 authors = ["TianJun <tianjun.cpp@gmail.com>"]
-version = "0.2.0"
+version = "0.2.1"
 
 [deps]
 DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
