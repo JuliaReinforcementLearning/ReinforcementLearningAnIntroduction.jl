@@ -54,7 +54,7 @@ SamplingStyle(::MonteCarloLearner{T,A,R,S}) where {T,A,R,S} = S
 
 RLBase.update!(learner::MonteCarloLearner, experience::NamedTuple) = update!(learner, VisitStyle(learner), ApproximatorStyle(learner.approximator), SamplingStyle(learner), experience)
 
-function RLCore.extract_experience(t::AbstractTrajectory, learner::MonteCarloLearner)
+function extract_experience(t::AbstractTrajectory, learner::MonteCarloLearner)
     # only extract & update at the end of an episode
     if length(t) > 0 && get_trace(t, :terminal)[end]
         (

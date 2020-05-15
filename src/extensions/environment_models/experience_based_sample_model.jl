@@ -26,7 +26,7 @@ mutable struct ExperienceBasedSampleModel <: AbstractEnvironmentModel
         )
 end
 
-function RLCore.extract_experience(t::AbstractTrajectory, m::ExperienceBasedSampleModel)
+function extract_experience(t::AbstractTrajectory, m::ExperienceBasedSampleModel)
     if length(t) > 0
         get_trace(t, :state)[end],
         get_trace(t, :action)[end],

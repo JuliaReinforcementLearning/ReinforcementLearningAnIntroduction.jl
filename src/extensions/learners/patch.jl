@@ -1,4 +1,4 @@
-function RLBase.update!(π::Union{OffPolicy, QBasedPolicy{<:TDLearner{<:AbstractApproximator,:ExpectedSARSA}}}, t::AbstractTrajectory)
+function RLBase.update!(π::Union{AbstractLearner, OffPolicy, QBasedPolicy{<:TDLearner{<:AbstractApproximator,:ExpectedSARSA}}}, t::AbstractTrajectory)
     experience = extract_experience(t, π)
     isnothing(experience) || update!(π, experience)
 end
@@ -13,8 +13,8 @@ function RLBase.update!(π::OffPolicy{<:VBasedPolicy}, transitions::NamedTuple)
     update!(π.π_target, experience)
 end
 
-RLCore.extract_experience(t::AbstractTrajectory, π::OffPolicy) =
+extract_experience(t::AbstractTrajectory, π::OffPolicy) =
     extract_experience(t, π.π_target)
 
-RLCore.extract_experience(trajectory::AbstractTrajectory, p::VBasedPolicy) =
+extract_experience(trajectory::AbstractTrajectory, p::VBasedPolicy) =
     extract_experience(trajectory, p.learner)

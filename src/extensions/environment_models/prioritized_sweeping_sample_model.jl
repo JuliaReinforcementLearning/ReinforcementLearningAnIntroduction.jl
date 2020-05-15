@@ -25,7 +25,7 @@ mutable struct PrioritizedSweepingSampleModel <: AbstractEnvironmentModel
         )
 end
 
-function RLCore.extract_experience(
+function extract_experience(
     t::AbstractTrajectory,
     model::PrioritizedSweepingSampleModel,
 )
