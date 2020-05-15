@@ -12,7 +12,7 @@ struct LinearVApproximator{N} <: AbstractApproximator
     weights::Array{Float64,N}
 end
 
-RLBase.ApproximatorStyle(::LinearVApproximator) = VApproximator()
+RLCore.ApproximatorStyle(::LinearVApproximator) = V_APPROXIMATOR
 
 # TODO: support Vector
 (V::LinearVApproximator)(s) = dot(s, V.weights)
@@ -37,7 +37,7 @@ Base.@kwdef struct LinearQApproximator{F} <: AbstractApproximator
     actions::Vector{Int}
 end
 
-RLBase.ApproximatorStyle(::LinearQApproximator) = QApproximator()
+RLCore.ApproximatorStyle(::LinearQApproximator) = Q_APPROXIMATOR
 
 (Q::LinearQApproximator)(s, a::Int) = dot(Q.weights, Q.feature_func(s, a))
 

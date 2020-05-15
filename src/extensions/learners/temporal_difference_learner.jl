@@ -1,4 +1,4 @@
-export TDLearner, DoubleLearner, DifferentialTDLearner, TDλReturnLearner
+export TDLearner, DifferentialTDLearner, TDλReturnLearner
 
 using LinearAlgebra:dot
 using Distributions:pdf
@@ -49,12 +49,12 @@ mutable struct TDLearner{Tapp<:AbstractApproximator,method,O} <: AbstractLearner
     end
 end
 
-(learner::TDLearner)(obs) = learner.approximator(obs)
-(learner::TDLearner)(obs, a) = learner.approximator(obs, a)
+(learner::TDLearner)(obs) = learner.approximator(get_state(obs))
+(learner::TDLearner)(obs, a) = learner.approximator(get_state(obs))[a]
 
-RLBase.update!(learner::TDLearner{T, M}, experience) where {T, M} = update!(learner, ApproximatorStyle(learner.approximator), Val(M), experience)
+RLBase.update!(learner::TDLearner{T, M}, experience::NamedTuple) where {T, M} = update!(learner, ApproximatorStyle(learner.approximator), Val(M), experience)
 
-RLBase.extract_experience(t::AbstractTrajectory, learner::TDLearner{T, M}) where {T, M} = extract_experience(t, learner, ApproximatorStyle(learner.approximator), Val(M))
+extract_experience(t::AbstractTrajectory, learner::TDLearner{T, M}) where {T, M} = extract_experience(t, learner, ApproximatorStyle(learner.approximator), Val(M))
 
 #####
 # SARSA
@@ -88,7 +88,7 @@ function RLBase.update!(
     end
 end
 
-function RLBase.extract_experience(
+function extract_experience(
     t::AbstractTrajectory,
     learner::TDLearner,
     ::QApproximator,
@@ -139,7 +139,7 @@ function RLBase.update!(
     end
 end
 
-function RLBase.extract_experience(
+function extract_experience(
     t::AbstractTrajectory,
     policy::QBasedPolicy{<:TDLearner{<:AbstractApproximator,:ExpectedSARSA}}
 )
@@ -152,7 +152,7 @@ function RLBase.extract_experience(
             rewards = select_last_dim(get_trace(t, :reward), max(1, N-n):N),
             terminals = select_last_dim(get_trace(t, :terminal), max(1, N-n):N),
             next_states = select_last_dim(get_trace(t, :next_state), max(1, N-n):N),
-            prob_of_next_actions = pdf(get_prob(policy, select_last_frame(get_trace(t, :next_state))))
+            prob_of_next_actions = pdf(get_prob(policy, (state=select_last_frame(get_trace(t, :next_state)),)))
         )
     else
         nothing
@@ -188,7 +188,7 @@ function RLBase.update!(
     end
 end
 
-function RLBase.extract_experience(
+function extract_experience(
     t::AbstractTrajectory,
     learner::TDLearner,
     ::QApproximator,
@@ -223,7 +223,7 @@ function RLBase.update!(
     end
 end
 
-function RLBase.extract_experience(
+function extract_experience(
     model::Union{ExperienceBasedSampleModel,TimeBasedSampleModel},
     learner::TDLearner{<:AbstractApproximator,:SARS},
 )
@@ -272,7 +272,7 @@ function RLBase.update!(
     end
 end
 
-function RLBase.extract_experience(
+function extract_experience(
     model::PrioritizedSweepingSampleModel,
     learner::TDLearner{<:AbstractApproximator,:SARS},
 )
@@ -380,7 +380,7 @@ function RLBase.update!(
     end
 end
 
-function RLBase.extract_experience(
+function extract_experience(
     t::AbstractTrajectory,
     learner::TDLearner,
     ::VApproximator,
@@ -399,7 +399,7 @@ function RLBase.extract_experience(
     end
 end
 
-function RLBase.extract_experience(
+function extract_experience(
     t::AbstractTrajectory,
     π::OffPolicy{<:VBasedPolicy{<:TDLearner{<:AbstractApproximator,:SRS}}},
 )
@@ -433,10 +433,10 @@ Base.@kwdef mutable struct DifferentialTDLearner{A<:AbstractApproximator} <: Abs
     n::Int = 0
 end
 
-(learner::DifferentialTDLearner)(obs) = learner.approximator(obs)
-(learner::DifferentialTDLearner)(obs, a) = learner.approximator(obs, a)
+(learner::DifferentialTDLearner)(obs) = learner.approximator(get_state(obs))
+(learner::DifferentialTDLearner)(obs, a) = learner.approximator(get_state(obs), a)
 
-function RLBase.update!(learner::DifferentialTDLearner, transition)
+function RLBase.update!(learner::DifferentialTDLearner, transition::NamedTuple)
     states, actions, rewards, terminals, next_states, next_actions = transition
     n, α, β, Q = learner.n, learner.α, learner.β, learner.approximator
     if length(states) ≥ n + 1
@@ -448,7 +448,7 @@ function RLBase.update!(learner::DifferentialTDLearner, transition)
     end
 end
 
-function RLBase.extract_experience(
+function extract_experience(
     t::AbstractTrajectory,
     learner::DifferentialTDLearner,
 )
@@ -484,7 +484,7 @@ end
 (learner::TDλReturnLearner)(obs) = learner.approximator(obs)
 (learner::TDλReturnLearner)(obs, a) = learner.approximator(obs, a)
 
-function RLBase.extract_experience(
+function extract_experience(
     t::AbstractTrajectory,
     learner::TDλReturnLearner{<:AbstractApproximator},
 )
@@ -500,7 +500,7 @@ function RLBase.extract_experience(
     end
 end
 
-function RLBase.update!(learner::TDλReturnLearner, transition)
+function RLBase.update!(learner::TDλReturnLearner, transition::NamedTuple)
     λ, γ, V, α = learner.λ, learner.γ, learner.approximator, learner.α
     states, rewards, terminals, next_states = transition
     T = length(states)

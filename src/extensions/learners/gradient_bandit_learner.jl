@@ -24,7 +24,7 @@ function RLBase.update!(learner::GradientBanditLearner, experience::Tuple)
     update!(learner.approximator, s => apply!(learner.optimizer, s, errors))
 end
 
-function RLBase.extract_experience(t::AbstractTrajectory, ::GradientBanditLearner)
+function extract_experience(t::AbstractTrajectory, ::GradientBanditLearner)
     if length(t) > 0
         (
             get_trace(t, :state)[end],
