@@ -1,30 +1,9 @@
-name = "ReinforcementLearningAnIntroduction"
-uuid = "02c1da58-b9a1-11e8-0212-f9611b8fe936"
-authors = ["TianJun <tianjun.cpp@gmail.com>"]
-version = "0.2.2"
-
 [deps]
-DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
-LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
-MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
-Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
-ReinforcementLearningBase = "e575027e-6cd6-5018-9292-cdc6200d2b44"
-ReinforcementLearningCore = "de1b191a-4ae0-4afa-a27b-92d07f46b2d6"
-SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+ReinforcementLearning = "158674fc-8238-5cab-b5ba-03dfc80d1318"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 StatsPlots = "f3b207a7-027a-5e70-b257-86293d7955fd"
-
-[compat]
-DataStructures = "0.17"
-Distributions = "0.22"
-Flux = "0.10"
-MacroTools = "0.5"
-Plots = "0.29"
-Reexport = "0.2"
-StatsBase = "0.32"
-StatsPlots = "0.12"
-julia = "1.4"

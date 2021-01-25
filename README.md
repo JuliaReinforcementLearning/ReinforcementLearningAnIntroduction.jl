@@ -17,4 +17,28 @@
     </a>
 </p>
 
-This repo contains most of the reinforcement learning environments referred in the book [Reinforcement Learning: An Introduction(2nd)](http://incompleteideas.net/book/the-book-2nd.html). The code to generate those figures are in the `notebooks` folder. Try it interactively on [MyBinder](https://mybinder.org/v2/gh/JuliaReinforcementLearning/ReinforcementLearningAnIntroduction.jl/master) now! 
+This project provides the [Julia](https://www.julialang.org/) code to generate figures in the book
+[Reinforcement Learning: An
+Introduction(2nd)](http://incompleteideas.net/book/the-book-2nd.html). One of
+our main goal is to help users understand the basic concepts of reinforcement
+learning from an engineer's perspective. Once you have grasped how different
+components are organized, you're ready to explore a wide variety of modern deep
+reinforcement learning algorithms in [ReinforcementLearningZoo.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearningZoo.jl).
+
+## How to use?
+
+If you are new to Julia, you can open the notebooks and play interactively at
+[TODO: insert mybinder url] or preview the generated `pdf` files under the
+`previews` folder.
+
+For experienced users with the latest stable Julia properly installed:
+
+1. Clone this project.
+1. Start the Julia REPL under the folder you created above.
+1. Install [Pluto.jl](https://github.com/fonsp/Pluto.jl)
+  1. `] add Pluto`
+  1. `using Pluto`
+  1. `Pluto.run()`
+1. Now you can see the Pluto page is opened in your browser. Paste
+   `notebooks/Chapter01_Tic_Tac_Toe.jl` (or any other file under the `notebooks` folder) into
+   the input box and click the `Open` button.
