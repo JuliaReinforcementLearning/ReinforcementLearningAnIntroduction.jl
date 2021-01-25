@@ -31,7 +31,7 @@ In this chapter, the authors introduced a specific maze environment. So let's de
 """
 
 # ╔═╡ a75c916a-5993-11eb-1928-ef4651464d8e
-const ACTIONS = [
+const LRUD = [
     CartesianIndex(0, -1),  # left
     CartesianIndex(0, 1),   # right
     CartesianIndex(-1, 0),  # up
@@ -61,7 +61,7 @@ begin
 	end
 	
 	function (env::MazeEnv)(a::Int)
-		p = env.position + ACTIONS[a]
+		p = env.position + LRUD[a]
 		if p == env.goal
 			env.position = env.goal
 		elseif !(p ∈ env.walls)
@@ -72,7 +72,7 @@ begin
 end
 
 # ╔═╡ c289a410-5993-11eb-2601-cdb3102ee32e
-RLBase.action_space(env::MazeEnv) = Base.OneTo(length(ACTIONS))
+RLBase.action_space(env::MazeEnv) = Base.OneTo(length(LRUD))
 
 # ╔═╡ 35054552-5994-11eb-0541-47fc7dba1724
 RLBase.reward(env::MazeEnv) = Float64(env.position == env.goal)

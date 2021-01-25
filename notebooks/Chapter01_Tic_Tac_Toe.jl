@@ -279,7 +279,7 @@ M(env)
 
 # ╔═╡ ee3ddc56-49db-11eb-2150-1dc2740b1f2f
 md"""
-Uh-oh! The `MethodError` above tells us that the `MonteCarloLearner` expectes the input to be an `Int` but gets a `String`. The reason is that the default state style of `env` is `Observation{String}()`. So we need to set the default state style to `Observation{Int}()`.
+Uh-oh! The `MethodError` above tells us that the `MonteCarloLearner` expects the input to be an `Int` but gets a `String`. The reason is that the default state style of `env` is `Observation{String}()`. So we need to set the default state style to `Observation{Int}()`.
 """
 
 # ╔═╡ 7b979bd4-49dc-11eb-26b6-4d45d01a2301

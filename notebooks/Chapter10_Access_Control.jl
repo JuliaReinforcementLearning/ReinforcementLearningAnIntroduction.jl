@@ -20,7 +20,7 @@ begin
 	const N_SERVERS = 10
 	const PRIORITIES = [1.0, 2.0, 4.0, 8.0]
 	const FREE_PROB = 0.06
-	const ACTIONS = (:accept, :reject)
+	const ACCEPT_REJECT = (:accept, :reject)
 	const CUSTOMERS = 1:length(PRIORITIES)
 
 	const TRANSFORMER = LinearIndices((0:N_SERVERS, CUSTOMERS))
@@ -36,7 +36,7 @@ begin
 	RLBase.action_space(env::AccessControlEnv) = Base.OneTo(2)
 
 	function (env::AccessControlEnv)(a)
-		action, reward = ACTIONS[a], 0.0
+		action, reward = ACCEPT_REJECT[a], 0.0
 		if env.n_free_servers > 0 && action == :accept
 			env.n_free_servers -= 1
 			reward = PRIORITIES[env.customer]
@@ -105,25 +105,46 @@ Next, we dispatch some runtime logic to our specific learner to make sure the ab
 """
 
 # ╔═╡ 3dfbe3b6-5c88-11eb-291b-45a716887e3c
-function RLBase.update!(
-    p::DifferentialTDLearner,
-    t::AbstractTrajectory,
-    e::AbstractEnv,
-    s::Union{PreActStage, PostEpisodeStage}
-)
-    if length(t[:terminal]) > 0
-        update!(
-            p,
-            (
-                t[:state][end-1],
-                t[:action][end-1],
-                t[:reward][end],
-                t[:terminal][end],
-                t[:state][end],
-                t[:action][end]
-            )
-        )
-    end
+begin
+	function RLBase.update!(
+		p::DifferentialTDLearner,
+		t::AbstractTrajectory,
+		e::AbstractEnv,
+		s::PreActStage,
+	)
+		if length(t[:terminal]) > 0
+			update!(
+				p,
+				(
+					t[:state][end-1],
+					t[:action][end-1],
+					t[:reward][end],
+					t[:terminal][end],
+					t[:state][end],
+					t[:action][end]
+				)
+			)
+		end
+	end
+
+	function RLBase.update!(
+		p::DifferentialTDLearner,
+		t::AbstractTrajectory,
+		e::AbstractEnv,
+		s::PostEpisodeStage,
+	)
+		update!(
+			p,
+			(
+				t[:state][end-1],
+				t[:action][end-1],
+				t[:reward][end],
+				t[:terminal][end],
+				t[:state][end],
+				t[:action][end]
+			)
+		)
+	end
 end
 
 # ╔═╡ 435d632a-5c88-11eb-314b-c1c580f35b70

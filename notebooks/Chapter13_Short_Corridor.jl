@@ -166,7 +166,7 @@ end
 begin
 	fig_13_1 = plot(legend=:bottomright)
 	for x in [-13, -14]  # for -12, it seems not that easy to converge in short time
-		plot!(fig_13_1, mean(run_once_RL(2. ^ x) for _ in 1:100), label="alpha = 2^$x")
+		plot!(fig_13_1, mean(run_once_RL(2. ^ x) for _ in 1:50), label="alpha = 2^$x")
 	end
 	fig_13_1
 end

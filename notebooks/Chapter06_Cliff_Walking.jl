@@ -28,7 +28,7 @@ begin
 	const NY = 12
 	const Start = CartesianIndex(4, 1)
 	const Goal = CartesianIndex(4, 12)
-	const Actions = [
+	const LRUD = [
 		CartesianIndex(0, -1),  # left
 		CartesianIndex(0, 1),   # right
 		CartesianIndex(-1, 0),  # up
@@ -54,7 +54,7 @@ end
 
 # ╔═╡ c3ab43c0-4e51-11eb-319f-e94b2fad261e
 function (env::CliffWalkingEnv)(a::Int)
-    x, y = Tuple(env.position + Actions[a])
+    x, y = Tuple(env.position + LRUD[a])
     env.position = CartesianIndex(min(max(x, 1), NX), min(max(y, 1), NY))
 end
 
@@ -65,7 +65,7 @@ RLBase.state(env::CliffWalkingEnv) = LinearInds[env.position]
 RLBase.state_space(env::CliffWalkingEnv) = Base.OneTo(length(LinearInds))
 
 # ╔═╡ be36d904-4e51-11eb-1ead-1d89513b68e5
-RLBase.action_space(env::CliffWalkingEnv) = Base.OneTo(length(Actions))
+RLBase.action_space(env::CliffWalkingEnv) = Base.OneTo(length(LRUD))
 
 # ╔═╡ e087f574-4e51-11eb-1abf-795bdc85f7b1
 RLBase.reward(env::CliffWalkingEnv) = env.position == Goal ? 0.0 : (iscliff(env.position) ? -100.0 : -1.0)

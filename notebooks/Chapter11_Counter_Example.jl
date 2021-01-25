@@ -19,17 +19,17 @@ md"""
 
 # ╔═╡ 11ba9900-5cb5-11eb-0d89-0f51f890b091
 begin
-	const ACTIONS = (:dashed, :solid)
+	const DASH_SOLID = (:dashed, :solid)
 
 	Base.@kwdef mutable struct BairdCounterEnv <: AbstractEnv
 		current::Int = rand(1:7)
 	end
 
 	RLBase.state_space(env::BairdCounterEnv) = Base.OneTo(7)
-	RLBase.action_space(env::BairdCounterEnv) = Base.OneTo(length(ACTIONS))
+	RLBase.action_space(env::BairdCounterEnv) = Base.OneTo(length(DASH_SOLID))
 
 	function (env::BairdCounterEnv)(a)
-		if ACTIONS[a] == :dashed
+		if DASH_SOLID[a] == :dashed
 			env.current = rand(1:6)
 		else
 			env.current = 7
@@ -49,67 +49,67 @@ md"""
 """
 
 # ╔═╡ b5711c62-5cb6-11eb-2b70-91051ff959d3
-Base.@kwdef struct OffPolicy{P,B} <: AbstractPolicy
-    π_target::P
-    π_behavior::B
-end
+# Base.@kwdef struct OffPolicy{P,B} <: AbstractPolicy
+#     π_target::P
+#     π_behavior::B
+# end
 
 # ╔═╡ ba6d1efc-5cb6-11eb-28e5-f73f80f44ad7
-(π::OffPolicy)(env) = π.π_behavior(env)
+# (π::OffPolicy)(env) = π.π_behavior(env)
 
 # ╔═╡ 447be6a0-5cbf-11eb-2daf-9b1b54e403f1
 begin
 	
-	const VectorWSARTTrajectory = Trajectory{<:NamedTuple{(:weight, SART...)}}
+	# const VectorWSARTTrajectory = Trajectory{<:NamedTuple{(:weight, SART...)}}
 
-	function VectorWSARTTrajectory(;weight=Float64, state=Int, action=Int, reward=Float32, terminal=Bool)
-		VectorTrajectory(;weight=Float64, state=state, action=action, reward=reward, terminal=terminal)
-	end
+	# function VectorWSARTTrajectory(;weight=Float64, state=Int, action=Int, reward=Float32, terminal=Bool)
+	# 	VectorTrajectory(;weight=Float64, state=state, action=action, reward=reward, terminal=terminal)
+	# end
 	
-	function RLBase.update!(
-		p::OffPolicy,
-		t::VectorWSARTTrajectory,
-		e::AbstractEnv,
-		s::AbstractStage
-	)
-		update!(p.π_target, t, e, s)
-	end
+	# function RLBase.update!(
+	# 	p::OffPolicy,
+	# 	t::VectorWSARTTrajectory,
+	# 	e::AbstractEnv,
+	# 	s::AbstractStage
+	# )
+	# 	update!(p.π_target, t, e, s)
+	# end
 
-	function RLBase.update!(
-		t::VectorWSARTTrajectory,
-		p::OffPolicy,
-		env::AbstractEnv,
-		s::PreActStage,
-		a
-	)
-		push!(t[:state], state(env))
-		push!(t[:action], a)
+	# function RLBase.update!(
+	# 	t::VectorWSARTTrajectory,
+	# 	p::OffPolicy,
+	# 	env::AbstractEnv,
+	# 	s::PreActStage,
+	# 	a
+	# )
+	# 	push!(t[:state], state(env))
+	# 	push!(t[:action], a)
 
-		w = prob(p.π_target, s, a) / prob(p.π_behavior, s, a)
-		push!(t[:weight], w)
-	end
+	# 	w = prob(p.π_target, s, a) / prob(p.π_behavior, s, a)
+	# 	push!(t[:weight], w)
+	# end
 
-	function RLBase.update!(
-		t::VectorWSARTTrajectory,
-		p::OffPolicy{<:QBasedPolicy{<:TDLearner}},
-		env::AbstractEnv,
-		s::PreEpisodeStage,
-	)
-		empty!(t)
-	end
+	# function RLBase.update!(
+	# 	t::VectorWSARTTrajectory,
+	# 	p::OffPolicy{<:QBasedPolicy{<:TDLearner}},
+	# 	env::AbstractEnv,
+	# 	s::PreEpisodeStage,
+	# )
+	# 	empty!(t)
+	# end
 
-	function RLBase.update!(
-		t::VectorWSARTTrajectory,
-		p::OffPolicy{<:QBasedPolicy{<:TDLearner}},
-		env::AbstractEnv,
-		s::PostEpisodeStage,
-	)
-		action = rand(action_space(env))
+	# function RLBase.update!(
+	# 	t::VectorWSARTTrajectory,
+	# 	p::OffPolicy{<:QBasedPolicy{<:TDLearner}},
+	# 	env::AbstractEnv,
+	# 	s::PostEpisodeStage,
+	# )
+	# 	action = rand(action_space(env))
 
-		push!(trajectory[:state], state(env))
-		push!(trajectory[:action], action)
-		push!(t[:weight], 1.0)
-	end
+	# 	push!(trajectory[:state], state(env))
+	# 	push!(trajectory[:action], action)
+	# 	push!(t[:weight], 1.0)
+	# end
 end
 
 # ╔═╡ f01b15c2-5cb6-11eb-1d41-21f632c01a2f

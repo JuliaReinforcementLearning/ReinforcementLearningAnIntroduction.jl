@@ -93,7 +93,7 @@ plot([GroupMapping(;n=NS)(i) for i in 1:NS], legend=nothing)
 
 # ╔═╡ be5e114c-5c6e-11eb-007d-8b22a431ee4f
 md"""
-To count the occurances of each state, we need to write a hook.
+To count the frequency of each state, we need to write a hook.
 """
 
 # ╔═╡ ed416b12-5c6e-11eb-1d57-b3d730907456
@@ -318,7 +318,7 @@ end
 md"""
 ## Figure 9.10
 
-Inplementing the tile encoding in Julia is quite easy！😀
+Implementing the tile encoding in Julia is quite easy！😀
 """
 
 # ╔═╡ 2ef2aa46-5c77-11eb-1eec-13ad13061214
