@@ -1011,33 +1011,33 @@ version = "0.2.0"
 
 [[ReinforcementLearning]]
 deps = ["Reexport", "ReinforcementLearningBase", "ReinforcementLearningCore", "ReinforcementLearningEnvironments", "ReinforcementLearningZoo"]
-path = "../ReinforcementLearning.jl"
+git-tree-sha1 = "795055f9d9125e2f3da16c99c7a4cb1e65cc2c6d"
 uuid = "158674fc-8238-5cab-b5ba-03dfc80d1318"
-version = "0.7.0"
+version = "0.8.0"
 
 [[ReinforcementLearningBase]]
 deps = ["AbstractTrees", "CommonRLInterface", "Markdown", "Random", "Test"]
 path = "../ReinforcementLearningBase.jl"
 uuid = "e575027e-6cd6-5018-9292-cdc6200d2b44"
-version = "0.9.1"
+version = "0.9.2"
 
 [[ReinforcementLearningCore]]
 deps = ["AbstractTrees", "Adapt", "CUDA", "CircularArrayBuffers", "Dates", "Distributions", "ElasticArrays", "FillArrays", "Flux", "Functors", "GPUArrays", "ImageTransformations", "LinearAlgebra", "MacroTools", "Markdown", "ProgressMeter", "Random", "ReinforcementLearningBase", "Setfield", "StatsBase", "Zygote"]
 path = "../ReinforcementLearningCore"
 uuid = "de1b191a-4ae0-4afa-a27b-92d07f46b2d6"
-version = "0.6.3"
+version = "0.7.0"
 
 [[ReinforcementLearningEnvironments]]
 deps = ["GR", "IntervalSets", "MacroTools", "Markdown", "OrdinaryDiffEq", "Random", "ReinforcementLearningBase", "Requires", "StatsBase"]
 path = "../ReinforcementLearningEnvironments.jl"
 uuid = "25e41dd2-4622-11e9-1641-f1adca772921"
-version = "0.4.3"
+version = "0.4.5"
 
 [[ReinforcementLearningZoo]]
 deps = ["AbstractTrees", "BSON", "CUDA", "CircularArrayBuffers", "DataStructures", "Dates", "Distributions", "Flux", "IntervalSets", "LinearAlgebra", "Logging", "MacroTools", "Pkg", "Random", "ReinforcementLearningBase", "ReinforcementLearningCore", "Requires", "Setfield", "StableRNGs", "Statistics", "StatsBase", "StructArrays", "TensorBoardLogger", "Zygote"]
 path = "../ReinforcementLearningZoo"
 uuid = "d607f57d-ee1e-4ba7-bcf2-7734c1e31854"
-version = "0.3.1"
+version = "0.3.2"
 
 [[Requires]]
 deps = ["UUIDs"]
