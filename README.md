@@ -17,7 +17,7 @@
 This project provides the [Julia](https://www.julialang.org/) code to generate figures in the book
 [Reinforcement Learning: An
 Introduction(2nd)](http://incompleteideas.net/book/the-book-2nd.html). One of
-our main goal is to help users understand the basic concepts of reinforcement
+our main goals is to help users understand the basic concepts of reinforcement
 learning from an engineer's perspective. Once you have grasped how different
 components are organized, you're ready to explore a wide variety of modern deep
 reinforcement learning algorithms in [ReinforcementLearningZoo.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearningZoo.jl).
@@ -46,15 +46,15 @@ For experienced users with the latest stable Julia properly installed:
 - [Chapter04 Car Rental.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter04_Car_Rental.jl)
 - [Chapter04 Gambler Problem.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter04_Gambler_Problem.jl)
 - [Chapter04 Grid World.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter04_Grid_World.jl)
-- [Chapter05 Blackjack.jl](https://juliareinforcementlearning.org/blog/notebooks for_reinforcement_learning_an_introduction/Chapter05_Blackjack.jl)
+- [Chapter05 Blackjack.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter05_Blackjack.jl)
 - [Chapter05 Left Right.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter05_Left_Right.jl)
 - [Chapter06 Cliff Walking.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter06_Cliff_Walking.jl)
 - [Chapter06 Maximization Bias.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter06_Maximization_Bias.jl)
-- [Chapter06 RandomWalk.jl](https://juliareinforcementlearning.org/blog/notebooks for_reinforcement_learning_an_introduction/Chapter06_RandomWalk.jl)
+- [Chapter06 RandomWalk.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter06_RandomWalk.jl)
 - [Chapter06 Windy Grid World.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter06_Windy_Grid_World.jl)
 - [Chapter07 Random Walk.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter07_Random_Walk.jl)
 - [Chapter08 Expectation VS Sample.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter08_Expectation_VS_Sample.jl)
-- [Chapter08 Maze.jl](https://juliareinforcementlearning.org/blog/notebooks for_reinforcement_learning_an_introduction/Chapter08_Maze.jl)
+- [Chapter08 Maze.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter08_Maze.jl)
 - [Chapter08 Trajectory Sampling.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter08_Trajectory_Sampling.jl)
 - [Chapter09 Random Walk.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter09_Random_Walk.jl)
 - [Chapter10 Access Control.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter10_Access_Control.jl)
