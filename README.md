@@ -1,6 +1,6 @@
-<div align="center"> 
+<div align="center">
 <a href="http://incompleteideas.net/book/the-book-2nd.html">
-<img src="RLIntro2Cover-min.jpg" alt="RLIntro2Cover-min.jpg" title="RLIntro" width="200"/> 
+<img src="RLIntro2Cover-min.jpg" alt="RLIntro2Cover-min.jpg" title="RLIntro" width="200"/>
 </a>
 <p> "To think is to forget a difference, to generalize, to abstract."</p>
 <p>― <a href="https://en.wikipedia.org/wiki/Jorge_Luis_Borges">Jorge Luis Borges</a>, <a href="https://en.wikipedia.org/wiki/Funes_the_Memorious">Funes the Memorious</a></p>
@@ -29,15 +29,13 @@ reinforcement learning algorithms in [ReinforcementLearningZoo.jl](https://githu
 For experienced users with the latest stable Julia properly installed:
 
 1. Clone this project.
-1. Start the Julia REPL under the folder you created above.
-1. Install [Pluto.jl](https://github.com/fonsp/Pluto.jl)
-  1. `] add Pluto`
-  1. `using Pluto`
-  1. `Pluto.run()`
+1. Start the Julia REPL: `julia --project=<path_to_this_project>`
+1. Install dependencies: `] instantiate`
+1. Launch [Pluto.jl](https://github.com/fonsp/Pluto.jl): `using Pluto; Pluto.run()`
 1. Now you can see the Pluto page is opened in your browser. Paste
    `notebooks/Chapter01_Tic_Tac_Toe.jl` (or any other file under the `notebooks` folder) into
    the input box and click the `Open` button.
-   
+
 ### Preview Notebooks
 
 - [Chapter01 Tic Tac Toe.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter01_Tic_Tac_Toe.jl)
