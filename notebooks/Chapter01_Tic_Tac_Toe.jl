@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.14.3
 
 using Markdown
 using InteractiveUtils
@@ -147,7 +147,7 @@ The above `run` function defined in `ReinforcementLearning.jl` is quite straight
 
 You are encouraged to read the [source code](https://github.com/JuliaReinforcementLearning/ReinforcementLearningCore.jl/blob/master/src/core/run.jl) of this function. It's pretty simple (less than 30 lines) and easy to understand. I'll wait you here until you are finished.
 
-If you have finished reading it, you'll notice that one important argument is missing in the above function call, the `hook`. Now we'll add the forth argument to collect the reward of each player in every episode.
+If you have finished reading it, you'll notice that one important argument is missing in the above function call, the `hook`. Now we'll add the fourth argument to collect the reward of each player in every episode.
 """
 
 # ╔═╡ 6f58815c-4852-11eb-18e8-e55b276ba228
