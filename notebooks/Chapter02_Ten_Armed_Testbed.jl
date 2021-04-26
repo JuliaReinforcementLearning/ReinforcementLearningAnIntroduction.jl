@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.14.3
 
 using Markdown
 using InteractiveUtils
@@ -61,14 +61,15 @@ Now we create a testbed to calulate the average reward and perfect action percen
 """
 A customized hook to record whether the action to take is the best action or not.
 """
-Base.@kwdef struct CollectBestActions <: AbstractHook
-	best_action::Int
-    isbest::Vector{Bool} = []
-end
+begin
+	Base.@kwdef struct CollectBestActions <: AbstractHook
+		best_action::Int
+		isbest::Vector{Bool} = []
+	end
 
-# ╔═╡ d0186892-4aad-11eb-080c-d985066abbc6
-function (h::CollectBestActions)(::PreActStage, agent, env, action)
-	push!(h.isbest, h.best_action==action)
+	function (h::CollectBestActions)(::PreActStage, agent, env, action)
+		push!(h.isbest, h.best_action==action)
+	end
 end
 
 # ╔═╡ 1ff8d726-4aad-11eb-0d88-c7f6080c4072
@@ -208,16 +209,17 @@ Note that there's a keyword argument named `baseline` in the `GradientBanditLear
 """
 
 # ╔═╡ b291cb0c-4b1f-11eb-3ee5-cfcdfdcae00b
-Base.@kwdef mutable struct SampleAvg
-    t::Int = 0
-    avg::Float64 = 0.0
-end
+begin
+	Base.@kwdef mutable struct SampleAvg
+		t::Int = 0
+		avg::Float64 = 0.0
+	end
 
-# ╔═╡ d61f3168-4b1f-11eb-2a20-2f3d1bb69cd9
-function (s::SampleAvg)(x)
-    s.t += 1
-    s.avg += (x - s.avg) / s.t
-    s.avg
+	function (s::SampleAvg)(x)
+		s.t += 1
+		s.avg += (x - s.avg) / s.t
+		s.avg
+	end
 end
 
 # ╔═╡ e0e72a60-4b1f-11eb-1001-89777fd3d0f7
@@ -263,7 +265,6 @@ end
 # ╟─69bc9e66-4a5c-11eb-0288-1930cdb31d9d
 # ╟─c0ca4172-4aac-11eb-255d-8b0005441fb0
 # ╠═4bf0f782-4aad-11eb-291c-afa853f150a3
-# ╠═d0186892-4aad-11eb-080c-d985066abbc6
 # ╟─1ff8d726-4aad-11eb-0d88-c7f6080c4072
 # ╠═1fbc2952-4b1b-11eb-3b65-75c1058a9537
 # ╠═db64341a-4b1b-11eb-3f7b-f11b26f442f4
@@ -275,7 +276,6 @@ end
 # ╠═6d93c3d0-4b1e-11eb-2b41-af6689ba72f4
 # ╟─04e8320c-4b1f-11eb-3340-47f7392a8282
 # ╠═b291cb0c-4b1f-11eb-3ee5-cfcdfdcae00b
-# ╠═d61f3168-4b1f-11eb-2a20-2f3d1bb69cd9
 # ╠═e0e72a60-4b1f-11eb-1001-89777fd3d0f7
 # ╠═42525d24-4b20-11eb-099c-b10c90af166e
 # ╠═aad675d2-4b80-11eb-3d78-a1ef731d7d8b
