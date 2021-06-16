@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.14.7
 
 using Markdown
 using InteractiveUtils
@@ -269,12 +269,12 @@ INIT_STATE = state(static_env)
 GOLD_VAL = -0.27726
 
 # ╔═╡ ecade5b4-5e61-11eb-0fd5-d1b149adbece
-Base.@kwdef struct StoreMSE <: AbstractHook
-    mse::Vector{Float64} = []
+begin
+	Base.@kwdef struct StoreMSE <: AbstractHook
+		mse::Vector{Float64} = []
+	end
+	(f::StoreMSE)(::PostEpisodeStage, agent, env) = push!(f.mse, (GOLD_VAL - agent.policy.π_target.learner.approximator[1](INIT_STATE))^2)
 end
-
-# ╔═╡ fdf615da-5e61-11eb-0df8-dbb3810a408d
-(f::StoreMSE)(::PostEpisodeStage, agent, env) = push!(f.mse, (GOLD_VAL - agent.policy.π_target.learner.approximator[1](INIT_STATE))^2)
 
 # ╔═╡ 4f8a0a80-5e64-11eb-13db-3b117cdd35b6
 target_policy_mapping = (env, V) -> sum_hand(env.env.player_hand) in (20, 21) ? 2 : 1
@@ -389,7 +389,6 @@ end
 # ╠═e31a1da6-5e61-11eb-09ac-1f29247434ca
 # ╠═f1437b16-5e61-11eb-2f14-976483f8d924
 # ╠═ecade5b4-5e61-11eb-0fd5-d1b149adbece
-# ╠═fdf615da-5e61-11eb-0df8-dbb3810a408d
 # ╠═4f8a0a80-5e64-11eb-13db-3b117cdd35b6
 # ╠═5f5473ba-5e64-11eb-1b37-7706eb629b45
 # ╠═bceb8f5a-5e63-11eb-25fb-1d73dc919323

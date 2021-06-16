@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.14.7
 
 using Markdown
 using InteractiveUtils
@@ -82,13 +82,13 @@ end
 RLBase.prob(::typeof(π_t), s, a) = a == 1 ? 1.0 : 0.
 
 # ╔═╡ 88b48522-5e20-11eb-00df-65834ec124b2
-struct CollectValue <: AbstractHook
-    values::Vector{Float64}
-    CollectValue() = new([])
+begin
+	struct CollectValue <: AbstractHook
+		values::Vector{Float64}
+		CollectValue() = new([])
+	end
+	(f::CollectValue)(::PostEpisodeStage, agent, env) = push!(f.values, agent.policy.π_target.learner.approximator[2](1))
 end
-
-# ╔═╡ 8c218bba-5e20-11eb-1840-d5e92d1830da
-(f::CollectValue)(::PostEpisodeStage, agent, env) = push!(f.values, agent.policy.π_target.learner.approximator[2](1))
 
 # ╔═╡ 4e0a26b0-5e21-11eb-01bf-85db236b9bf8
 begin
@@ -120,5 +120,4 @@ end
 # ╠═597bbcd2-5e21-11eb-10c9-7db2f46cfffb
 # ╠═9cdef3ba-5e21-11eb-1cfd-fb1abbf1d608
 # ╠═88b48522-5e20-11eb-00df-65834ec124b2
-# ╠═8c218bba-5e20-11eb-1840-d5e92d1830da
 # ╠═4e0a26b0-5e21-11eb-01bf-85db236b9bf8
