@@ -23,13 +23,13 @@ md"""
 
 In the following notebooks, we'll mainly use the [ReinforcementLearning.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl) package to demonstrate how to generate figures in the book [Reinforcement Learning: An Introduction(2nd)](http://incompleteideas.net/book/the-book-2nd.html). In case you haven't used this package before, you can visit [juliareinforcementlearning.org](https://juliareinforcementlearning.org/) for a detailed introduction. Besides, we'll also explain some basic concepts gradually when we meet them for the first time.
 
-[ReinforcementLearning.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl) contains a collection of tools to describe and solve problems we want to handle in the reinforcement leanring field. Though we are mostly interested in traditional tabular methods here, it also contains many state-of-the-art algorithms. To use it, we can simply run the following code here:
+[ReinforcementLearning.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl) contains a collection of tools to describe and solve problems we want to handle in the reinforcement learning field. Though we are mostly interested in traditional tabular methods here, it also contains many state-of-the-art algorithms. To use it, we can simply run the following code here:
 """
 
 # ╔═╡ bfe260f4-481e-11eb-28e8-eb3cca823162
 md"""
 !!! note
-	As you might have noticed, it takes quite a long time to load this package for the first time (the good news is that it will be largedly decreased after `Julia@v1.6`). Once loaded, things should be very fast.
+	As you might have noticed, it takes quite a long time to load this package for the first time (the good news is that it will be largely decreased after `Julia@v1.6`). Once loaded, things should be very fast.
 
 """
 
@@ -37,7 +37,7 @@ md"""
 md"""
 ## Tic-Tac-Toe
 
-In chapter 1.5, a simple game of [Tic-Tac-Toe](https://en.wikipedia.org/wiki/Tic-tac-toe) is introduced to illustrate the general idea of reinforcement learning. Before looking into the details about how to implement the monte carlo based policy, let's take a look at how the Tic-Tac-Toe environment is defined in [ReinforcementLearning.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl).
+In chapter 1.5, a simple game of [Tic-Tac-Toe](https://en.wikipedia.org/wiki/Tic-tac-toe) is introduced to illustrate the general idea of reinforcement learning. Before looking into the details about how to implement the Monte Carlo based policy, let's take a look at how the Tic-Tac-Toe environment is defined in [ReinforcementLearning.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl).
 """
 
 # ╔═╡ 46d5181a-4845-11eb-222c-3d8b78f89dc6
@@ -45,9 +45,9 @@ env = TicTacToeEnv()
 
 # ╔═╡ d9a93b80-4827-11eb-39cf-c589ebcd092b
 md"""
-There are many important information provided above. First, the `TicTacToeEnv` is a [zero-sum](https://en.wikipedia.org/wiki/Zero-sum_game), two player environment. `Sequential` means each player takes an action alternatively. Since all the players can observe the same information (the board), it is an environment of [perfect information](https://en.wikipedia.org/wiki/Perfect_information). Note that each player only get the reward at the end of the game (`-1`, `0`, or `1`). So we call `RewardStyle` of this kind of environments `TerminalReward()`. At each step, only part of the actions are valid (the position of the board), so we say the `ActionStyle` of this env is of `FullActionSet()`.
+There is many important information provided above. First, the `TicTacToeEnv` is a [zero-sum](https://en.wikipedia.org/wiki/Zero-sum_game), two player environment. `Sequential` means each player takes an action alternatively. Since all the players can observe the same information (the board), it is an environment of [perfect information](https://en.wikipedia.org/wiki/Perfect_information). Note that each player only gets the reward at the end of the game (`-1`, `0`, or `1`). So we call the `RewardStyle` of this kind of environments `TerminalReward()`. At each step, only part of the actions are valid (the position of the board), so we say the `ActionStyle` of this env is of `FullActionSet()`.
 
-All these information are provided by traits. In later chapters, we'll see how to define these traits for new customized environments. Now let's get familiar with some basic interfaces defined with the environment first.
+All this information is provided by traits. In later chapters, we'll see how to define these traits for new customized environments. Now let's get familiar with some basic interfaces defined with the environment first.
 """
 
 # ╔═╡ fad9dddc-4827-11eb-1b79-db762523f380
@@ -171,7 +171,7 @@ run(multi_agent_policy,	env, StopAfterEpisode(10), multi_agent_hook)
 
 # ╔═╡ bb374d92-4852-11eb-1268-976e9e5532f4
 md"""
-Beside that we added a fourth argument in the `run`, another important difference is that we used a `MultiAgentManager` policy instead of a simple `RandomPolicy`. The reason is that we want different players use a separate policy and then we can collect  different information of them separately.
+Besides that we added a fourth argument in the `run`, another important difference is that we used a `MultiAgentManager` policy instead of a simple `RandomPolicy`. The reason is that we want different players to use a separate policy and then we can collect different information of them separately.
 
 Now let's take a look at the total reward of each player in the above 10 episodes:
 """
@@ -189,9 +189,9 @@ end
 md"""
 ## Tackling the Tic-Tac-Toe Problem with Monte Carlo Prediction
 
-Actually the Monte Carlo method mention in the first chapter to solve the Tic-Tac-Toe problem is explained in Chapter 5.1, so it's ok if you don't fully understand it right now for the first time. Just keep reading and turn back to this chapter once you finished chapter 5.
+Actually the Monte Carlo method mentioned in the first chapter to solve the Tic-Tac-Toe problem is explained in Chapter 5.1, so it's ok if you don't fully understand it right now for the first time. Just keep reading and turn back to this chapter once you have finished chapter 5.
 
-The intuition behind monte carlo prediction that, we use a table to record the estimated gain at each step. If such estimation is accurate, then we can simply look one step ahead and compare which state is of the largest gain. Then we just take the action which will lead to that state to maximize our reward.
+The intuition behind Monte Carlo prediction is that we use a table to record the estimated gain at each step. If such estimation is accurate, then we can simply look one step ahead and compare which state is of the largest gain. Then we just take the action which will lead to that state to maximize our reward.
 
 ### TabularVApproximator
 
@@ -237,7 +237,7 @@ By using the same interfaces defined in `Flux.jl`, we get a bunch of different o
 md"""
 ### MonteCarloLearner
 
-In `ReinforcementLearning.jl`, many different variants of monte carlo learners are supported. We'll skip the implementation detail for now. But to convince you that implementing such an algorithm is quite simple and straightforward in this package, we can take a look at the code snippet and compare it with the pseudocode on the book.
+In `ReinforcementLearning.jl`, many different variants of Monte Carlo learners are supported. We'll skip the implementation detail for now. But to convince you that implementing such an algorithm is quite simple and straightforward in this package, we can take a look at the code snippet and compare it with the pseudocode on the book.
 
 ```julia
 function _update!(
@@ -353,7 +353,7 @@ run(P, E, StopAfterEpisode(10))
 md"""
 ## Training
 
-One main question we haven't answer is, **how to train the policy?**
+One main question we haven't answered is, **how to train the policy?**
 
 Well, the usage is similar to the above one, the only difference is now we wrap the `policy` in an `Agent`, which is also an `AbstractPolicy`. An `Agent` is `policy + trajectory`, or people usually call it *experience replay buffer*.
 """
@@ -395,7 +395,7 @@ run(policies, E, StopAfterEpisode(100_000))
 md"""
 The interface is almost the same with the above one. Let me explain what's happening here.
 
-First, the `policies` is a `MultiAgentManager` and the environment is a `Sequential` one. So at each step, the agent manager forward the `env` to its inner policies. Here each inner policy is an `Agent`. Then it will collect necessary information at each step (here we used a `VectorSARTTrajectory` to tell the agent to collect `state`, `action`, `reward`, and `is_terminated` info). Finally, after each episode, the agent send the `trajectory` to the inner `VBasedPolicy`, and then forwarded to the `MonteCarloLearner` to update the `TabularVApproximator`. Thanks to **multiple dispatch** each step above is fully customizable.
+First, the `policies` is a `MultiAgentManager` and the environment is a `Sequential` one. So at each step, the agent manager forwards the `env` to its inner policies. Here each inner policy is an `Agent`. Then it will collect necessary information at each step (here we used a `VectorSARTTrajectory` to tell the agent to collect `state`, `action`, `reward`, and `is_terminated` info). Finally, after each episode, the agent sends the `trajectory` to the inner `VBasedPolicy`, and then forwards it to the `MonteCarloLearner` to update the `TabularVApproximator`. Thanks to **multiple dispatch** each step above is fully customizable.
 """
 
 # ╔═╡ 52392820-4a54-11eb-03eb-cf339de8e3dc
@@ -432,9 +432,9 @@ end
 
 # ╔═╡ 696c441c-4a56-11eb-39c0-e1d1465ca4f7
 md"""
-As you can see, in most cases, we reach a **tie**. But why there're still some cases that they don't reach a tie?
+As you can see, in most cases, we reach a **tie**. But why are there still some cases that don't reach a tie?
 
-Is it because we're not training for enough time?
+Is it because we have not trained for enough time?
 
 *Maybe*. But a more possible reason is that we're still using the `EpsilonGreedyExplorer` in the testing mode. 
 
