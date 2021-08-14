@@ -432,7 +432,7 @@ end
 
 # ╔═╡ 696c441c-4a56-11eb-39c0-e1d1465ca4f7
 md"""
-As you can see, in most cases, we reach a **tie**. But why are there still some cases that they don't reach a tie?
+As you can see, in most cases, we reach a **tie**. But why are there still some cases that don't reach a tie?
 
 Is it because we have not trained for enough time?
 
