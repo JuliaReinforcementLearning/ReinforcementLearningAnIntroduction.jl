@@ -62,7 +62,7 @@ end
 # ╔═╡ 0b1b0448-522b-11eb-0264-9131eabe2525
 begin
 	A = 0.:0.05:1.0
-	p = plot()
+	p = plot(xlabel="α", ylabel="Average RMS error")
 	for n in [2^i for i in 0:9]
 		avg_rms = Float64[]
 		for α in A
