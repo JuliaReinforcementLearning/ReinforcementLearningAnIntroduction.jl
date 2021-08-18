@@ -188,7 +188,7 @@ begin
 		run(create_double_Q_agent(), world, StopAfterEpisode(300),hook)
 		push!(DQ_stats, hook.counts)
 	end
-	plot(mean(DQ_stats), legend=:topright, label="double q")
+	plot(mean(DQ_stats)*100, legend=:topright, label="double q", xlabel="Episodes", ylabel="% left actions from A")
 	
 	Q_stats = []
 	for _ in 1:1000
@@ -196,8 +196,8 @@ begin
 		run(create_Q_agent(), world, StopAfterEpisode(300),hook)
 		push!(Q_stats, hook.counts)
 	end
-	plot!(mean(Q_stats), legend=:topright, label="q")
-	hline!([0.05], linestyle=:dash, label="optimal")
+	plot!(mean(Q_stats)*100, legend=:topright, label="q")
+	hline!([5], linestyle=:dash, label="optimal")
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001

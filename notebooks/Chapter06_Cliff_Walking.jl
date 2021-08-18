@@ -127,7 +127,7 @@ end
 
 # ╔═╡ 33ab57f2-4e55-11eb-3b53-89492ca4b5f6
 begin
-	p = plot(legend=:bottomright)
+	p = plot(legend=:bottomright, xlabel="Episodes", ylabel="Sum of rewards during episode")
 	plot!(p, repeated_run(0.5, :SARS, 1000, 500, false), label="QLearning")
 	plot!(p, repeated_run(0.5, :SARSA, 1000, 500, false), label="SARSA")
 	p
@@ -136,7 +136,7 @@ end
 # ╔═╡ a9f81264-4e5b-11eb-2634-cb2179ea9e6b
 begin
 	A = 0.1:0.05:0.95
-	fig_6_3 = plot(;legend=:bottomright)
+	fig_6_3 = plot(;legend=:bottomright, xlabel="α", ylabel="Sum of rewards per episode")
 
 	plot!(fig_6_3, A, [repeated_run(α, :SARS, 100, 100) for α in A], linestyle=:dash ,markershape=:rect, label="Interim Q")
 	plot!(fig_6_3, A, [repeated_run(α, :SARSA, 100, 100) for α in A], linestyle=:dash, markershape=:dtriangle, label="Interim SARSA")
