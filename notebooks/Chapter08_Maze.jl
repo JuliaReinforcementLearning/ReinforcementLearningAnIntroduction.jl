@@ -220,7 +220,7 @@ end
 
 # ╔═╡ d3463894-59a0-11eb-2bcf-0dc30ae600dc
 begin
-	fig_8_4 = plot(legend=:topleft)
+	fig_8_4 = plot(legend=:topleft, xlabel="Time steps", ylabel="Cumulative reward")
 	plot!(fig_8_4, mean(cumulative_dyna_reward(ExperienceBasedSamplingModel(), walls(), 1000, change_walls, 2000) for _ in 1:30), label="Dyna-Q")
 	plot!(fig_8_4, mean(cumulative_dyna_reward(TimeBasedSamplingModel(;n_actions=4), walls(), 1000, change_walls, 2000) for _ in 1:30), label="Dyna-Q+")
 	fig_8_4
@@ -241,7 +241,7 @@ end
 
 # ╔═╡ b1d8fc48-59a1-11eb-27f0-cdc20954dbb3
 begin
-	fig_8_5 = plot(legend=:topleft)
+	fig_8_5 = plot(legend=:topleft, ylabel="Cumulative reward", xlabel="Time steps")
 	plot!(fig_8_5, mean(cumulative_dyna_reward(ExperienceBasedSamplingModel(), new_walls(), 3000, new_change_walls, 3000) for _ in 1:50), label="dyna-Q")
 	plot!(fig_8_5, mean(cumulative_dyna_reward(TimeBasedSamplingModel(n_actions=4, κ = 1e-3), new_walls(), 3000, new_change_walls, 3000) for _ in 1:50), label="dyna-Q+")
 	fig_8_5

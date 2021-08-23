@@ -10,6 +10,9 @@ using Statistics
 # ╔═╡ 9c2ef32a-522d-11eb-29e6-29da29e4dec7
 using Plots
 
+# ╔═╡ 96096b41-fc25-43f9-ab75-50c5196e9604
+md"# Chapter 8.5 Expected vs. Sample Updates"
+
 # ╔═╡ 88b47ee6-522d-11eb-1a98-ed4dd43dfd11
 begin
 	Base.@kwdef mutable struct SampleAvg
@@ -37,6 +40,9 @@ function run_once(b)
     rms
 end
 
+# ╔═╡ 39865f6a-8500-4277-884f-81b7de151fc6
+md"## Figure 8.7"
+
 # ╔═╡ 969b48aa-522d-11eb-2039-61916ddf87d4
 begin
 	n_runs = 1000
@@ -45,7 +51,7 @@ begin
 	for b in [2, 10, 100, 1000]
 		rms = mean(run_once(b) for _ in 1:n_runs)
 		xs = (1:2*b) ./ b
-		plot!(p, xs, rms, label="b=$b")
+		plot!(p, xs, rms, label="b=$b", ylabel="RMS error in value estimate")
 	end
 
 	p
@@ -864,9 +870,11 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
+# ╟─96096b41-fc25-43f9-ab75-50c5196e9604
 # ╠═d80342ae-522b-11eb-19c0-cf931fb4ae81
 # ╠═88b47ee6-522d-11eb-1a98-ed4dd43dfd11
 # ╠═8fde026e-522d-11eb-2aa1-f3e28c238ea6
+# ╟─39865f6a-8500-4277-884f-81b7de151fc6
 # ╠═9c2ef32a-522d-11eb-29e6-29da29e4dec7
 # ╠═969b48aa-522d-11eb-2039-61916ddf87d4
 # ╟─00000000-0000-0000-0000-000000000001
