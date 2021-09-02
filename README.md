@@ -20,7 +20,7 @@ Introduction(2nd)](http://incompleteideas.net/book/the-book-2nd.html). One of
 our main goals is to help users understand the basic concepts of reinforcement
 learning from an engineer's perspective. Once you have grasped how different
 components are organized, you're ready to explore a wide variety of modern deep
-reinforcement learning algorithms in [ReinforcementLearningZoo.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearningZoo.jl).
+reinforcement learning algorithms in [ReinforcementLearningZoo.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl/tree/master/src/ReinforcementLearningZoo).
 
 ## How to use?
 
@@ -62,3 +62,7 @@ For experienced users with the latest stable Julia properly installed:
 - [Chapter11 Counter Example.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter11_Counter_Example.jl)
 - [Chapter12 Random Walk.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter12_Random_Walk.jl)
 - [Chapter13 Short Corridor.jl](https://juliareinforcementlearning.org/blog/notebooks_for_reinforcement_learning_an_introduction/Chapter13_Short_Corridor.jl)
+
+## Useful Links
+
+- [Solutions of the book exercises : Reinforcement Learning 2nd Edition](https://github.com/LyWangPX/Reinforcement-Learning-2nd-Edition-by-Sutton-Exercise-Solutions)
