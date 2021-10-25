@@ -1,11 +1,13 @@
 ### A Pluto.jl notebook ###
-# v0.14.7
+# v0.16.4
 
 using Markdown
 using InteractiveUtils
 
 # ╔═╡ 1f43297c-5e20-11eb-1ce3-5b75c0b5c368
 begin
+	import Pkg
+	Pkg.activate(Base.current_project())
 	using ReinforcementLearning
 	using Flux
 	using Statistics
