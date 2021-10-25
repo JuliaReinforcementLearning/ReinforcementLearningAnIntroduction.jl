@@ -6,6 +6,8 @@ using InteractiveUtils
 
 # ╔═╡ 741ec564-51c8-11eb-178d-3d5e49c0e174
 begin
+	import Pkg
+	Pkg.activate(Base.current_project())
 	using ReinforcementLearning
 	using Flux
 	using Statistics
