@@ -114,7 +114,7 @@ function bandit_testbed(
 	   trajectory=VectorSARTTrajectory()
 	)
 	h1 = CollectBestActions(;best_action=findmax(env.true_values)[2])
-	h2 = TotalRewardPerEpisode()
+	h2 = TotalRewardPerEpisode(;is_display_on_exit=false)
 	run(agent, env, StopAfterStep(1000), ComposedHook(h1, h2))
     h1.isbest, h2.rewards
 end
@@ -202,7 +202,7 @@ function gb_bandit_testbed(
 	)
 
 	h1 = CollectBestActions(;best_action=findmax(env.true_values)[2])
-	h2 = TotalRewardPerEpisode()
+	h2 = TotalRewardPerEpisode(;is_display_on_exit=false)
 	run(agent, env, StopAfterStep(1000), ComposedHook(h1, h2))
     h1.isbest, h2.rewards
 end

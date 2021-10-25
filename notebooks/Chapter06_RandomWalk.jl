@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.16.4
 
 using Markdown
 using InteractiveUtils
@@ -79,15 +79,16 @@ To calculate the RMS error, we need to define such a hook first.
 """
 
 # ╔═╡ ad9768f2-51cb-11eb-080c-7723ec21f95d
-Base.@kwdef struct RecordRMS <: AbstractHook
-    rms::Vector{Float64} = []
+begin
+	Base.@kwdef struct RecordRMS <: AbstractHook
+		rms::Vector{Float64} = []
+	end
+	
+	(f::RecordRMS)(::PostEpisodeStage, agent, env) = push!(
+		f.rms,
+		sqrt(mean((agent.policy.learner.approximator.table[2:end - 1] - true_values).^2))
+	)
 end
-
-# ╔═╡ b61c59a4-51cb-11eb-3ba9-c743ebc5bd93
-(f::RecordRMS)(::PostEpisodeStage, agent, env) = push!(
-	f.rms,
-	sqrt(mean((agent.policy.learner.approximator.table[2:end - 1] - true_values).^2))
-)
 
 # ╔═╡ d950e14e-51cb-11eb-1215-37a2ee16c07b
 md"""
@@ -190,7 +191,6 @@ md"""
 # ╠═d3975284-51ca-11eb-09bf-f98c05a416a1
 # ╟─8507c710-51cb-11eb-3a43-75f591e687b6
 # ╠═ad9768f2-51cb-11eb-080c-7723ec21f95d
-# ╠═b61c59a4-51cb-11eb-3ba9-c743ebc5bd93
 # ╟─d950e14e-51cb-11eb-1215-37a2ee16c07b
 # ╠═fbae209e-51cb-11eb-04f6-f7edeaac6085
 # ╟─3b38abf8-51cc-11eb-2da8-31a5d185393b

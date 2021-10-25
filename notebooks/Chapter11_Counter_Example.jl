@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.16.4
 
 using Markdown
 using InteractiveUtils
@@ -200,9 +200,9 @@ agent = Agent(
 )
 
 # ╔═╡ 76cc56d0-5cba-11eb-34b2-771d4a8cb6c6
-new_env = StateOverriddenEnv(
+new_env = StateTransformedEnv(
     BairdCounterEnv(),
-    s -> @view STATE_MAPPING[:, s]
+    ;state_mapping=s -> @view STATE_MAPPING[:, s]
 )
 
 # ╔═╡ a7a82a90-5cba-11eb-0743-2364ec991a79

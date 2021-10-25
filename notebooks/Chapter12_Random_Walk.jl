@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.16.4
 
 using Markdown
 using InteractiveUtils
@@ -26,12 +26,12 @@ N = 21
 true_values = -1:0.1:1
 
 # ╔═╡ 56dfb4a8-5d31-11eb-217e-d75aa440a47d
-Base.@kwdef struct RecordRMS <: AbstractHook
-    rms::Vector{Float64}=[]
+begin
+	Base.@kwdef struct RecordRMS <: AbstractHook
+		rms::Vector{Float64}=[]
+	end
+	(h::RecordRMS)(::PostEpisodeStage, agent, env) = push!(h.rms, sqrt(mean((agent.policy.learner.approximator.table[2:end-1] - true_values[2:end-1]).^2)))
 end
-
-# ╔═╡ 5c1854ca-5d31-11eb-013b-a1aea66007e1
-(h::RecordRMS)(::PostEpisodeStage, agent, env) = push!(h.rms, sqrt(mean((agent.policy.learner.approximator.table[2:end-1] - true_values[2:end-1]).^2)))
 
 # ╔═╡ 82f0ec74-5d31-11eb-0bbc-979653a27bf4
 function create_agent_env(α, λ)
@@ -80,7 +80,6 @@ end
 # ╠═53376968-5d31-11eb-1c73-d9d50607cab9
 # ╠═539f2eea-5d31-11eb-1969-25432dee8823
 # ╠═56dfb4a8-5d31-11eb-217e-d75aa440a47d
-# ╠═5c1854ca-5d31-11eb-013b-a1aea66007e1
 # ╠═82f0ec74-5d31-11eb-0bbc-979653a27bf4
 # ╠═863aba54-5d31-11eb-21d1-ab6ec717c0c4
 # ╠═8a1b50b4-5d31-11eb-26bd-03f9dbaf549d

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.15.1
+# v0.16.4
 
 using Markdown
 using InteractiveUtils
@@ -115,7 +115,7 @@ function repeated_run(α, method, N, n_episode, is_mean=true)
 	env = CliffWalkingEnv()
 	rewards = []
 	for _ in 1:N
-		h = TotalRewardPerEpisode()
+		h = TotalRewardPerEpisode(;is_display_on_exit=false)
 		run(
 			create_agent(α, method),
 			env, 
