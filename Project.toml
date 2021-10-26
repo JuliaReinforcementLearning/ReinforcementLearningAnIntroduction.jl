@@ -12,6 +12,7 @@ StatsPlots = "f3b207a7-027a-5e70-b257-86293d7955fd"
 [compat]
 Distributions = "0.24"
 Flux = "0.12"
+Measures = "0.3"
 Plots = "1.10"
 PlutoUI = "0.7"
 ReinforcementLearning = "0.10"
