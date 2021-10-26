@@ -10,7 +10,7 @@ StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 StatsPlots = "f3b207a7-027a-5e70-b257-86293d7955fd"
 
 [compat]
-Distributions = "0.24"
+Distributions = "0.24, 0.25"
 Flux = "0.12"
 Plots = "1.10"
 PlutoUI = "0.7"
