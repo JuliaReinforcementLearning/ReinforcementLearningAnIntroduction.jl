@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.16.4
+# v0.17.0
 
 using Markdown
 using InteractiveUtils
@@ -66,7 +66,7 @@ end
 begin
 	As = [0:0.1:1, 0:0.1:1, 0:0.1:1, 0:0.1:1, 0:0.1:1, 0:0.05:0.5, 0:0.02:0.2, 0:0.01:0.1]
 	Λ = [0., 0.4, .8, 0.9, 0.95, 0.975, 0.99, 1.]
-	p = plot(legend=:topright)
+	p = plot(legend=:topright, xlabel="α", ylabel="RMS error")
 	for (A, λ) in zip(As, Λ)
 		plot!(p, A, [records(α, λ) for α in A], label="lambda = $λ")
 	end
