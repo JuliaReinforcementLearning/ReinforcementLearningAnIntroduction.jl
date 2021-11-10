@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.16.4
+# v0.17.1
 
 using Markdown
 using InteractiveUtils
@@ -13,6 +13,7 @@ begin
 	using Statistics
 	using Plots
 	using LinearAlgebra:dot
+	using LaTeXStrings
 end
 
 # ╔═╡ 41796f22-5d73-11eb-0365-f35b80ba9bbb
@@ -73,7 +74,8 @@ end
 X = 0.05:0.05:0.95
 
 # ╔═╡ c2a474fe-5d73-11eb-0073-2f4afc5a1ada
-plot(X, mean([run_once(X) for _ in 1:10]), legend=nothing)
+plot(X, mean([run_once(X) for _ in 1:10]), legend=nothing,
+	xlabel="probability of right action", ylabel=L"J(\theta)=v_{\pi_\theta}(S)")
 
 # ╔═╡ d39bd212-5d73-11eb-0baf-b54fd44c2337
 md"""
@@ -168,7 +170,7 @@ end
 begin
 	fig_13_1 = plot(legend=:bottomright)
 	for x in [-13, -14]  # for -12, it seems not that easy to converge in short time
-		plot!(fig_13_1, mean(run_once_RL(2. ^ x) for _ in 1:50), label="alpha = 2^$x")
+		plot!(fig_13_1, mean(run_once_RL(2. ^ x) for _ in 1:50), label=L"alpha = 2^{%$x}", xlabel="Episode", ylabel="Total reward on episode")
 	end
 	fig_13_1
 end
