@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.17.1
+# v0.16.4
 
 using Markdown
 using InteractiveUtils
@@ -11,16 +11,16 @@ begin
 	using ReinforcementLearning
 end
 
-# ╔═╡ 510ef350-00b5-4618-ba55-f891603604d1
+# ╔═╡ 109c4fb2-4a5b-11eb-08d5-bd6b1eb0ebe9
 using Plots
 
-# ╔═╡ 0d5a05bf-0fa2-43ff-af77-e2f308c0f4bf
+# ╔═╡ 1fcd93f0-4a5c-11eb-252d-9da5bc78b08b
 using StatsPlots
 
-# ╔═╡ 55c903fb-46be-4187-bc64-dc4e716ea101
+# ╔═╡ 1fbc2952-4b1b-11eb-3b65-75c1058a9537
 using Flux
 
-# ╔═╡ 5cd818c6-073f-446c-ad92-b6b5e31db860
+# ╔═╡ db64341a-4b1b-11eb-3f7b-f11b26f442f4
 using Statistics
 
 # ╔═╡ 538080e4-4a5a-11eb-0570-65614c5797f0
@@ -50,9 +50,6 @@ violin(
 	],
 	leg=false
 )
-
-# ╔═╡ ef5ee496-f2c3-4536-8436-1e2575bbde72
-violin(repeat([1,2,3],outer=100),randn(300))
 
 # ╔═╡ 69bc9e66-4a5c-11eb-0288-1930cdb31d9d
 md"""
@@ -265,17 +262,16 @@ end
 # ╔═╡ Cell order:
 # ╟─538080e4-4a5a-11eb-0570-65614c5797f0
 # ╠═dab179ae-4a5a-11eb-317c-c7fa9d9ccf8f
-# ╠═510ef350-00b5-4618-ba55-f891603604d1
-# ╠═0d5a05bf-0fa2-43ff-af77-e2f308c0f4bf
-# ╠═55c903fb-46be-4187-bc64-dc4e716ea101
-# ╠═5cd818c6-073f-446c-ad92-b6b5e31db860
 # ╠═dfe484d4-4a5a-11eb-0224-573d091b3d08
+# ╠═109c4fb2-4a5b-11eb-08d5-bd6b1eb0ebe9
+# ╠═1fcd93f0-4a5c-11eb-252d-9da5bc78b08b
 # ╠═1427b132-4a5b-11eb-3506-e744a9a5595c
-# ╠═ef5ee496-f2c3-4536-8436-1e2575bbde72
 # ╟─69bc9e66-4a5c-11eb-0288-1930cdb31d9d
 # ╟─c0ca4172-4aac-11eb-255d-8b0005441fb0
 # ╠═4bf0f782-4aad-11eb-291c-afa853f150a3
 # ╟─1ff8d726-4aad-11eb-0d88-c7f6080c4072
+# ╠═1fbc2952-4b1b-11eb-3b65-75c1058a9537
+# ╠═db64341a-4b1b-11eb-3f7b-f11b26f442f4
 # ╠═1dfcd040-4b1a-11eb-248e-990c0e029f43
 # ╠═15e65f7e-4b1b-11eb-26b7-ef85168b5112
 # ╠═b302e1e6-4b1c-11eb-1cb8-91be2a24d5a7
