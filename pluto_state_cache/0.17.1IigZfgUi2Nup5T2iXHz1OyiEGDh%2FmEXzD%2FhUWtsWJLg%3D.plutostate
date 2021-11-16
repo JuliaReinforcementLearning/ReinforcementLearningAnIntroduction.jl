@@ -1,0 +1,87 @@
+¥bonds€¬cell_results‰Ù$20e3c8d6-5d92-11eb-1591-9911e62805bdˆ¦queuedÂ±published_objects€§runningÂ¦output…¤body‚£msgÙ,UndefVarError: CarRentalEnvModel not definedªstacktrace‘…¤call¯top-level scope§inlinedÂ¤fileÙ?Chapter04_Car_Rental.jl#==#20e3c8d6-5d92-11eb-1591-9911e62805bd¤line¤pathÙ©/home/runner/work/ReinforcementLearningAnIntroduction.jl/ReinforcementLearningAnIntroduction.jl/notebooks/Chapter04_Car_Rental.jl#==#20e3c8d6-5d92-11eb-1591-9911e62805bd°persist_js_stateÂ¤mimeÙ'application/vnd.pluto.stacktrace+object²last_run_timestampËAØe²0­§¬rootassignee¥model§cell_idÙ$20e3c8d6-5d92-11eb-1591-9911e62805bd¹depends_on_disabled_cellsÂ§runtimeÀ§erroredÃÙ$0c099578-5d92-11eb-2a8b-2f4889026185ˆ¦queuedÂ±published_objects€§runningÂ¦output…¤body‚£msgÙ&UndefVarError: state_space not definedªstacktrace‘…¤call¯top-level scope§inlinedÂ¤fileÙ?Chapter04_Car_Rental.jl#==#0c099578-5d92-11eb-2a8b-2f4889026185¤line¤pathÙ©/home/runner/work/ReinforcementLearningAnIntroduction.jl/ReinforcementLearningAnIntroduction.jl/notebooks/Chapter04_Car_Rental.jl#==#0c099578-5d92-11eb-2a8b-2f4889026185°persist_js_stateÂ¤mimeÙ'application/vnd.pluto.stacktrace+object²last_run_timestampËAØe²3Õ¬rootassignee¡V§cell_idÙ$0c099578-5d92-11eb-2a8b-2f4889026185¹depends_on_disabled_cellsÂ§runtimeÀ§erroredÃÙ$dda27350-5d94-11eb-1a82-c302513da719ˆ¦queuedÂ±published_objects€§runningÂ¦output…¤body‚£msgÙ&UndefVarError: state_space not definedªstacktrace‘…¤call¯top-level scope§inlinedÂ¤fileÙ?Chapter04_Car_Rental.jl#==#dda27350-5d94-11eb-1a82-c302513da719¤line¤pathÙ©/home/runner/work/ReinforcementLearningAnIntroduction.jl/ReinforcementLearningAnIntroduction.jl/notebooks/Chapter04_Car_Rental.jl#==#dda27350-5d94-11eb-1a82-c302513da719°persist_js_stateÂ¤mimeÙ'application/vnd.pluto.stacktrace+object²last_run_timestampËAØe²?…¬rootassignee¡p§cell_idÙ$dda27350-5d94-11eb-1a82-c302513da719¹depends_on_disabled_cellsÂ§runtimeÀ§erroredÃÙ$91d90bf6-5d98-11eb-23a5-4dfc2839a707ˆ¦queuedÂ±published_objects€§runningÂ¦output…¤body‚£msg¼UndefVarError: V not definedªstacktrace‘…¤call¯top-level scope§inlinedÂ¤fileÙ?Chapter04_Car_Rental.jl#==#91d90bf6-5d98-11eb-23a5-4dfc2839a707¤line¤pathÙ©/home/runner/work/ReinforcementLearningAnIntroduction.jl/ReinforcementLearningAnIntroduction.jl/notebooks/Chapter04_Car_Rental.jl#==#91d90bf6-5d98-11eb-23a5-4dfc2839a707°persist_js_stateÂ¤mimeÙ'application/vnd.pluto.stacktrace+object²last_run_timestampËAØe²Tó,¬rootassigneeÀ§cell_idÙ$91d90bf6-5d98-11eb-23a5-4dfc2839a707¹depends_on_disabled_cellsÂ§runtimeÀ§erroredÃÙ$3254385c-5d90-11eb-2c99-07a3a40ae467ˆ¦queuedÂ±published_objects€§runningÂ¦output…¤bodyÙq<div class="markdown"><p>Again, we&#39;ll describe the car rental problem with a distributional model.</p>
+</div>°persist_js_stateÂ¤mime©text/html²last_run_timestampËAØe®As!¬rootassigneeÀ§cell_idÙ$3254385c-5d90-11eb-2c99-07a3a40ae467¹depends_on_disabled_cellsÂ§runtimeÍ!4§erroredÂÙ$021f9b90-5d95-11eb-303a-ed2fb3de3d08ˆ¦queuedÂ±published_objects€§runningÂ¦output…¤body‚£msg¼UndefVarError: V not definedªstacktrace‘…¤call¯top-level scope§inlinedÂ¤fileÙ?Chapter04_Car_Rental.jl#==#021f9b90-5d95-11eb-303a-ed2fb3de3d08¤line¤pathÙ©/home/runner/work/ReinforcementLearningAnIntroduction.jl/ReinforcementLearningAnIntroduction.jl/notebooks/Chapter04_Car_Rental.jl#==#021f9b90-5d95-11eb-303a-ed2fb3de3d08°persist_js_stateÂ¤mimeÙ'application/vnd.pluto.stacktrace+object²last_run_timestampËAØe²A¤×¬rootassigneeÀ§cell_idÙ$021f9b90-5d95-11eb-303a-ed2fb3de3d08¹depends_on_disabled_cellsÂ§runtimeÀ§erroredÃÙ$8bbe08e6-5d98-11eb-0c02-4712c4659830ˆ¦queuedÂ±published_objects€§runningÂ¦output…¤body‚£msgÙ&UndefVarError: state_space not definedªstacktrace‘…¤call¯top-level scope§inlinedÂ¤fileÙ?Chapter04_Car_Rental.jl#==#8bbe08e6-5d98-11eb-0c02-4712c4659830¤line¤pathÙ©/home/runner/work/ReinforcementLearningAnIntroduction.jl/ReinforcementLearningAnIntroduction.jl/notebooks/Chapter04_Car_Rental.jl#==#8bbe08e6-5d98-11eb-0c02-4712c4659830°persist_js_stateÂ¤mimeÙ'application/vnd.pluto.stacktrace+object²last_run_timestampËAØe²Q¿¬rootassigneeÀ§cell_idÙ$8bbe08e6-5d98-11eb-0c02-4712c4659830¹depends_on_disabled_cellsÂ§runtimeÀ§erroredÃÙ$92081fb8-5d90-11eb-2078-ddbf87421051ˆ¦queuedÂ±published_objects€§runningÂ¦output…¤body‚£msgÙÄArgumentError: Package ReinforcementLearning [158674fc-8238-5cab-b5ba-03dfc80d1318] is required but does not seem to be installed:
+ - Run `Pkg.instantiate()` to install all recorded dependencies.
+ªstacktrace”…¤call¶_require(::Base.PkgId)§inlinedÂ¤fileªloading.jl¤lineÍô¤path¬./loading.jl…¤callµrequire(::Base.PkgId)§inlinedÂ¤fileªloading.jl¤lineÍ¨¤path¬./loading.jl…¤call»require(::Module, ::Symbol)§inlinedÂ¤fileªloading.jl¤lineÍ›¤path¬./loading.jl…¤call¯top-level scope§inlinedÂ¤fileÙ?Chapter04_Car_Rental.jl#==#92081fb8-5d90-11eb-2078-ddbf87421051¤line¤pathÙ©/home/runner/work/ReinforcementLearningAnIntroduction.jl/ReinforcementLearningAnIntroduction.jl/notebooks/Chapter04_Car_Rental.jl#==#92081fb8-5d90-11eb-2078-ddbf87421051°persist_js_stateÂ¤mimeÙ'application/vnd.pluto.stacktrace+object²last_run_timestampËAØe±õÌ¬rootassigneeÀ§cell_idÙ$92081fb8-5d90-11eb-2078-ddbf87421051¹depends_on_disabled_cellsÂ§runtimeÀ§erroredÃÙ$a1a5176c-5d90-11eb-2ad6-2f108e1531e2ˆ¦queuedÂ±published_objects€§runningÂ¦output…¤body‚£msgÙ"UndefVarError: Poisson not definedªstacktrace‘…¤call¯top-level scope§inlinedÂ¤fileÙ?Chapter04_Car_Rental.jl#==#a1a5176c-5d90-11eb-2ad6-2f108e1531e2¤line	¤pathÙ©/home/runner/work/ReinforcementLearningAnIntroduction.jl/ReinforcementLearningAnIntroduction.jl/notebooks/Chapter04_Car_Rental.jl#==#a1a5176c-5d90-11eb-2ad6-2f108e1531e2°persist_js_stateÂ¤mimeÙ'application/vnd.pluto.stacktrace+object²last_run_timestampËAØe²~í¬rootassigneeÀ§cell_idÙ$a1a5176c-5d90-11eb-2ad6-2f108e1531e2¹depends_on_disabled_cellsÂ§runtimeÀ§erroredÃ±cell_dependencies‰Ù$20e3c8d6-5d92-11eb-1591-9911e62805bd„´precedence_heuristic	§cell_idÙ$20e3c8d6-5d92-11eb-1591-9911e62805bd´downstream_cells_map¥model”Ù$0c099578-5d92-11eb-2a8b-2f4889026185Ù$dda27350-5d94-11eb-1a82-c302513da719Ù$021f9b90-5d95-11eb-303a-ed2fb3de3d08Ù$8bbe08e6-5d98-11eb-0c02-4712c4659830²upstream_cells_map±CarRentalEnvModel‘Ù$a1a5176c-5d90-11eb-2ad6-2f108e1531e2Ù$0c099578-5d92-11eb-2a8b-2f4889026185„´precedence_heuristic	§cell_idÙ$0c099578-5d92-11eb-2a8b-2f4889026185´downstream_cells_map¡V’Ù$021f9b90-5d95-11eb-303a-ed2fb3de3d08Ù$91d90bf6-5d98-11eb-23a5-4dfc2839a707²upstream_cells_map…¦length´TabularVApproximator¥model‘Ù$20e3c8d6-5d92-11eb-1591-9911e62805bd§Descent«state_space‘Ù$a1a5176c-5d90-11eb-2ad6-2f108e1531e2Ù$dda27350-5d94-11eb-1a82-c302513da719„´precedence_heuristic	§cell_idÙ$dda27350-5d94-11eb-1a82-c302513da719´downstream_cells_map¡p’Ù$021f9b90-5d95-11eb-303a-ed2fb3de3d08Ù$8bbe08e6-5d98-11eb-0c02-4712c4659830²upstream_cells_map‡¤Dict¦length­TabularPolicy¥model‘Ù$20e3c8d6-5d92-11eb-1591-9911e62805bd¢=>«state_space‘Ù$a1a5176c-5d90-11eb-2ad6-2f108e1531e2¬action_space‘Ù$a1a5176c-5d90-11eb-2ad6-2f108e1531e2Ù$91d90bf6-5d98-11eb-23a5-4dfc2839a707„´precedence_heuristic	§cell_idÙ$91d90bf6-5d98-11eb-23a5-4dfc2839a707´downstream_cells_map€²upstream_cells_map†§MaxCars‘Ù$a1a5176c-5d90-11eb-2ad6-2f108e1531e2¡:§reshape¡V‘Ù$0c099578-5d92-11eb-2a8b-2f4889026185¡+§heatmapÙ$3254385c-5d90-11eb-2c99-07a3a40ae467„´precedence_heuristic	§cell_idÙ$3254385c-5d90-11eb-2c99-07a3a40ae467´downstream_cells_map€²upstream_cells_map‚§@md_str¨getindexÙ$021f9b90-5d95-11eb-303a-ed2fb3de3d08„´precedence_heuristic	§cell_idÙ$021f9b90-5d95-11eb-303a-ed2fb3de3d08´downstream_cells_map€²upstream_cells_map„¥model‘Ù$20e3c8d6-5d92-11eb-1591-9911e62805bd±policy_iteration!¡V‘Ù$0c099578-5d92-11eb-2a8b-2f4889026185¡p‘Ù$dda27350-5d94-11eb-1a82-c302513da719Ù$8bbe08e6-5d98-11eb-0c02-4712c4659830„´precedence_heuristic	§cell_idÙ$8bbe08e6-5d98-11eb-0c02-4712c4659830´downstream_cells_map€²upstream_cells_map‰§MaxCars‘Ù$a1a5176c-5d90-11eb-2ad6-2f108e1531e2¡:§reshape¥model‘Ù$20e3c8d6-5d92-11eb-1591-9911e62805bd§heatmap¡+«state_space‘Ù$a1a5176c-5d90-11eb-2ad6-2f108e1531e2¡p‘Ù$dda27350-5d94-11eb-1a82-c302513da719­decode_action‘Ù$a1a5176c-5d90-11eb-2ad6-2f108e1531e2Ù$92081fb8-5d90-11eb-2078-ddbf87421051„´precedence_heuristic§cell_idÙ$92081fb8-5d90-11eb-2078-ddbf87421051´downstream_cells_map†ªStatistics£Pkg‘Ù$92081fb8-5d90-11eb-2078-ddbf87421051­Distributions¥Plots¤FluxµReinforcementLearning²upstream_cells_map„¤Base£Pkg‘Ù$92081fb8-5d90-11eb-2078-ddbf87421051´Base.current_project¬Pkg.activateÙ$a1a5176c-5d90-11eb-2ad6-2f108e1531e2„´precedence_heuristic	§cell_idÙ$a1a5176c-5d90-11eb-2ad6-2f108e1531e2´downstream_cells_mapŞ §MaxCars’Ù$8bbe08e6-5d98-11eb-0c02-4712c4659830Ù$91d90bf6-5d98-11eb-23a5-4dfc2839a707«CostPerMove¹CarRentalCartesianIndices¬action_space‘Ù$dda27350-5d94-11eb-1a82-c302513da719­encode_action³RLBase.action_space±PoissonUpperBound­decode_action‘Ù$8bbe08e6-5d98-11eb-0c02-4712c4659830¬encode_state¬decode_state§Actions¶CarRentalLinearIndices¬ReturnDist_1­RequestDist_2«state_space“Ù$0c099578-5d92-11eb-2a8b-2f4889026185Ù$dda27350-5d94-11eb-1a82-c302513da719Ù$8bbe08e6-5d98-11eb-0c02-4712c4659830²RLBase.state_spaceªmerge_prob¬ReturnDist_2¨nextstep­RequestDist_1±CarRentalEnvModel‘Ù$20e3c8d6-5d92-11eb-1591-9911e62805bd¨MaxMoves²upstream_cells_mapŞ ¤Dict£pdf°CartesianIndices¸AbstractEnvironmentModel¥Tuple¡>¦isless¦length¡<£min¡^¦RLBase£abs¡:£max­LinearIndices®CartesianIndex¦haskey¢=>§PoissonªBase.OneTo¤Base¡-£Int¡+¡*´cell_execution_order™Ù$92081fb8-5d90-11eb-2078-ddbf87421051Ù$3254385c-5d90-11eb-2c99-07a3a40ae467Ù$a1a5176c-5d90-11eb-2ad6-2f108e1531e2Ù$20e3c8d6-5d92-11eb-1591-9911e62805bdÙ$0c099578-5d92-11eb-2a8b-2f4889026185Ù$dda27350-5d94-11eb-1a82-c302513da719Ù$021f9b90-5d95-11eb-303a-ed2fb3de3d08Ù$8bbe08e6-5d98-11eb-0c02-4712c4659830Ù$91d90bf6-5d98-11eb-23a5-4dfc2839a707´last_hot_reload_timeË        ©shortpath·Chapter04_Car_Rental.jl®process_status¥ready¤pathÙ/home/runner/work/ReinforcementLearningAnIntroduction.jl/ReinforcementLearningAnIntroduction.jl/notebooks/Chapter04_Car_Rental.jl®last_save_timeËAØe®%Iªcell_order™Ù$3254385c-5d90-11eb-2c99-07a3a40ae467Ù$92081fb8-5d90-11eb-2078-ddbf87421051Ù$a1a5176c-5d90-11eb-2ad6-2f108e1531e2Ù$20e3c8d6-5d92-11eb-1591-9911e62805bdÙ$0c099578-5d92-11eb-2a8b-2f4889026185Ù$dda27350-5d94-11eb-1a82-c302513da719Ù$021f9b90-5d95-11eb-303a-ed2fb3de3d08Ù$8bbe08e6-5d98-11eb-0c02-4712c4659830Ù$91d90bf6-5d98-11eb-23a5-4dfc2839a707¥nbpkg‡²installed_versions€°terminal_outputs€§enabledÂ·restart_recommended_msgÀ´restart_required_msgÀ­busy_packages¬instantiatedÂ«cell_inputs‰Ù$20e3c8d6-5d92-11eb-1591-9911e62805bd„§cell_idÙ$20e3c8d6-5d92-11eb-1591-9911e62805bd°running_disabledÂ¤code»model = CarRentalEnvModel()«code_foldedÂÙ$0c099578-5d92-11eb-2a8b-2f4889026185„§cell_idÙ$0c099578-5d92-11eb-2a8b-2f4889026185°running_disabledÂ¤codeÙNV = TabularVApproximator(n_state=length(state_space(model)), opt=Descent(1.0))«code_foldedÂÙ$dda27350-5d94-11eb-1a82-c302513da719„§cell_idÙ$dda27350-5d94-11eb-1a82-c302513da719°running_disabledÂ¤codeÙfp = TabularPolicy(;table=Dict(s=>1 for s in state_space(model)), n_action=length(action_space(model)))«code_foldedÂÙ$91d90bf6-5d98-11eb-23a5-4dfc2839a707„§cell_idÙ$91d90bf6-5d98-11eb-23a5-4dfc2839a707°running_disabledÂ¤codeÙDheatmap(0:MaxCars, 0:MaxCars, reshape(V.table, 1+MaxCars,1+MaxCars))«code_foldedÂÙ$3254385c-5d90-11eb-2c99-07a3a40ae467„§cell_idÙ$3254385c-5d90-11eb-2c99-07a3a40ae467°running_disabledÂ¤codeÙSmd"""
+Again, we'll describe the car rental problem with a distributional model.
+"""«code_foldedÃÙ$021f9b90-5d95-11eb-303a-ed2fb3de3d08„§cell_idÙ$021f9b90-5d95-11eb-303a-ed2fb3de3d08°running_disabledÂ¤codeÙ@policy_iteration!(;V=V, Ï€=p, model=model, Î³=0.9, max_iter=300)«code_foldedÂÙ$8bbe08e6-5d98-11eb-0c02-4712c4659830„§cell_idÙ$8bbe08e6-5d98-11eb-0c02-4712c4659830°running_disabledÂ¤codeÙnheatmap(0:MaxCars, 0:MaxCars, reshape([decode_action(p(x)) for x in state_space(model)], 1+MaxCars,1+MaxCars))«code_foldedÂÙ$92081fb8-5d90-11eb-2078-ddbf87421051„§cell_idÙ$92081fb8-5d90-11eb-2078-ddbf87421051°running_disabledÂ¤codeÙ˜begin
+	import Pkg
+	Pkg.activate(Base.current_project())
+	using ReinforcementLearning
+	using Flux
+	using Statistics
+	using Plots
+	using Distributions
+end«code_foldedÂÙ$a1a5176c-5d90-11eb-2ad6-2f108e1531e2„§cell_idÙ$a1a5176c-5d90-11eb-2ad6-2f108e1531e2°running_disabledÂ¤codeÚöbegin
+	const PoissonUpperBound = 10
+	const MaxCars= 20
+	const MaxMoves = 5
+	const CostPerMove = 2
+	const CarRentalCartesianIndices = CartesianIndices((0:MaxCars,0:MaxCars))
+	const CarRentalLinearIndices = LinearIndices((0:MaxCars,0:MaxCars))
+	const Actions = -MaxMoves:MaxMoves
+	const RequestDist_1 = Poisson(3)
+	const RequestDist_2 = Poisson(4)
+	const ReturnDist_1 = Poisson(3)
+	const ReturnDist_2 = Poisson(2)
+
+	decode_state(s::Int) = Tuple(CarRentalCartesianIndices[s])
+	encode_state(s1::Int, s2::Int) = CarRentalLinearIndices[CartesianIndex(s1+1, s2+1)]
+	decode_action(a::Int) = a - MaxMoves - 1
+	encode_action(a::Int) = a + MaxMoves + 1
+
+	function merge_prob(dist)
+		merged = Dict()
+		for (sâ€², r, p) in dist
+			if haskey(merged, (sâ€², r))
+				merged[(sâ€², r)] += p
+			else
+				merged[(sâ€², r)] = p
+			end
+		end
+		[(r, false, sâ€²) => p for ((sâ€², r), p) in merged]
+	end
+
+	function nextstep(state::Int, action::Int)
+		(s1, s2), a = decode_state(state), decode_action(action)
+		move = a > 0 ? min(a, s1) : max(a, -s2)
+		reward = -CostPerMove*abs(move)
+		s1â€², s2â€² = min(s1 - move, MaxCars), min(s2 + move, MaxCars)
+		merge_prob(
+			(
+				encode_state(
+					min(max(s1â€²-req_1, 0)+ret_1, MaxCars),
+					min(max(s2â€²-req_2, 0)+ret_2, MaxCars)
+					), 
+				reward + (min(s1â€², req_1) + min(s2â€², req_2)) * 10,
+				(
+					pdf(RequestDist_1, req_1) * 
+					pdf(RequestDist_2, req_2) * 
+					pdf(ReturnDist_1, ret_1) *
+					pdf(ReturnDist_2, ret_2)
+				)
+			)
+			for req_1 in 0:PoissonUpperBound,
+				req_2 in 0:PoissonUpperBound, 
+				ret_1 in 0:PoissonUpperBound,
+				ret_2 in 0:PoissonUpperBound
+		)
+	end
+
+	struct CarRentalEnvModel <: AbstractEnvironmentModel
+		dist
+	end
+
+	function CarRentalEnvModel()
+		CarRentalEnvModel(
+			Dict(
+				(s,a) => nextstep(s,a)
+				for s in 1:(MaxCars+1)^2 for a in 1:length(Actions)
+			)
+		)
+	end
+
+	(m::CarRentalEnvModel)(s, a) = m.dist[(s, a)]
+
+	RLBase.state_space(m::CarRentalEnvModel) = Base.OneTo((MaxCars+1)^2)
+	RLBase.action_space(m::CarRentalEnvModel) = Base.OneTo(length(Actions))
+end«code_foldedÂ«notebook_idÙ$959f50c2-4732-11ec-1287-315caba1869d«in_temp_dirÂ
