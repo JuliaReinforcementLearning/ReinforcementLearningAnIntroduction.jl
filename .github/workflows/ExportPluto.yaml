@@ -18,7 +18,7 @@ jobs:
             - name: Install Julia
               uses: julia-actions/setup-julia@v1
               with:
-                  version: 1.6
+                  version: 1.7
 
 
             # We set up a folder that Pluto can use to cache exported notebooks. If the notebook file did not change, then Pluto can take the exported file from cache instead of running the notebook.
