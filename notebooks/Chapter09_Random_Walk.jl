@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.16.4
+# v0.17.2
 
 using Markdown
 using InteractiveUtils
@@ -256,6 +256,29 @@ begin
 	(pp::PolynomialPreprocessor)(s::Number) = [s^i for i = 0:pp.order]
 end
 
+# ╔═╡ 08d133a0-5c77-11eb-1fbb-ed6b8da42d9f
+md"""
+## Figure 9.10
+
+Implementing the tile encoding in Julia is quite easy！😀
+"""
+
+# ╔═╡ 2ef2aa46-5c77-11eb-1eec-13ad13061214
+begin
+	struct Tiling{N,Tr<:AbstractRange}
+		ranges::NTuple{N,Tr}
+		inds::LinearIndices{N,NTuple{N,Base.OneTo{Int}}}
+	end
+
+	Tiling(ranges...) =Tiling(
+		ranges,
+		LinearIndices(Tuple(length(r) - 1 for r in ranges))
+	)
+
+	Base.length(t::Tiling) = reduce(*, (length(r) - 1 for r in t.ranges))
+end
+
+
 # ╔═╡ 87c528bc-5c75-11eb-2f2f-adf254afda01
 function run_once_MC(preprocessor, order, α)
     env = StateTransformedEnv(
@@ -315,29 +338,6 @@ begin
 
 	fig_9_5
 end
-
-# ╔═╡ 08d133a0-5c77-11eb-1fbb-ed6b8da42d9f
-md"""
-## Figure 9.10
-
-Implementing the tile encoding in Julia is quite easy！😀
-"""
-
-# ╔═╡ 2ef2aa46-5c77-11eb-1eec-13ad13061214
-begin
-	struct Tiling{N,Tr<:AbstractRange}
-		ranges::NTuple{N,Tr}
-		inds::LinearIndices{N,NTuple{N,Base.OneTo{Int}}}
-	end
-	
-	Tiling(ranges...) =Tiling(
-		ranges,
-		LinearIndices(Tuple(length(r) - 1 for r in ranges))
-	)
-end
-
-# ╔═╡ 587ab40c-5c78-11eb-1776-2bfa1cf6f608
-Base.length(t::Tiling) = reduce(*, (length(r) - 1 for r in t.ranges))
 
 # ╔═╡ 592ac4a0-5c78-11eb-3d28-f7b178f4b94f
 encode(range::AbstractRange, x) = floor(Int, div(x - range[1], step(range)) + 1)
@@ -443,7 +443,6 @@ Feel free to make a PR if you can improve the speed of generating this figure. �
 # ╠═c52bcb44-5c74-11eb-0e2b-fbb72e8edad8
 # ╟─08d133a0-5c77-11eb-1fbb-ed6b8da42d9f
 # ╠═2ef2aa46-5c77-11eb-1eec-13ad13061214
-# ╠═587ab40c-5c78-11eb-1776-2bfa1cf6f608
 # ╠═592ac4a0-5c78-11eb-3d28-f7b178f4b94f
 # ╠═5c0304ee-5c78-11eb-2394-8fc17938918c
 # ╠═3c773ea6-5c78-11eb-1a09-0f1fc560386d
