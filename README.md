@@ -30,12 +30,15 @@ If you are new to Julia or reinforcement learning, you can preview the
 For experienced users with the latest stable Julia properly installed:
 
 1. Clone this project.
-1. Start the Julia REPL under the folder you created above.
-1. Install [Pluto.jl](https://github.com/fonsp/Pluto.jl)
-    1. `] add Pluto`
-    1. `using Pluto`
+1. Start the Julia REPL inside the project folder.
+1. Activate and instantiate the environment
+    1. `import Pkg`
+    2. `Pkg.activate(".")`
+    3. `Pkg.instantiate()`
+3. Start [Pluto.jl](https://github.com/fonsp/Pluto.jl)
+    1. `import Pluto`
     1. `Pluto.run()`
-1. Now you can see the Pluto page is opened in your browser. Paste
+4. Now you can see the Pluto page is opened in your browser. Paste
    `notebooks/Chapter01_Tic_Tac_Toe.jl` (or any other file under the `notebooks` folder) into
    the input box and click the `Open` button.
 
