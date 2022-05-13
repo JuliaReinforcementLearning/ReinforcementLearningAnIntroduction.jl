@@ -149,7 +149,7 @@ run(policy, env, StopAfterEpisode(1))
 md"""
 The above `run` function defined in `ReinforcementLearning.jl` is quite straight forward. The `policy` generates an action at each time step and feeds it into the `env`. The process continues until the end of an episode. Here `StopAfterEpisode(1)` is a built in stop condition. You can also see many other stop conditions in the [doc](https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.StopAfterEpisode).
 
-You are encouraged to read the [source code](https://github.com/JuliaReinforcementLearning/ReinforcementLearningCore.jl/blob/master/src/core/run.jl) of this function. It's pretty simple (less than 30 lines) and easy to understand. I'll wait you here until you are finished.
+You are encouraged to read the [source code](https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl/blob/master/src/ReinforcementLearningCore/src/core/run.jl) of this function. It's pretty simple (less than 30 lines) and easy to understand. I'll wait you here until you are finished.
 
 If you have finished reading it, you'll notice that one important argument is missing in the above function call, the `hook`. Now we'll add the fourth argument to collect the reward of each player in every episode.
 """
