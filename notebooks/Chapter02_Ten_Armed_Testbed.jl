@@ -98,16 +98,14 @@ function bandit_testbed(
    env = MultiArmBanditsEnv(;true_reward=true_reward)
    agent = Agent(
 	   policy=QBasedPolicy(
-		   learner = TDLearner(
+		   learner = MonteCarloLearner(
 			   approximator = TabularQApproximator(
 				   n_state=length(state_space(env)),
 				   n_action=length(action_space(env)),
 				   init=init,
 				   opt = opt
 			   ),
-			   γ = 1.0,
-			   method=:SARSA,
-			   n = 0,
+			   γ = 1.0
 		   ),
 		   explorer = explorer
 	   ),
