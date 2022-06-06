@@ -16,7 +16,7 @@ end
 
 # ╔═╡ 285f8200-522a-11eb-0260-a3c27fa0762a
 md"""
-# Chapter 7.2 n-step Sarsa
+# Chapter 7.1 n-step TD Prediction
 """
 
 # ╔═╡ b299f0f4-522a-11eb-040a-e1a9cebe840e
