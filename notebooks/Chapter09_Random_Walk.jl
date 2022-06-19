@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.17.2
+# v0.19.5
 
 using Markdown
 using InteractiveUtils
@@ -31,9 +31,6 @@ We've discussed the `RandomWalk1D` environment before. In previous example, the 
 
 # ╔═╡ 6a0881f0-5c6d-11eb-143e-0196833abc05
 ACTIONS = collect(Iterators.flatten((-100:-1, 1:100)))
-
-# ╔═╡ 7ee0867c-5c6d-11eb-11b4-a7858177564f
-NA = length(ACTIONS)
 
 # ╔═╡ 7aae4986-5c6d-11eb-09b0-fd883165bc72
 NS = 1002
@@ -140,9 +137,9 @@ run(agent_1, env_1, StopAfterEpisode(10^5),hook)
 begin
 	fig_9_1 = plot(legend=:topleft, ylabel="Value scale", xlabel="State", right_margin = 1.5cm)
 	fig_9_1_right = twinx(fig_9_1)
-	plot!(fig_9_1, hook.counts./sum(hook.counts), color=:gray, label="state distribution")
-	plot!(fig_9_1_right, agent_1.policy.learner.approximator.(env_1.state_mapping(s) for s in 2:NS-1), label="MC Learner", legend=:bottomright)
-	plot!(fig_9_1_right, TRUE_STATE_VALUES[2:end-1], label="true values",legend=:bottomright, ylabel="Distribution scale")
+	plot!(fig_9_1_right, hook.counts./sum(hook.counts), color=:gray, label="state distribution")
+	plot!(fig_9_1, agent_1.policy.learner.approximator.(env_1.state_mapping(s) for s in 2:NS-1), label="MC Learner", legend=:bottomright)
+	plot!(fig_9_1, TRUE_STATE_VALUES[2:end-1], label="true values",legend=:bottomright, ylabel="Distribution scale")
 end
 
 # ╔═╡ 23060d86-5c70-11eb-2faa-a3851e3b5d2f
@@ -278,6 +275,9 @@ begin
 	Base.length(t::Tiling) = reduce(*, (length(r) - 1 for r in t.ranges))
 end
 
+
+# ╔═╡ 7ee0867c-5c6d-11eb-11b4-a7858177564f
+NA = length(ACTIONS)
 
 # ╔═╡ 87c528bc-5c75-11eb-2f2f-adf254afda01
 function run_once_MC(preprocessor, order, α)
