@@ -387,10 +387,10 @@ end
 
 # ╔═╡ 6e8d2645-50d6-42b6-bcf4-5d7a8659c57d
 begin
-	new_fig = plot(xlabel="Episodes", ylabel="RMS error")
+	fig_9_10 = plot(xlabel="Episodes", ylabel="RMS error")
 	
 	plot!(
-		new_fig,
+		fig_9_10,
 		run_once_MC_tiling(
 			x -> encode(new_tile_1, x),
 			1e-4/50,
@@ -400,7 +400,7 @@ begin
 	)
 	
 	plot!(
-		new_fig,
+		fig_9_10,
 		run_once_MC_tiling(
 			x -> encode(new_tile_2, x),
 			1e-4,
@@ -409,7 +409,7 @@ begin
 		label = "one tiling"
 	)
 	
-	new_fig
+	fig_9_10
 end
 
 # ╔═╡ 248e1648-5c7a-11eb-0a7f-2767d27c80b6
