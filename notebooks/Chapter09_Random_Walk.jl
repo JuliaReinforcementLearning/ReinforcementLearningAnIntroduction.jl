@@ -136,11 +136,11 @@ run(agent_1, env_1, StopAfterEpisode(10^5),hook)
 
 # ╔═╡ 3fa64b5a-5c6f-11eb-2421-799d630e5460
 begin
-	fig_9_1 = plot(legend=:topleft, ylabel="Value scale", xlabel="State", right_margin = 1.5cm)
+	fig_9_1 = plot(legend=:topleft, ylabel="Value scale", xlabel="State", right_margin = 2cm)
 	fig_9_1_right = twinx(fig_9_1)
-	plot!(fig_9_1_right, hook.counts./sum(hook.counts), color=:gray, label="state distribution")
+	plot!(fig_9_1_right, hook.counts./sum(hook.counts), color=:gray, label="state distribution", ylabel="Distribution scale")
 	plot!(fig_9_1, agent_1.policy.learner.approximator.(env_1.state_mapping(s) for s in 2:NS-1), label="MC Learner", legend=:bottomright)
-	plot!(fig_9_1, TRUE_STATE_VALUES[2:end-1], label="true values",legend=:bottomright, ylabel="Distribution scale")
+	plot!(fig_9_1, TRUE_STATE_VALUES[2:end-1], label="true values",legend=:bottomright)
 end
 
 # ╔═╡ 23060d86-5c70-11eb-2faa-a3851e3b5d2f
