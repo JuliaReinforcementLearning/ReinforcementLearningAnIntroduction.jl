@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.17.2
+# v0.19.5
 
 using Markdown
 using InteractiveUtils
@@ -18,22 +18,17 @@ end
 # ╔═╡ 41c57942-5c6c-11eb-3c99-9345b6668a1a
 md"""
 # Chapter 9 On-policy Prediction with Approximation
-
 In this notebook, we'll focus on the linear approximation methods.
 """
 
 # ╔═╡ be5a557c-5c6c-11eb-035e-39e94df41852
 md"""
 ## Figure 9.1
-
 We've discussed the `RandomWalk1D` environment before. In previous example, the state space is relatively small (`1:7`). Here we expand it into `1:1000` and see how the `LinearVApproximator` will work here.
 """
 
 # ╔═╡ 6a0881f0-5c6d-11eb-143e-0196833abc05
 ACTIONS = collect(Iterators.flatten((-100:-1, 1:100)))
-
-# ╔═╡ 7ee0867c-5c6d-11eb-11b4-a7858177564f
-NA = length(ACTIONS)
 
 # ╔═╡ 7aae4986-5c6d-11eb-09b0-fd883165bc72
 NS = 1002
@@ -138,11 +133,13 @@ run(agent_1, env_1, StopAfterEpisode(10^5),hook)
 
 # ╔═╡ 3fa64b5a-5c6f-11eb-2421-799d630e5460
 begin
-	fig_9_1 = plot(legend=:topleft, ylabel="Value scale", xlabel="State", right_margin = 1.5cm)
+	fig_9_1 = plot(legend=:topleft, ylabel="Value scale", xlabel="State", right_margin = 2cm)
 	fig_9_1_right = twinx(fig_9_1)
-	plot!(fig_9_1, hook.counts./sum(hook.counts), color=:gray, label="state distribution")
-	plot!(fig_9_1_right, agent_1.policy.learner.approximator.(env_1.state_mapping(s) for s in 2:NS-1), label="MC Learner", legend=:bottomright)
-	plot!(fig_9_1_right, TRUE_STATE_VALUES[2:end-1], label="true values",legend=:bottomright, ylabel="Distribution scale")
+
+	plot!(fig_9_1_right, hook.counts./sum(hook.counts), color=:gray, label="state distribution", ylabel="Distribution scale")
+	plot!(fig_9_1, agent_1.policy.learner.approximator.(env_1.state_mapping(s) for s in 2:NS-1), label="MC Learner", legend=:bottomright)
+	plot!(fig_9_1, TRUE_STATE_VALUES[2:end-1], label="true values",legend=:bottomright)
+
 end
 
 # ╔═╡ 23060d86-5c70-11eb-2faa-a3851e3b5d2f
@@ -256,28 +253,6 @@ begin
 	(pp::PolynomialPreprocessor)(s::Number) = [s^i for i = 0:pp.order]
 end
 
-# ╔═╡ 08d133a0-5c77-11eb-1fbb-ed6b8da42d9f
-md"""
-## Figure 9.10
-
-Implementing the tile encoding in Julia is quite easy！😀
-"""
-
-# ╔═╡ 2ef2aa46-5c77-11eb-1eec-13ad13061214
-begin
-	struct Tiling{N,Tr<:AbstractRange}
-		ranges::NTuple{N,Tr}
-		inds::LinearIndices{N,NTuple{N,Base.OneTo{Int}}}
-	end
-
-	Tiling(ranges...) =Tiling(
-		ranges,
-		LinearIndices(Tuple(length(r) - 1 for r in ranges))
-	)
-
-	Base.length(t::Tiling) = reduce(*, (length(r) - 1 for r in t.ranges))
-end
-
 
 # ╔═╡ 87c528bc-5c75-11eb-2f2f-adf254afda01
 function run_once_MC(preprocessor, order, α)
@@ -339,17 +314,11 @@ begin
 	fig_9_5
 end
 
-# ╔═╡ 592ac4a0-5c78-11eb-3d28-f7b178f4b94f
-encode(range::AbstractRange, x) = floor(Int, div(x - range[1], step(range)) + 1)
-
-# ╔═╡ 5c0304ee-5c78-11eb-2394-8fc17938918c
-encode(t::Tiling, xs) = t.inds[CartesianIndex(Tuple(map(encode,  t.ranges, xs)))]
-
-# ╔═╡ 3c773ea6-5c78-11eb-1a09-0f1fc560386d
-t = Tiling(range(1, step=200, length=7))	
-
-# ╔═╡ 925141b4-5c78-11eb-208c-13e289d11f66
-tt = [Tiling((range(1-4*(i-1), step=200, length=7))) for i in 1:50]
+# ╔═╡ 08d133a0-5c77-11eb-1fbb-ed6b8da42d9f
+md"""
+## Figure 9.10
+Implementing the tile encoding in Julia is quite easy！😀
+"""
 
 # ╔═╡ 7ab5686e-5c78-11eb-1067-a3127da36994
 function run_once_MC_tiling(preprocessor, α, n)
@@ -373,16 +342,59 @@ function run_once_MC_tiling(preprocessor, α, n)
     hook.rms
 end
 
-# ╔═╡ 8b90595a-5c78-11eb-356b-df8d22646ed1
+# ╔═╡ a8c53796-e66a-4120-889b-34c2f82c66e0
+begin
+	struct TileCoding
+		start::Int64
+		finish::Int64
+		number_of_tiles::Int64
+		width::Int64
+		gap::Int64
+		offsets::StepRange{Int64, Int64}
+		parts::Int64
+
+		function TileCoding(;start, finish, number_of_tiles, width)
+			gap = width ÷ number_of_tiles
+			offsets = range(start = - gap * (number_of_tiles - 1),
+			          length = number_of_tiles,
+			          step = gap)
+			parts = (finish - start + 1) ÷ width + 1
+			new(start, finish, number_of_tiles, width, gap, offsets, parts)
+		end
+	end
+
+	function encode(tile_coding::TileCoding, x::Int64)
+		encoding = _encode(tile_coding, x)
+		positions = [(index-1) * tile_coding.parts + value for (index, value) in enumerate(encoding)]
+		sparsevec(positions, ones(tile_coding.number_of_tiles), tile_coding.number_of_tiles * tile_coding.parts)
+	end
+
+	function _encode(tile_coding::TileCoding, x::Int64)
+		[offset_encode(offset, x, tile_coding.width) for offset in tile_coding.offsets]
+	end
+
+	function offset_encode(offset, x::Int64, width)
+		range_start = 1 + offset
+		(x - range_start) ÷ width + 1
+	end
+end
+
+# ╔═╡ 9e3b8d9f-895c-4d7a-a0fe-6dc4f592bfc5
+begin
+	new_tile_1 = TileCoding(start = 1, finish = 1002, number_of_tiles = 50, width = 200)
+	new_tile_2 = TileCoding(start = 1, finish = 1002, number_of_tiles = 1, width = 200)
+end
+
+# ╔═╡ 6e8d2645-50d6-42b6-bcf4-5d7a8659c57d
 begin
 	fig_9_10 = plot(xlabel="Episodes", ylabel="RMS error")
 	
 	plot!(
 		fig_9_10,
 		run_once_MC_tiling(
-			x -> sparse([encode(t, x) for t in tt], 1:50, ones(50), 7, 50) |> vec,
+			x -> encode(new_tile_1, x),
 			1e-4/50,
-			7*50
+			6*50
 		),
 		label="50 tilings"
 	)
@@ -390,9 +402,9 @@ begin
 	plot!(
 		fig_9_10,
 		run_once_MC_tiling(
-			x -> Flux.onehot(encode(t, x), 1:7),
+			x -> encode(new_tile_2, x),
 			1e-4,
-			7
+			6
 		),
 		label = "one tiling"
 	)
@@ -442,11 +454,8 @@ Feel free to make a PR if you can improve the speed of generating this figure. �
 # ╠═87c528bc-5c75-11eb-2f2f-adf254afda01
 # ╠═c52bcb44-5c74-11eb-0e2b-fbb72e8edad8
 # ╟─08d133a0-5c77-11eb-1fbb-ed6b8da42d9f
-# ╠═2ef2aa46-5c77-11eb-1eec-13ad13061214
-# ╠═592ac4a0-5c78-11eb-3d28-f7b178f4b94f
-# ╠═5c0304ee-5c78-11eb-2394-8fc17938918c
-# ╠═3c773ea6-5c78-11eb-1a09-0f1fc560386d
-# ╠═925141b4-5c78-11eb-208c-13e289d11f66
 # ╠═7ab5686e-5c78-11eb-1067-a3127da36994
-# ╠═8b90595a-5c78-11eb-356b-df8d22646ed1
+# ╠═a8c53796-e66a-4120-889b-34c2f82c66e0
+# ╠═9e3b8d9f-895c-4d7a-a0fe-6dc4f592bfc5
+# ╠═6e8d2645-50d6-42b6-bcf4-5d7a8659c57d
 # ╟─248e1648-5c7a-11eb-0a7f-2767d27c80b6
