@@ -33,6 +33,9 @@ ACTIONS = collect(Iterators.flatten((-100:-1, 1:100)))
 # ╔═╡ 7aae4986-5c6d-11eb-09b0-fd883165bc72
 NS = 1002
 
+# ╔═╡ f4db1237-a3f8-47ba-91e8-11e67434b4aa
+NA = length(ACTIONS)
+
 # ╔═╡ 8fc27a60-5c6d-11eb-05ff-dbdcd106b853
 md"""
 First, let's roll out a large experiment to calculate the *true* state values of each state:
@@ -355,7 +358,7 @@ begin
 
 		function TileCoding(;start, finish, number_of_tiles, width)
 			gap = width ÷ number_of_tiles
-			offsets = range(start = - gap * (number_of_tiles - 1),
+			offsets = range(- gap * (number_of_tiles - 1);
 			          length = number_of_tiles,
 			          step = gap)
 			parts = (finish - start + 1) ÷ width + 1
@@ -422,8 +425,8 @@ Feel free to make a PR if you can improve the speed of generating this figure. �
 # ╠═9cd5e7cc-5c6c-11eb-3485-011143087d8d
 # ╟─be5a557c-5c6c-11eb-035e-39e94df41852
 # ╠═6a0881f0-5c6d-11eb-143e-0196833abc05
-# ╠═7ee0867c-5c6d-11eb-11b4-a7858177564f
 # ╠═7aae4986-5c6d-11eb-09b0-fd883165bc72
+# ╠═f4db1237-a3f8-47ba-91e8-11e67434b4aa
 # ╟─8fc27a60-5c6d-11eb-05ff-dbdcd106b853
 # ╠═c4d3a538-5c6d-11eb-3369-9bd67cc10bcd
 # ╠═df244c4e-5c6d-11eb-23e2-bf718f61180e
