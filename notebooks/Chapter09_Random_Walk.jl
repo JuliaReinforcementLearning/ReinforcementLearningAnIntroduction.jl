@@ -358,7 +358,7 @@ begin
 
 		function TileCoding(;start, finish, number_of_tiles, width)
 			gap = width ÷ number_of_tiles
-			offsets = range(start = - gap * (number_of_tiles - 1),
+			offsets = range(- gap * (number_of_tiles - 1);
 			          length = number_of_tiles,
 			          step = gap)
 			parts = (finish - start + 1) ÷ width + 1
