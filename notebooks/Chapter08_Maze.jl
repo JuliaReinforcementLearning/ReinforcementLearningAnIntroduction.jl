@@ -5,11 +5,7 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 4a40583e-5993-11eb-3121-0319695416d3
-begin
-	import Pkg
-	Pkg.activate(Base.current_project())
-	using ReinforcementLearning
-end
+using ReinforcementLearning
 
 # ╔═╡ 98ff088e-5994-11eb-1b32-d928c49e8466
 using Flux

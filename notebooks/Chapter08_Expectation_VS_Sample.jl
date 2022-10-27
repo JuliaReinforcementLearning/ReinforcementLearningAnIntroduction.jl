@@ -6,8 +6,6 @@ using InteractiveUtils
 
 # ╔═╡ d80342ae-522b-11eb-19c0-cf931fb4ae81
 begin
-	import Pkg
-	Pkg.activate(Base.current_project())
 	using Statistics
 end
 
