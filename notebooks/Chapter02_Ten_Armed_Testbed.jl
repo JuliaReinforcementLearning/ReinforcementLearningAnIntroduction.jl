@@ -5,11 +5,7 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ dab179ae-4a5a-11eb-317c-c7fa9d9ccf8f
-begin
-	import Pkg
-	Pkg.activate(Base.current_project())
-	using ReinforcementLearning
-end
+using ReinforcementLearning
 
 # ╔═╡ 109c4fb2-4a5b-11eb-08d5-bd6b1eb0ebe9
 using Plots
